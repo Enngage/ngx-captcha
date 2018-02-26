@@ -46,9 +46,14 @@ export class ReCaptcha2Component implements OnInit, AfterViewInit, OnChanges {
   @Input() size: 'compact' | 'normal' = 'normal';
 
   /**
+   * Language code. Auto-detects the user's language if unspecified.
+   */
+  @Input() hl: string;
+
+  /**
   * Tab index
   */
-  @Input() tabIndex: number = 0;
+  @Input() tabIndex = 0;
 
   /**
    * Called when captcha is loaded. Event receives id of the captcha
@@ -102,6 +107,13 @@ export class ReCaptcha2Component implements OnInit, AfterViewInit, OnChanges {
       // reset captcha if site key changed
       this.resetCaptcha();
     }
+  }
+
+  /**
+   * Gets captcha response as per reCaptcha docs
+  */
+  getResponse(): string {
+    return grecaptcha.getRespose(this.captchaId);
   }
 
   /**
@@ -174,11 +186,19 @@ export class ReCaptcha2Component implements OnInit, AfterViewInit, OnChanges {
   private registerReCaptchaScript(): void {
     const script = document.createElement('script');
     script.innerHTML = '';
-    script.src = `https://www.google.com/recaptcha/api.js?onload=${this.windowOnLoadCallback}&render=explicit`;
+    script.src = `https://www.google.com/recaptcha/api.js?onload=${this.windowOnLoadCallback}&render=explicit${this.getLanguageParam()}`;
     script.async = true;
     script.defer = true;
 
     this.captchaScriptElem.nativeElement.appendChild(script);
+  }
+
+  private getLanguageParam(): string | undefined {
+    if (!this.hl) {
+      return undefined;
+    }
+
+    return `&hl=${this.hl}`;
   }
 }
 
