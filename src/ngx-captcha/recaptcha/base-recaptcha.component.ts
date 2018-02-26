@@ -10,8 +10,6 @@ import {
     ViewChild,
 } from '@angular/core';
 
-import { guidHelper } from '../utilities/guid-helper.class';
-
 declare var grecaptcha: any;
 
 export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, OnChanges {
@@ -55,11 +53,6 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
 
     @ViewChild('captchaElem') captchaElem: ElementRef;
     @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
-
-    /**
-     * Id of the captcha element
-     */
-    protected captchaElemId = `ngx-captcha-${guidHelper.newGuid()}`;
 
     /**
      * Holds last response value
