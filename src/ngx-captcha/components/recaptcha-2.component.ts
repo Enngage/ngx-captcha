@@ -80,6 +80,11 @@ export class ReCaptcha2Component implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
 
   /**
+   * Indicates if captcha is loaded
+   */
+  public isLoaded = false;
+
+  /**
    * Holds last response value
    */
   private currentResponse?: string;
@@ -134,6 +139,9 @@ export class ReCaptcha2Component implements OnInit, AfterViewInit, OnChanges {
    * Called when google's recaptcha script is ready
   */
   private onloadCallback(): void {
+    this.isLoaded = true;
+    this.load.next();
+
     this.renderReCaptcha();
   }
 
