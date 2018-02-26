@@ -1,12 +1,8 @@
 <h1>Test Captcha</h1>
 
-<!--
-    <ngx-recaptcha2 [siteKey]="siteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)" hl="cs" theme="light" size="compact"></ngx-recaptcha2>
--->
+HELLO
 
+<a routerLink="/recaptcha2" href="">recaptcha 2</a>
+<a routerLink="/invisible" href="">invisible</a>
 
-<ngx-invisible-recaptcha #invisibleCaptcha [siteKey]="invisibleCaptchaSiteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)"></ngx-invisible-recaptcha>
-
-<div>
-    <button (click)="executeInvisibleCaptcha()">Execute invisible captcha</button>
-</div>
+<router-outlet></router-outlet>

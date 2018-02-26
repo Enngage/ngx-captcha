@@ -1,0 +1,7 @@
+<h1>Invisible Captcha</h1>
+
+<ngx-invisible-recaptcha #invisibleCaptcha [siteKey]="invisibleCaptchaSiteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)"></ngx-invisible-recaptcha>
+
+<div>
+    <button (click)="executeInvisibleCaptcha()">Execute invisible captcha</button>
+</div>
