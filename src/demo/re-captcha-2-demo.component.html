@@ -1,3 +1,10 @@
-<h1>ReCaptcha2 Captcha</h1>
-
-<ngx-recaptcha2 [siteKey]="siteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)" hl="cs" theme="light" size="compact"></ngx-recaptcha2>
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text">
+            <h4>reCAPTCHA2</h4>
+            <div>
+                <ngx-recaptcha2 [siteKey]="siteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)" hl="cs" theme="light" size="compact"></ngx-recaptcha2>
+            </div>
+        </div>
+    </div>
+</section>

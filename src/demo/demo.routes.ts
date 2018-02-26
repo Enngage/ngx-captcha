@@ -11,6 +11,9 @@ import { ReCaptcha2DemoComponent } from './re-captcha-2-demo.component';
     imports: [
         RouterModule.forRoot([
             {
+                path: '', component: ReCaptcha2DemoComponent
+            },
+            {
                 path: 'invisible', component: InvisibleReCaptchaDemoComponent
             },
             {
