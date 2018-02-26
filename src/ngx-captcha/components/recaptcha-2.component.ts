@@ -31,14 +31,45 @@ export class ReCaptcha2Component implements OnInit, AfterViewInit, OnChanges {
   @Input() siteKey: string;
 
   /**
+   * Theme
+   */
+  @Input() theme: 'dark' | 'light' = 'light';
+
+  /**
+   * Type
+   */
+  @Input() type: 'audio' | 'image' = 'image';
+
+  /**
+  * Size
+  */
+  @Input() size: 'compact' | 'normal' = 'normal';
+
+  /**
+  * Tab index
+  */
+  @Input() tabIndex: number = 0;
+
+  /**
    * Called when captcha is loaded. Event receives id of the captcha
    */
   @Output() load = new EventEmitter<number>();
 
   /**
-   * Called when captcha receives response (i.e. user submitting captcha)
+   * Called when captcha receives successful response.
+   * Captcha response token is passed to event.
    */
-  @Output() response = new EventEmitter<string>();
+  @Output() success = new EventEmitter<string>();
+
+  /**
+  * Expired callback
+  */
+  @Input() expire = new EventEmitter<void>();
+
+  /**
+  * Error callback
+  */
+  @Input() error = new EventEmitter<void>();
 
   @ViewChild('captchaElem') captchaElem: ElementRef;
   @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
@@ -101,8 +132,30 @@ export class ReCaptcha2Component implements OnInit, AfterViewInit, OnChanges {
     this.captchaId = grecaptcha.render(this.captchaElem.nativeElement, {
       'sitekey': this.siteKey,
       'callback': (response) => this.handleCallback(response),
-      'expired-callback': () => grecaptcha.reset(this.captchaId)
+      'expired-callback': () => this.handleExpireCallback(),
+      'error-callback': () => this.handleErrorCallback(),
+      'theme': this.theme,
+      'type': this.type,
+      'size': this.size,
+      'tabindex': this.tabIndex
     });
+  }
+
+  /**
+   * Handles error callback
+  */
+  private handleErrorCallback(): void {
+    this.error.next();
+  }
+
+  /**
+   * Handles expired callback
+   */
+  private handleExpireCallback(): void {
+    // reset captcha on expire callback
+    this.resetCaptcha();
+
+    this.expire.next();
   }
 
   /**
@@ -111,7 +164,7 @@ export class ReCaptcha2Component implements OnInit, AfterViewInit, OnChanges {
    */
   private handleCallback(callback: any): void {
     this.currentResponse = callback;
-    this.response.next(callback);
+    this.success.next(callback);
   }
 
   /**
