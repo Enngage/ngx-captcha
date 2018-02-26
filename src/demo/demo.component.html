@@ -1,3 +1,12 @@
 <h1>Test Captcha</h1>
 
-<ngx-recaptcha2 [siteKey]="siteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)" hl="cs" theme="light" size="compact"></ngx-recaptcha2>
+<!--
+    <ngx-recaptcha2 [siteKey]="siteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)" hl="cs" theme="light" size="compact"></ngx-recaptcha2>
+-->
+
+
+<ngx-invisible-recaptcha #invisibleCaptcha [siteKey]="invisibleCaptchaSiteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)"></ngx-invisible-recaptcha>
+
+<div>
+    <button (click)="executeInvisibleCaptcha()">Execute invisible captcha</button>
+</div>
