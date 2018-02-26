@@ -30,9 +30,6 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
    */
   @Input() hl: string;
 
-  @ViewChild('captchaElem') captchaElem: ElementRef;
-  @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
-
   constructor(
   ) {
     super();

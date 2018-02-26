@@ -10,6 +10,8 @@ import {
     ViewChild,
 } from '@angular/core';
 
+import { guidHelper } from '../utilities/guid-helper.class';
+
 declare var grecaptcha: any;
 
 export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, OnChanges {
@@ -55,6 +57,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
 
     /**
+     * Id of the captcha element
+     */
+    protected captchaElemId = `ngx-captcha-${guidHelper.newGuid()}`;
+
+    /**
      * Holds last response value
      */
     protected currentResponse?: string;
@@ -95,7 +102,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     }
 
     ngAfterViewInit(): void {
-        this.registerReCaptchaScript();
+        this.ensureReCaptchaScript();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -140,6 +147,25 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     }
 
     /**
+     * Registers reCaptcha script if its not available
+    */
+    protected ensureReCaptchaScript(): void {
+        if (this.isReCaptchaApiDefined()) {
+            // captcha script is already loaded
+            this.load.next();
+            this.isLoaded = true;
+
+            // assign api
+            this.reCaptchaApi = grecaptcha;
+
+            // render captcha
+            this.renderReCaptcha();
+        } else {
+            this.registerReCaptchaScript();
+        }
+    }
+
+    /**
      * Add script to page with reference to captcha API. This has to be done manually
      * as we want to avoid adding script to main index.html
     */
@@ -160,6 +186,17 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         }
 
         return `&hl=${this.hl}`;
+    }
+
+    /**
+     * Checks if reCaptcha Api is defined. It may happen that when navigating from angular component to another
+     * via router, the Api was already loaded previously. In such cases, do not render script again.
+    */
+    private isReCaptchaApiDefined(): boolean {
+        if (!window['grecaptcha']) {
+            return false;
+        }
+        return true;
     }
 
     /**

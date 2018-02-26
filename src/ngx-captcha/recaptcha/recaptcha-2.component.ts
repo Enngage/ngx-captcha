@@ -49,9 +49,6 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnIni
   */
   @Input() error = new EventEmitter<void>();
 
-  @ViewChild('captchaElem') captchaElem: ElementRef;
-  @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
-
   constructor(
   ) {
     super();
