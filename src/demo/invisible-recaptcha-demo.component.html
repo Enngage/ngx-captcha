@@ -9,7 +9,8 @@
                 <pre class="prettyprint">
                     {{ installCode }}
                 </pre>
-                <p>Import <strong>NgxCaptchaModule</strong> to your app:</p>
+                <p>Import
+                    <strong>NgxCaptchaModule</strong> to your app:</p>
                 <pre class="prettyprint">
                     {{ importModuleCode }}
                 </pre>
@@ -23,8 +24,8 @@
                 <h4>Live example</h4>
                 <div>
                     <ngx-invisible-recaptcha #captchaElem [siteKey]="invisibleCaptchaSiteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)"
-                        [type]="type" [badge]="badge"></ngx-invisible-recaptcha>
-
+                    [type]="type" [badge]="badge">
+                </ngx-invisible-recaptcha>
                 </div>
 
                 <h5>Status</h5>

@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  Renderer2,
-  SimpleChanges,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
 
@@ -18,12 +9,7 @@ import { BaseReCaptchaComponent } from './base-recaptcha.component';
   <div #captchaScriptElem></div>
   <div #captchaWrapperElem></div>`
 })
-export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implements OnInit, AfterViewInit, OnChanges {
-
-  /**
-   * Name of the global callback variable
-  */
-  protected readonly windowOnLoadCallback: string = 'ngx_invisible_recaptcha_onload_callback';
+export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implements OnChanges {
 
   /**
    * This size representing invisible captcha
@@ -45,14 +31,6 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
     protected renderer: Renderer2
   ) {
     super(cdr, renderer);
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
-  }
-
-  ngAfterViewInit(): void {
-    super.ngAfterViewInit();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

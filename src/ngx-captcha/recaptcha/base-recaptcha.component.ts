@@ -1,34 +1,35 @@
 import {
-    AfterViewInit,
     ChangeDetectorRef,
     ElementRef,
     EventEmitter,
     Input,
     OnChanges,
+    OnDestroy,
     OnInit,
     Output,
+    Renderer2,
     SimpleChanges,
     ViewChild,
-    Renderer2,
-    OnDestroy,
-    AfterViewChecked
 } from '@angular/core';
 
 declare var grecaptcha: any;
 
-export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy, AfterViewChecked {
+export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDestroy {
 
     /**
     * Name of the global callback
     */
-    protected abstract readonly windowOnLoadCallback: string;
+    protected readonly windowOnLoadCallbackProperty = 'ngx_onload_callback';
 
     /**
      * Name of the global reCaptcha property
      */
     protected readonly globalReCaptchaProperty = 'grecaptcha';
 
-    protected readonly windowLoadCallbackName = `ngxasefsaefes${this.getPseudoUniqueNumber()}`;
+    /**
+     * Name of the global property holding captcha element
+     */
+    protected readonly globalCaptchaElemName = 'ngx_onload_captcha_elem';
 
     /**
       * Google's site key.
@@ -94,9 +95,9 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     /**
     * Reference to global reCaptcha API
     */
-    public reCaptchaApi;
+    public reCaptchaApi?: any;
 
-    public captchaElemId: string;
+    public captchaElemId?: string;
 
     constructor(
         protected cdr: ChangeDetectorRef,
@@ -110,43 +111,19 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     protected abstract getCaptchaProperties(): any;
 
     ngOnInit(): void {
-        this.createNewCaptchaElem();
-        console.log(this.windowLoadCallbackName);
-        // we need to patch the callback through global variable, otherwise callback is not accessible
-        window[this.windowLoadCallbackName] = this.onloadCallback.bind(this);
-
-    }
-
-    ngAfterViewInit(): void {
-        // create new captcha elem
-        console.log('view init');
-
-        // ensure reCatpcha script is registered
-        this.ensureReCaptchaScript();
+        this.setupComponent();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (this.isLoaded) {
-            // captcha was already loaded => reload it
-            console.log('reload');
-            this.reloadCaptcha();
+            this.setupComponent();
         }
-        // do nothing otherwise
     }
 
     ngOnDestroy() {
-    //    window[this.globalReCaptchaProperty] = undefined;
-      //  window[this.windowLoadCallbackName] = undefined;
-       // window['captchaElem'] = undefined;
-    }
-
-    private renderTest = false;
-    ngAfterViewChecked(): void {
-        if (this.renderTest) {
-           // this.renderReCaptcha();
-            this.renderTest = false;
-           // this.cdr.detectChanges();
-        }
+        window[this.windowOnLoadCallbackProperty] = {};
+        window[this.globalCaptchaElemName] = {};
+        window[this.globalReCaptchaProperty] = {};
     }
 
     /**
@@ -181,9 +158,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
      * Reload captcha. Useful when properties (i.e. theme) changed and captcha need to reflect them
     */
     reloadCaptcha(): void {
-        this.ngOnInit();
-
-        this.ensureReCaptchaScript();
+        this.setupComponent();
     }
 
     protected ensureCaptchaElem(): void {
@@ -193,14 +168,18 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
             throw Error(`Captcha element with id '${this.captchaElemId}' was not found`);
         }
 
+        // assign captcha alem
         this.captchaElem = captchaElem;
+
+        // set global captcha elem
+        this.setGlobalCaptchaElem(this.captchaElem);
     }
 
     /**
      * Responsible for instantiating captcha element
     */
     protected renderReCaptcha(): void {
-        this.captchaId = this.reCaptchaApi.render(window['captchaElem'], this.getCaptchaProperties());
+        this.captchaId = this.reCaptchaApi.render(this.getGlobalCaptchaElem(), this.getCaptchaProperties());
     }
 
     /**
@@ -220,21 +199,10 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
      * Registers reCaptcha script if its not available
     */
     protected ensureReCaptchaScript(): void {
-        if (this.isReCaptchaApiDefined()) {
-            // captcha script is already loaded
-            this.load.next();
-            this.isLoaded = true;
+        window[this.globalReCaptchaProperty] = {};
+        this.reCaptchaApi = {};
 
-            // assign api
-            this.reCaptchaApi = grecaptcha;
-
-            this.renderReCaptcha();
-           // this.cdr.detectChanges();
-           // this.renderTest = true;
-
-        } else {
-            this.registerReCaptchaScript();
-        }
+        this.registerReCaptchaScript();
     }
 
     /**
@@ -245,7 +213,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         const script = document.createElement('script');
         script.innerHTML = '';
         script.src =
-            `https://www.google.com/recaptcha/api.js?onload=${this.windowLoadCallbackName}&render=explicit${this.getLanguageParam()}`;
+            `https://www.google.com/recaptcha/api.js?onload=${this.windowOnLoadCallbackProperty}&render=explicit${this.getLanguageParam()}`;
         script.async = true;
         script.defer = true;
 
@@ -258,11 +226,6 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         }
 
         return `&hl=${this.hl}`;
-    }
-
-
-    private initCaptchaElemId(): void {
-        this.captchaElemId = `ngx-captcha-${this.getPseudoUniqueNumber()}`;
     }
 
     private getPseudoUniqueNumber(): number {
@@ -280,11 +243,21 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         return true;
     }
 
+    private setupComponent(): void {
+        // create captcha wrapper and set it to global namespace
+        this.createAndSetCaptchaElem();
+
+        // we need to patch the callback through global variable, otherwise callback is not accessible
+        window[this.windowOnLoadCallbackProperty] = this.onloadCallback.bind(this);
+
+        // create and put reCaptcha script to page
+        this.ensureReCaptchaScript();
+    }
+
     /**
     * Called when google's recaptcha script is ready
     */
-    onloadCallback(): void {
-        console.log('LOAD');
+    private onloadCallback(): void {
         // assign reference to reCaptcha Api once its loaded
         this.reCaptchaApi = grecaptcha;
 
@@ -299,22 +272,21 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         this.load.next();
 
         // render captcha
-       // this.renderTest = true;
-       // this.cdr.detectChanges();
         this.renderReCaptcha();
     }
 
-    private createNewCaptchaElem(): void {
-        // create new element and append it to document
-        if (this.captchaElem) {
-            this.renderer.removeChild(this.captchaWrapperElem.nativeElement, this.captchaElem);
-        }
+    private generateNewElemId(): string {
+        return `ngx-captcha-id-${this.getPseudoUniqueNumber()}`;
+    }
 
-        // update elem id
-        this.initCaptchaElemId();
+    private createAndSetCaptchaElem(): void {
+        // generate new elem id
+        this.captchaElemId = this.generateNewElemId();
 
+        // remove old html
         this.captchaWrapperElem.nativeElement.innerHTML = '';
 
+        // create new wrapper for captcha
         const newElem = this.renderer.createElement('div');
         newElem.id = this.captchaElemId;
 
@@ -322,11 +294,14 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
 
         // update captcha elem
         this.ensureCaptchaElem();
-        window['captchaElem'] = null;
-        window['captchaElem'] = newElem;
+    }
 
-        this.cdr.detectChanges();
+    private setGlobalCaptchaElem(elem: HTMLElement): void {
+        window[this.globalCaptchaElemName] = elem;
+    }
 
+    private getGlobalCaptchaElem(): HTMLElement {
+        return window[this.globalCaptchaElemName];
     }
 }
 
