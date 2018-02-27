@@ -1,33 +1,128 @@
 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
-        <div class="mdl-card__supporting-text">
-            <h4>reCAPTCHA2</h4>
-            <div>
-                <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)" hl="cs" [theme]="theme" size="compact"></ngx-recaptcha2>
+
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet">
+
+                <h4>reCAPTCHA2</h4>
+                <div>
+                    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (expire)="handleExpire()" (load)="handleLoad($event)" (success)="handleSuccess($event)"
+                        [size]="size" [hl]="lang" [theme]="theme" [type]="type"></ngx-recaptcha2>
+                </div>
+
+                <h5>Status</h5>
+                <ul class="demo-list-item mdl-list">
+                    <p>
+                        <strong>Loaded:</strong>
+                        <i *ngIf="!captchaIsLoaded" class="fas fa-times color-red"></i>
+                        <i *ngIf="captchaIsLoaded" class="fas fa-check color-green"></i>
+                    </p>
+                    <p>
+                        <strong>Expired:</strong>
+                        <i *ngIf="!captchaIsExpired" class="fas fa-times color-red"></i>
+                        <i *ngIf="captchaIsExpired" class="fas fa-check color-green"></i>
+                    </p>
+                    <p>
+                        <strong>Captcha success:</strong>
+                        <i *ngIf="!captchaSuccess" class="fas fa-times color-red"></i>
+                        <i *ngIf="captchaSuccess" class="fas fa-check color-green"></i>
+                    </p>
+
+                </ul>
+
             </div>
-        </div>
-        <div class="mdl-card__supporting-text">
-            <h4>Configuration</h4>
-            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-                <thead>
-                    <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Property</th>
-                        <th>Values</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="mdl-data-table__cell--non-numeric">Theme</td>
-                        <td>
-                            <a (click)="changeTheme('light')">Light</a> | <a (click)="changeTheme('dark')">Dark</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                        <td>asef</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet">
+
+                <h4>Configuration</h4>
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">Property</th>
+                            <th>Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">Theme</td>
+                            <td>
+                                <a (click)="changeTheme('light')">Light</a> |
+                                <a (click)="changeTheme('dark')">Dark</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">Language</td>
+                            <td>
+                                <input #langInput type="text" [value]="lang">
+                                <button (click)="setLanguage()">Set</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">Size</td>
+                            <td>
+                                <a (click)="changeSize('compact')">Compact</a> |
+                                <a (click)="changeSize('normal')">Normal</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">Type</td>
+                            <td>
+                                <a (click)="changeType('image')">Image</a> |
+                                <a (click)="changeType('audio')">Audio</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mdl-cell mdl-cell-12-col mdl-cell--12-col-tablet">
+                <h4>Methods</h4>
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">Method</th>
+                            <th class="mdl-data-table__cell--non-numeric">Description</th>
+                            <th class="mdl-data-table__cell--non-numeric">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">getCurrentResponse</td>
+                            <td class="mdl-data-table__cell--non-numeric">Gets the latest submitted response</td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="getCurrentResponse()">Try</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">getResponse</td>
+                            <td class="mdl-data-table__cell--non-numeric">Gets captcha response</td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="getResponse()">Try</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">reset</td>
+                            <td class="mdl-data-table__cell--non-numeric">Resets captcha (does not reload script)</td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                                    (click)="reset()">Try</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">reload</td>
+                            <td class="mdl-data-table__cell--non-numeric">Unsets global script & reloads captcha</td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="reload()">Try</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">getCaptchaId</td>
+                            <td class="mdl-data-table__cell--non-numeric">Gets Id of captcha</td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="getCaptchaId()">Try</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>

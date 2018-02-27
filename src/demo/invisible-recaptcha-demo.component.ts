@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 
 import { InvisibleReCaptchaComponent } from '../ngx-captcha';
 
@@ -8,20 +8,66 @@ import { InvisibleReCaptchaComponent } from '../ngx-captcha';
 })
 export class InvisibleReCaptchaDemoComponent {
 
-  public invisibleCaptchaSiteKey = '6LckpEgUAAAAACPcjmrg1Es-GnTltKx0MP61FBO8';
+  public readonly invisibleCaptchaSiteKey = '6LckpEgUAAAAACPcjmrg1Es-GnTltKx0MP61FBO8';
 
-  @ViewChild('invisibleCaptcha') invisibleCaptcha: InvisibleReCaptchaComponent;
+  public captchaIsLoaded = false;
+  public captchaSuccess = false;
+  public captchaResponse?: string;
+
+  public badge: 'bottomright' | 'bottomleft' | 'inline' = 'bottomright';
+  public type: 'image' | 'audio';
+
+  @ViewChild('captchaElem') captchaElem: InvisibleReCaptchaComponent;
+  @ViewChild('langInput') langInput: ElementRef;
+
+  constructor(private cdr: ChangeDetectorRef) {
+  }
+
+  execute(): void {
+    this.captchaElem.execute();
+  }
 
   handleSuccess(captchaResponse: string): void {
-    console.log('Success captcha response:');
-    console.log(captchaResponse);
+    this.captchaSuccess = true;
+    this.captchaResponse = captchaResponse;
+    this.cdr.detectChanges();
   }
 
   handleLoad(): void {
-    console.log('Captcha ready');
+    this.captchaIsLoaded = true;
+    this.cdr.detectChanges();
   }
 
-  executeInvisibleCaptcha(): void {
-    this.invisibleCaptcha.execute();
+  changeBadge(badge: 'bottomright' | 'bottomleft' | 'inline' = 'bottomright'): void {
+    this.badge = badge;
+  }
+
+  changeType(type: 'image' | 'audio'): void {
+    this.type = type;
+  }
+
+  getResponse(): void {
+    const response = this.captchaElem.getResponse();
+    if (!response) {
+      alert(`There is no response from grecaptcha script - try using 'getCurrentResponse' method or subscribe to 'success' event`);
+    } else {
+      alert(response);
+    }
+  }
+
+  reload(): void {
+    this.captchaElem.reloadCaptcha();
+  }
+
+  getCaptchaId(): void {
+    alert(this.captchaElem.getCaptchaId());
+  }
+
+  reset(): void {
+    this.captchaElem.resetCaptcha();
+  }
+
+  getCurrentResponse(): void {
+    alert(this.captchaElem.getCurrentResponse());
   }
 }

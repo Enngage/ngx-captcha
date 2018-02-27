@@ -86,7 +86,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     */
     public reCaptchaApi;
 
-    public captchaElemId = 'ngx-recaptcha-4242442';
+    public captchaElemId?: string;
 
     constructor(
     ) {
@@ -100,6 +100,9 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     ngOnInit(): void {
         // we need to patch the callback through global variable, otherwise callback is not accessible
         window[this.windowOnLoadCallback] = this.onloadCallback.bind(this);
+
+        // set elem it
+        this.initCaptchaElemId();
     }
 
     ngAfterViewInit(): void {
@@ -137,6 +140,13 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     */
     resetCaptcha(): void {
         this.reCaptchaApi.reset(this.captchaId);
+    }
+
+    /**
+     * Gets last submitted captcha response
+    */
+    getCurrentResponse(): string {
+        return this.currentResponse;
     }
 
     /**
@@ -223,6 +233,14 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         return `&hl=${this.hl}`;
     }
 
+    private initCaptchaElemId(): void {
+        this.captchaElemId = `ngx-captcha-${this.getPseudoUniqueNumber()}`;
+    }
+
+    private getPseudoUniqueNumber(): number {
+        return new Date().getUTCMilliseconds() + Math.random();
+    }
+
     /**
      * Checks if reCaptcha Api is defined. It may happen that when navigating from angular component to another
      * via router, the Api was already loaded previously. In such cases, do not render script again.
@@ -256,6 +274,9 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     }
 
     private createNewCaptchaElem(): void {
+        // update elem id
+        this.initCaptchaElemId();
+
         // first remove the old HTML from current captcha elem
         this.captchaWrapperElem.nativeElement.innerHTML = '';
 
