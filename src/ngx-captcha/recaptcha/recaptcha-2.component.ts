@@ -15,7 +15,11 @@ import { BaseReCaptchaComponent } from './base-recaptcha.component';
 
 @Component({
   selector: 'ngx-recaptcha2',
-  templateUrl: './recaptcha-2.component.html',
+  template: `
+  <div #captchaScriptElem></div>
+  <div #captchaWrapperElem>
+    <div [id]="captchaElemId"></div>
+  </div>`
 })
 export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnInit, AfterViewInit, OnChanges {
 

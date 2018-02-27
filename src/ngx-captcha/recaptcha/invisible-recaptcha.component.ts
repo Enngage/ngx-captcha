@@ -5,7 +5,11 @@ import { BaseReCaptchaComponent } from './base-recaptcha.component';
 
 @Component({
   selector: 'ngx-invisible-recaptcha',
-  templateUrl: './invisible-recaptcha.component.html',
+  template: `
+  <div #captchaScriptElem></div>
+  <div #captchaWrapperElem>
+    <div [id]="captchaElemId"></div>
+  </div>`
 })
 export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implements OnInit, AfterViewInit, OnChanges {
 
