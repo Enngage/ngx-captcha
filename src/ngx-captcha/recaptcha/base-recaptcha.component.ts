@@ -205,7 +205,6 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
      * as we want to avoid adding script to main index.html
     */
     protected registerReCaptchaScript(): void {
-        console.log(this.getLanguageParam());
         const script = document.createElement('script');
         script.innerHTML = '';
         script.src =
