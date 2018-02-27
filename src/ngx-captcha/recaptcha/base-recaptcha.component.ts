@@ -161,11 +161,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
         this.setupComponent();
     }
 
-    protected ensureCaptchaElem(): void {
-        const captchaElem = document.getElementById(this.captchaElemId);
+    protected ensureCaptchaElem(captchaElemId: string): void {
+        const captchaElem = document.getElementById(captchaElemId);
 
         if (!captchaElem) {
-            throw Error(`Captcha element with id '${this.captchaElemId}' was not found`);
+            throw Error(`Captcha element with id '${captchaElemId}' was not found`);
         }
 
         // assign captcha alem
@@ -283,6 +283,10 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
         // generate new elem id
         this.captchaElemId = this.generateNewElemId();
 
+        if (!this.captchaElemId) {
+            throw Error(`Captcha elem Id is not set`);
+        }
+
         // remove old html
         this.captchaWrapperElem.nativeElement.innerHTML = '';
 
@@ -293,7 +297,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
         this.renderer.appendChild(this.captchaWrapperElem.nativeElement, newElem);
 
         // update captcha elem
-        this.ensureCaptchaElem();
+        this.ensureCaptchaElem(this.captchaElemId);
     }
 
     private setGlobalCaptchaElem(elem: HTMLElement): void {
