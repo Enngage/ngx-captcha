@@ -5,6 +5,7 @@
 /dist-server
 /tmp
 /out-tsc
+/ng-captcha-dist
 
 # dependencies
 /node_modules
