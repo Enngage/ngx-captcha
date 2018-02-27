@@ -111,10 +111,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.siteKey && !changes.siteKey.isFirstChange() && (changes.sitekey.currentValue !== changes.siteKey.previousValue)) {
-            // reset captcha if site key changed
-            this.resetCaptcha();
+        if (this.isLoaded) {
+            // captcha was already loaded => reload it
+            this.reloadCaptcha();
         }
+        // do nothing otherwise
     }
 
     /**
@@ -146,7 +147,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         window[this.globalReCaptchaProperty] = undefined;
 
         // create new captcha elem
-        this.createNewCapchaElem();
+        this.createNewCaptchaElem();
 
         // ensure script is reloaded
         this.ensureReCaptchaScript();
@@ -204,6 +205,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
      * as we want to avoid adding script to main index.html
     */
     protected registerReCaptchaScript(): void {
+        console.log(this.getLanguageParam());
         const script = document.createElement('script');
         script.innerHTML = '';
         script.src =
@@ -254,7 +256,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         this.renderReCaptcha();
     }
 
-    private createNewCapchaElem(): void {
+    private createNewCaptchaElem(): void {
         // first remove the old HTML from current captcha elem
         this.captchaWrapperElem.nativeElement.innerHTML = '';
 
