@@ -10,7 +10,11 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-prod": "gulp build",
-    "prepublishOnly": "npm run build && npm run travis-test && node test/test-completed"
+    "prepublishOnly": "npm run build-prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enngage/ngx-captcha"
   },
   "author": "richard sustek",
   "description": "Dynamic captcha (Google reCaptcha) implementation for Angular 5+",
