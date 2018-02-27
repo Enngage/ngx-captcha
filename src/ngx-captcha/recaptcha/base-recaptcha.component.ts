@@ -86,7 +86,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     */
     public reCaptchaApi;
 
-    public captchaElemId?: string;
+    public captchaElemId: string;
 
     constructor(
     ) {
@@ -145,7 +145,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     /**
      * Gets last submitted captcha response
     */
-    getCurrentResponse(): string {
+    getCurrentResponse(): string | undefined {
         return this.currentResponse;
     }
 
@@ -164,11 +164,13 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     }
 
     protected ensureCaptchaElem(): void {
-        this.captchaElem = document.getElementById(this.captchaElemId);
+        const captchaElem = document.getElementById(this.captchaElemId);
 
-        if (!this.captchaElem) {
+        if (!captchaElem) {
             throw Error(`Captcha element with id '${this.captchaElemId}' was not found`);
         }
+
+        this.captchaElem = captchaElem;
     }
 
     /**

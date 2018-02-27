@@ -50,7 +50,7 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
   /**
    * Programatically invoke the reCAPTCHA check. Used if the invisible reCAPTCHA is on a div instead of a button.
    */
-  execute(): string {
+  execute(): string | undefined {
     this.currentResponse = this.reCaptchaApi.execute(this.captchaId);
 
     this.resetCaptchaAfterSuccess = true;

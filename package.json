@@ -8,10 +8,12 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-prod": "gulp build",
+    "prepublishOnly": "npm run build && npm run travis-test && node test/test-completed"
   },
   "author": "richard sustek",
-  "description": "Captcha (Google reCaptcha) implementation for Angular 5+",
+  "description": "Dynamic captcha (Google reCaptcha) implementation for Angular 5+",
   "keywords": [
     "Captcha",
     "reCaptcha",
@@ -19,7 +21,7 @@
     "Angular Captcha",
     "Angular reCaptcha"
   ],
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^5.2.0",
     "@angular/common": "^5.2.0",
@@ -52,6 +54,12 @@
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
-  }
+    "typescript": "~2.5.3",
+    "gulp": "3.9.1",
+    "gulp-typescript": "4.0.1",
+    "gulp-clean": "0.4.0",
+    "merge2": "1.2.1"
+  },
+  "main": "./ngx-captcha-dist/index.js",
+  "types": "./ngx-captcha-dist/index.d.ts"
 }
