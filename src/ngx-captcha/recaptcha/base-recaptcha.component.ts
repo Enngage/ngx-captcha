@@ -15,9 +15,14 @@ declare var grecaptcha: any;
 export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, OnChanges {
 
     /**
-    * Name of the global callback variable
+    * Name of the global callback
     */
     protected abstract readonly windowOnLoadCallback: string;
+
+    /**
+     * Name of the global reCaptcha property
+     */
+    protected readonly globalReCaptchaProperty = 'grecaptcha';
 
     /**
       * Google's site key.
@@ -51,7 +56,8 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     */
     @Output() load = new EventEmitter<number>();
 
-    @ViewChild('captchaElem') captchaElem: ElementRef;
+    @ViewChild('captchaWrapperElem') captchaWrapperElem: ElementRef;
+    @ViewChild('captchaElem') captchaElem: HTMLElement;
     @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
 
     /**
@@ -80,14 +86,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     */
     public reCaptchaApi;
 
+    public captchaElemId = 'ngx-recaptcha-4242442';
+
     constructor(
     ) {
     }
-
-    /**
-    * Responsible for instantiating captcha element
-    */
-    protected abstract renderReCaptcha(): void;
 
     ngOnInit(): void {
         // we need to patch the callback through global variable, otherwise callback is not accessible
@@ -95,6 +98,10 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     }
 
     ngAfterViewInit(): void {
+        // ensure captcha elem id is set
+        this.ensureCaptchaElem();
+
+        // ensure reCatpcha script is registered
         this.ensureReCaptchaScript();
     }
 
@@ -124,6 +131,40 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     */
     resetCaptcha(): void {
         this.reCaptchaApi.reset(this.captchaId);
+    }
+
+    /**
+     * Reload captcha. Useful when properties (i.e. theme) changed and captcha need to reflect them
+    */
+    reloadCaptcha(): void {
+        // unset global recaptcha
+        window[this.globalReCaptchaProperty] = undefined;
+
+        // create new captcha elem
+        this.createNewCapchaElem();
+
+        // ensure script is reloaded
+        this.ensureReCaptchaScript();
+    }
+
+    protected ensureCaptchaElem(): void {
+        this.captchaElem = document.getElementById(this.captchaElemId);
+
+        if (!this.captchaElem) {
+            throw Error(`Captcha element with id '${this.captchaElemId}' was not found`);
+        }
+    }
+
+    /**
+    * Gets reCaptcha properties
+    */
+    protected getCaptchaProperties(): any;
+
+    /**
+     * Responsible for instantiating captcha element
+    */
+    protected renderReCaptcha(): void {
+        this.captchaId = this.reCaptchaApi.render(this.captchaElem, this.getCaptchaProperties());
     }
 
     /**
@@ -186,7 +227,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
      * via router, the Api was already loaded previously. In such cases, do not render script again.
     */
     private isReCaptchaApiDefined(): boolean {
-        if (!window['grecaptcha']) {
+        if (!window[this.globalReCaptchaProperty]) {
             return false;
         }
         return true;
@@ -213,5 +254,19 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         this.renderReCaptcha();
     }
 
+    private createNewCapchaElem(): void {
+        // first remove the old HTML from current captcha elem
+        this.captchaWrapperElem.nativeElement.innerHTML = '';
+
+        // create new element and append it to document
+        const newElem = document.createElement('div');
+        newElem.id = this.captchaElemId;
+
+        // add new elem to DOM
+        this.captchaWrapperElem.nativeElement.appendChild(newElem);
+
+        // update captcha elem
+        this.captchaElem = newElem;
+    }
 }
 

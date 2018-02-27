@@ -3,8 +3,31 @@
         <div class="mdl-card__supporting-text">
             <h4>reCAPTCHA2</h4>
             <div>
-                <ngx-recaptcha2 [siteKey]="siteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)" hl="cs" theme="light" size="compact"></ngx-recaptcha2>
+                <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (load)="handleLoad($event)" (success)="handleSuccess($event)" hl="cs" [theme]="theme" size="compact"></ngx-recaptcha2>
             </div>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <h4>Configuration</h4>
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Property</th>
+                        <th>Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">Theme</td>
+                        <td>
+                            <a (click)="changeTheme('light')">Light</a> | <a (click)="changeTheme('dark')">Dark</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
+                        <td>asef</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </section>

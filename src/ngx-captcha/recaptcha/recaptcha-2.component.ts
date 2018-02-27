@@ -24,6 +24,7 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnIni
   */
   protected readonly windowOnLoadCallback: string = 'ngx_recaptcha2_onload_callback';
 
+
   /**
    * Theme
    */
@@ -67,10 +68,10 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnIni
   }
 
   /**
-   * Responsible for instantiating captcha element
+   * Gets reCaptcha properties
   */
-  protected renderReCaptcha(): void {
-    this.captchaId = this.reCaptchaApi.render(this.captchaElem.nativeElement, {
+  protected getCaptchaProperties(): any {
+    return {
       'sitekey': this.siteKey,
       'callback': (response) => this.handleCallback(response),
       'expired-callback': () => this.handleExpireCallback(),
@@ -79,7 +80,7 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnIni
       'type': this.type,
       'size': this.size,
       'tabindex': this.tabIndex
-    });
+    };
   }
 
   /**

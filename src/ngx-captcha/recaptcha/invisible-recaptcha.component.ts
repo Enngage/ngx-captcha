@@ -59,17 +59,17 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
   }
 
   /**
-   * Responsible for instantiating captcha element
-  */
-  protected renderReCaptcha(): void {
-    this.captchaId = this.reCaptchaApi.render(this.captchaElem.nativeElement, {
+ * Gets reCaptcha properties
+*/
+  protected getCaptchaProperties(): any {
+    return {
       'sitekey': this.siteKey,
       'callback': (response) => this.handleCallback(response),
       'badge': this.badge,
       'type': this.type,
       'tabindex': this.tabIndex,
       'size': this.size
-    });
+    };
   }
 }
 
