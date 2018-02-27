@@ -10,7 +10,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-prod": "gulp build",
-    "prepublishOnly": "npm run build-prod"
+    "prepublishOnly": "npm run build-prod",
+    "build-gh-pages": "ng build --prod --base-href \"https://enngage.github.io/ngx-captcha/\"",
+    "publish-gh-pages": "ngh"
   },
   "repository": {
     "type": "git",
