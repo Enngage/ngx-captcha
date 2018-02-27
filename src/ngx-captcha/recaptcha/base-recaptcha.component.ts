@@ -122,7 +122,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
      * Gets captcha response as per reCaptcha docs
     */
     getResponse(): string {
-        return this.reCaptchaApi.getRespose(this.captchaId);
+        return this.reCaptchaApi.getResponse(this.captchaId);
     }
 
     /**
