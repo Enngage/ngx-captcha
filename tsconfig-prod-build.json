@@ -20,9 +20,9 @@
     ]
   },
   "include": [
-    "src/ngx-captcha/**/*",
+    "src/ngx-captcha/**/*"
   ],
   "exclude": [
-    "node_modules",
+    "node_modules"
   ]
 }
