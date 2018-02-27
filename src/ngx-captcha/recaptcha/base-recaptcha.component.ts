@@ -92,6 +92,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
     ) {
     }
 
+    /**
+    * Gets reCaptcha properties
+    */
+    protected abstract getCaptchaProperties(): any;
+
     ngOnInit(): void {
         // we need to patch the callback through global variable, otherwise callback is not accessible
         window[this.windowOnLoadCallback] = this.onloadCallback.bind(this);
@@ -154,11 +159,6 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
             throw Error(`Captcha element with id '${this.captchaElemId}' was not found`);
         }
     }
-
-    /**
-    * Gets reCaptcha properties
-    */
-    protected getCaptchaProperties(): any;
 
     /**
      * Responsible for instantiating captcha element
@@ -250,7 +250,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, AfterViewInit, O
         // fire load event
         this.load.next();
 
-        // render actual captcha
+        // render captcha
         this.renderReCaptcha();
     }
 

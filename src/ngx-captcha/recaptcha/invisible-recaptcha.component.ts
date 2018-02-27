@@ -59,8 +59,8 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
   }
 
   /**
- * Gets reCaptcha properties
-*/
+  * Gets reCaptcha properties
+  */
   protected getCaptchaProperties(): any {
     return {
       'sitekey': this.siteKey,
