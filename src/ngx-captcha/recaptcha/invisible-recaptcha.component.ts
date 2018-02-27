@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Renderer2,
+  SimpleChanges,
+} from '@angular/core';
 
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
 
@@ -7,9 +16,7 @@ import { BaseReCaptchaComponent } from './base-recaptcha.component';
   selector: 'ngx-invisible-recaptcha',
   template: `
   <div #captchaScriptElem></div>
-  <div #captchaWrapperElem>
-    <div [id]="captchaElemId"></div>
-  </div>`
+  <div #captchaWrapperElem></div>`
 })
 export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implements OnInit, AfterViewInit, OnChanges {
 
@@ -28,15 +35,16 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
    */
   @Input() badge: 'bottomright' | 'bottomleft' | 'inline' = 'bottomright';
 
-
   /**
    * Language code. Auto-detects the user's language if unspecified.
    */
   @Input() hl: string;
 
   constructor(
+    protected cdr: ChangeDetectorRef,
+    protected renderer: Renderer2
   ) {
-    super();
+    super(cdr, renderer);
   }
 
   ngOnInit(): void {

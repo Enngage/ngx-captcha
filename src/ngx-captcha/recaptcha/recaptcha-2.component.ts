@@ -1,14 +1,13 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   OnInit,
-  Output,
+  Renderer2,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
 
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
@@ -17,9 +16,7 @@ import { BaseReCaptchaComponent } from './base-recaptcha.component';
   selector: 'ngx-recaptcha2',
   template: `
   <div #captchaScriptElem></div>
-  <div #captchaWrapperElem>
-    <div [id]="captchaElemId"></div>
-  </div>`
+  <div #captchaWrapperElem></div>`
 })
 export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnInit, AfterViewInit, OnChanges {
 
@@ -27,7 +24,6 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnIni
    * Name of the global callback variable
   */
   protected readonly windowOnLoadCallback: string = 'ngx_recaptcha2_onload_callback';
-
 
   /**
    * Theme
@@ -55,8 +51,10 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnIni
   @Input() error = new EventEmitter<void>();
 
   constructor(
+    protected cdr: ChangeDetectorRef,
+    protected renderer: Renderer2
   ) {
-    super();
+    super(cdr, renderer);
   }
 
   ngOnInit(): void {

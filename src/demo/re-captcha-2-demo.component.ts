@@ -1,13 +1,43 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+
 import { ReCaptcha2Component } from '../ngx-captcha';
+
+declare var PR: any;
 
 @Component({
   selector: 'ngx-recaptcha-2-demo',
   templateUrl: './re-captcha-2-demo.component.html',
 })
-export class ReCaptcha2DemoComponent {
+export class ReCaptcha2DemoComponent implements AfterViewChecked {
 
   public readonly siteKey = '6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1';
+
+  public readonly installCode = `
+  npm install ngx-captcha`;
+
+  public readonly importModuleCode = `
+import { NgModule } from '@angular/core';
+import { NgxCaptchaModule } from 'ngx-captcha';
+
+@NgModule({
+  imports: [
+    NgxCaptchaModule
+  })
+
+  export class AppModule { }`;
+
+  public readonly exampleCode = `
+<ngx-recaptcha2 #captchaElem
+  [siteKey]="siteKey"
+  [size]="size"
+  [hl]="lang"
+  [theme]="theme"
+  [type]="type"
+  (expire)="handleExpire()"
+  (load)="handleLoad($event)"
+  (success)="handleSuccess($event)">
+</ngx-recaptcha2>`;
+
   public captchaIsLoaded = false;
   public captchaSuccess = false;
   public captchaIsExpired = false;
@@ -22,6 +52,10 @@ export class ReCaptcha2DemoComponent {
   @ViewChild('langInput') langInput: ElementRef;
 
   constructor(private cdr: ChangeDetectorRef) {
+  }
+
+  ngAfterViewChecked(): void {
+    this.prettify();
   }
 
   handleSuccess(captchaResponse: string): void {
@@ -79,5 +113,9 @@ export class ReCaptcha2DemoComponent {
 
   reset(): void {
     this.captchaElem.resetCaptcha();
+  }
+
+  private prettify(): void {
+    PR.prettyPrint();
   }
 }

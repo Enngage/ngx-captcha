@@ -2,9 +2,26 @@
     <div class="mdl-card mdl-cell mdl-cell--12-col">
 
         <div class="mdl-grid">
+
+            <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet">
+                <h4>reCAPTCHA2</h4>
+                <p>Install with NPM:</p>
+                <pre class="prettyprint">
+                    {{ installCode }}
+                </pre>
+                <p>Import <strong>NgxCaptchaModule</strong> to your app:</p>
+                <pre class="prettyprint">
+                    {{ importModuleCode }}
+                </pre>
+                <p>Use in template:</p>
+                <pre class="prettyprint">
+                    {{ exampleCode }}
+                </pre>
+            </div>
+
             <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet">
 
-                <h4>reCAPTCHA2</h4>
+                <h4>Live example</h4>
                 <div>
                     <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (expire)="handleExpire()" (load)="handleLoad($event)" (success)="handleSuccess($event)"
                         [size]="size" [hl]="lang" [theme]="theme" [type]="type"></ngx-recaptcha2>
