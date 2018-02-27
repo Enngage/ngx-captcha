@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgxCaptchaModule } from '../ngx-captcha';
 import { DemoComponent } from './demo.component';
 import { DemoRoutes } from './demo.routes';
+import { InstallationComponent } from './installation.component';
 import { InvisibleReCaptchaDemoComponent } from './invisible-recaptcha-demo.component';
 import { ReCaptcha2DemoComponent } from './re-captcha-2-demo.component';
 
@@ -19,6 +20,7 @@ import { ReCaptcha2DemoComponent } from './re-captcha-2-demo.component';
     DemoComponent,
     InvisibleReCaptchaDemoComponent,
     ReCaptcha2DemoComponent,
+    InstallationComponent
   ],
 
   bootstrap: [DemoComponent]

@@ -116,6 +116,8 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   }
 
   private prettify(): void {
-    PR.prettyPrint();
+    if (window['PR']) {
+      PR.prettyPrint();
+    }
   }
 }

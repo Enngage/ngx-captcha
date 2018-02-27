@@ -12,20 +12,6 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked {
 
   public readonly invisibleCaptchaSiteKey = '6LckpEgUAAAAACPcjmrg1Es-GnTltKx0MP61FBO8';
 
-  public readonly installCode = `
-  npm install ngx-captcha`;
-
-  public readonly importModuleCode = `
-import { NgModule } from '@angular/core';
-import { NgxCaptchaModule } from 'ngx-captcha';
-
-@NgModule({
-  imports: [
-    NgxCaptchaModule
-  })
-
-  export class AppModule { }`;
-
   public readonly exampleCode = `
 <ngx-invisible-recaptcha #captchaElem
   [siteKey]="invisibleCaptchaSiteKey"
@@ -33,13 +19,14 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   [badge]="badge"
   (load)="handleLoad($event)"
   (success)="handleSuccess($event)">
-</ngx-invisible-recaptcha>`;
+</ngx-invisible-recaptcha>
+`;
 
   public captchaIsLoaded = false;
   public captchaSuccess = false;
   public captchaResponse?: string;
 
-  public badge: 'bottomright' | 'bottomleft' | 'inline' = 'bottomright';
+  public badge: 'bottomright' | 'bottomleft' | 'inline' = 'inline';
   public type: 'image' | 'audio';
 
   @ViewChild('captchaElem') captchaElem: InvisibleReCaptchaComponent;
@@ -101,6 +88,8 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   }
 
   private prettify(): void {
-    PR.prettyPrint();
+    if (window['PR']) {
+      PR.prettyPrint();
+    }
   }
 }
