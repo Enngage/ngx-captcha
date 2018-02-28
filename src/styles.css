@@ -9,3 +9,7 @@
  table a:hover {
   cursor: pointer;
 }
+
+.main {
+  padding-top: 15px!important;
+}
