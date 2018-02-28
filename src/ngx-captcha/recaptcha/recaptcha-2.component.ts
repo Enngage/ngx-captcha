@@ -1,6 +1,8 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Optional, Renderer2, SimpleChanges } from '@angular/core';
 
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
+import { ReCaptchaType } from './recaptcha-type.enum';
+import { NgxCaptchaConfig } from './recaptcha.config';
 
 @Component({
   selector: 'ngx-recaptcha2',
@@ -36,10 +38,10 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   @Input() error = new EventEmitter<void>();
 
   constructor(
-    protected cdr: ChangeDetectorRef,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
+    @Optional() protected config: NgxCaptchaConfig,
   ) {
-    super(cdr, renderer);
+    super(renderer, ReCaptchaType.ReCaptcha2, config);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

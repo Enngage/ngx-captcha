@@ -13,7 +13,10 @@ import { ReCaptcha2DemoComponent } from './re-captcha-2-demo.component';
   imports: [
     RouterModule,
     BrowserModule,
-    NgxCaptchaModule,
+    NgxCaptchaModule.forRoot({
+      reCaptcha2SiteKey: '6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1',
+      invisibleCaptchaSiteKey: '6LckpEgUAAAAACPcjmrg1Es-GnTltKx0MP61FBO8'
+    }),
     DemoRoutes
   ],
   declarations: [

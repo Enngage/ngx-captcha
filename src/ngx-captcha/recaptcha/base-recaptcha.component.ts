@@ -1,16 +1,19 @@
 import {
-    ChangeDetectorRef,
     ElementRef,
     EventEmitter,
     Input,
     OnChanges,
     OnDestroy,
     OnInit,
+    Optional,
     Output,
     Renderer2,
     SimpleChanges,
     ViewChild,
 } from '@angular/core';
+
+import { ReCaptchaType } from './recaptcha-type.enum';
+import { NgxCaptchaConfig } from './recaptcha.config';
 
 declare var grecaptcha: any;
 
@@ -35,7 +38,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
       * Google's site key.
       * You can find this under https://www.google.com/recaptcha
       */
-    @Input() siteKey: string;
+    protected siteKey?: string;
 
     /**
      * Type
@@ -100,8 +103,9 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     public captchaElemId?: string;
 
     constructor(
-        protected cdr: ChangeDetectorRef,
-        protected renderer: Renderer2
+        protected renderer: Renderer2,
+        protected recaptchaType: ReCaptchaType,
+        @Optional() protected config: NgxCaptchaConfig,
     ) {
     }
 
@@ -111,6 +115,22 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     protected abstract getCaptchaProperties(): any;
 
     ngOnInit(): void {
+        if (this.recaptchaType === ReCaptchaType.InvisibleReCaptcha) {
+            if (!this.config.invisibleCaptchaSiteKey) {
+                throw Error(`SiteKey for invisible reCaptcha is not set!`);
+            }
+
+            this.siteKey = this.config.invisibleCaptchaSiteKey;
+        } else if (this.recaptchaType === ReCaptchaType.ReCaptcha2) {
+            if (!this.config.reCaptcha2SiteKey) {
+                throw Error(`SiteKey for reCaptcha2 is not set!`);
+            }
+
+            this.siteKey = this.config.reCaptcha2SiteKey;
+        } else {
+            throw Error(`Unsupported captcha type '${this.recaptchaType}'!`);
+        }
+
         this.setupComponent();
     }
 

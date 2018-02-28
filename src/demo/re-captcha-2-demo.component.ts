@@ -28,7 +28,6 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
   public readonly exampleCode = `
 <ngx-recaptcha2 #captchaElem
-  [siteKey]="siteKey"
   [size]="size"
   [hl]="lang"
   [theme]="theme"

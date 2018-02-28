@@ -14,7 +14,6 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked {
 
   public readonly exampleCode = `
 <ngx-invisible-recaptcha #captchaElem
-  [siteKey]="invisibleCaptchaSiteKey"
   [type]="type"
   [badge]="badge"
   (load)="handleLoad()"

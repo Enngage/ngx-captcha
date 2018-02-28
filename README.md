@@ -12,7 +12,7 @@ Google reCaptcha implementation for Angular 5 and beyond.
 npm install ngx-captcha
 ```
 
-Import `NgxCaptchaModule ` to your module (i.e. `AppModule`)
+Import `NgxCaptchaModule ` to your module (i.e. `AppModule`) and configure site keys for reCaptcha.
 
 ```javascript
 import { NgModule } from '@angular/core';
@@ -20,7 +20,10 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   imports: [
-    NgxCaptchaModule
+    NgxCaptchaModule.forRoot({
+      reCaptcha2SiteKey: 'xxxx',
+      invisibleCaptchaSiteKey: 'yyy'
+    }),
   })
 
 export class AppModule { }
@@ -32,7 +35,6 @@ export class AppModule { }
 
 ```html
 <ngx-recaptcha2
-  [siteKey]="siteKey"
   [size]="size"
   [hl]="lang"
   [theme]="theme"
@@ -47,7 +49,6 @@ export class AppModule { }
 
 ```html
 <ngx-invisible-recaptcha
-  [siteKey]="invisibleCaptchaSiteKey"
   [type]="type"
   [badge]="badge"
   (load)="handleLoad()"

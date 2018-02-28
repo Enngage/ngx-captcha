@@ -7,7 +7,7 @@
 
 <h3>Live example</h3>
 <div>
-    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (expire)="handleExpire()" (load)="handleLoad()" (success)="handleSuccess($event)"
+    <ngx-recaptcha2 #captchaElem (expire)="handleExpire()" (load)="handleLoad()" (success)="handleSuccess($event)"
         [size]="size" [hl]="lang" [theme]="theme" [type]="type"></ngx-recaptcha2>
 </div>
 

@@ -15,7 +15,10 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   imports: [
-    NgxCaptchaModule
+    NgxCaptchaModule.forRoot({
+      reCaptcha2SiteKey: 'xxxx',
+      invisibleCaptchaSiteKey: 'yyy'
+    }),
   })
 
 export class AppModule { }
@@ -24,7 +27,6 @@ export class AppModule { }
 
   public readonly exampleCode = `
 <ngx-invisible-recaptcha
-  [siteKey]="invisibleCaptchaSiteKey"
   [type]="type"
   [badge]="badge"
   (load)="handleLoad()"
