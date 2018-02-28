@@ -10,8 +10,6 @@ declare var PR: any;
 })
 export class InvisibleReCaptchaDemoComponent implements AfterViewChecked {
 
-  public readonly invisibleCaptchaSiteKey = '6LckpEgUAAAAACPcjmrg1Es-GnTltKx0MP61FBO8';
-
   public readonly exampleCode = `
 <ngx-invisible-recaptcha #captchaElem
   [type]="type"

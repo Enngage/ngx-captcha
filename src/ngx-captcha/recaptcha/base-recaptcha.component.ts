@@ -114,6 +114,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     */
     protected abstract getCaptchaProperties(): any;
 
+    /**
+     * Used for captcha specific setup
+    */
+    protected abstract captchaSpecificSetup(): void;
+
     ngOnInit(): void {
         if (this.recaptchaType === ReCaptchaType.InvisibleReCaptcha) {
             if (!this.config.invisibleCaptchaSiteKey) {
@@ -264,6 +269,9 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     }
 
     private setupComponent(): void {
+        // captcha specific setup
+        this.captchaSpecificSetup();
+
         // create captcha wrapper and set it to global namespace
         this.createAndSetCaptchaElem();
 

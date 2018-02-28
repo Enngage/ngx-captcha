@@ -10,8 +10,6 @@ declare var PR: any;
 })
 export class ReCaptcha2DemoComponent implements AfterViewChecked {
 
-  public readonly siteKey = '6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1';
-
   public readonly installCode = `
   npm install ngx-captcha`;
 
@@ -60,15 +58,18 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   handleSuccess(captchaResponse: string): void {
     this.captchaSuccess = true;
     this.captchaResponse = captchaResponse;
+    this.captchaIsExpired = false;
     this.cdr.detectChanges();
   }
 
   handleLoad(): void {
     this.captchaIsLoaded = true;
+    this.captchaIsExpired = false;
     this.cdr.detectChanges();
   }
 
   handleExpire(): void {
+    this.captchaSuccess = false;
     this.captchaIsExpired = true;
     this.cdr.detectChanges();
   }

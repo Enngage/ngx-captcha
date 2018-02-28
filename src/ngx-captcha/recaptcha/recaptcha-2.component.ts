@@ -1,4 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, Optional, Renderer2, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Optional,
+  Output,
+  Renderer2,
+  SimpleChanges,
+} from '@angular/core';
 
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
 import { ReCaptchaType } from './recaptcha-type.enum';
@@ -10,7 +20,17 @@ import { NgxCaptchaConfig } from './recaptcha.config';
   <div #captchaScriptElem></div>
   <div #captchaWrapperElem></div>`
 })
-export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnChanges {
+export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnChanges, OnDestroy {
+
+  /**
+  * Name of the global expire callback
+  */
+  protected readonly windowOnErrorCallbackProperty = 'ngx_captcha_error_callback';
+
+  /**
+  * Name of the global error callback
+  */
+  protected readonly windowOnExpireCallbackProperty = 'ngx_captcha_expire_callback';
 
   /**
    * Theme
@@ -30,12 +50,12 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   /**
   * Expired callback
   */
-  @Input() expire = new EventEmitter<void>();
+  @Output() expire = new EventEmitter<void>();
 
   /**
   * Error callback
   */
-  @Input() error = new EventEmitter<void>();
+  @Output() error = new EventEmitter<void>();
 
   constructor(
     protected renderer: Renderer2,
@@ -46,6 +66,17 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
 
   ngOnChanges(changes: SimpleChanges): void {
     super.ngOnChanges(changes);
+  }
+
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+
+    window[this.windowOnErrorCallbackProperty] = {};
+    window[this.windowOnExpireCallbackProperty] = {};
+  }
+
+  protected captchaSpecificSetup(): void {
+    this.registerCallbacks();
   }
 
   /**
@@ -65,6 +96,14 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   }
 
   /**
+   * Registers global callbacks
+  */
+  private registerCallbacks(): void {
+    window[this.windowOnErrorCallbackProperty] = this.handleErrorCallback.bind(this);
+    window[this.windowOnExpireCallbackProperty] = this.handleExpireCallback.bind(this);
+  }
+
+  /**
    * Handles error callback
   */
   private handleErrorCallback(): void {
@@ -75,10 +114,10 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
    * Handles expired callback
    */
   private handleExpireCallback(): void {
+    this.expire.next();
+
     // reset captcha on expire callback
     this.resetCaptcha();
-
-    this.expire.next();
   }
 }
 

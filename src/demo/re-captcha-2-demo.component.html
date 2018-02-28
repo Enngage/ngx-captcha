@@ -24,9 +24,9 @@
         <i *ngIf="captchaSuccess" class="fas fa-check color-green"></i>
     </li>
     <li>
-        <strong>Captcha success:</strong>
-        <i *ngIf="!captchaSuccess" class="fas fa-times color-red"></i>
-        <i *ngIf="captchaSuccess" class="fas fa-check color-green"></i>
+        <strong>Captcha expired:</strong>
+        <i *ngIf="!captchaIsExpired" class="fas fa-times color-red"></i>
+        <i *ngIf="captchaIsExpired" class="fas fa-check color-green"></i>
     </li>
 </ul>
 

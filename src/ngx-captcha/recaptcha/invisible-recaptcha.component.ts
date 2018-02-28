@@ -50,6 +50,9 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
     return this.currentResponse;
   }
 
+  protected captchaSpecificSetup(): void {
+  }
+
   /**
   * Gets reCaptcha properties
   */
