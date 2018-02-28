@@ -34,7 +34,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   [theme]="theme"
   [type]="type"
   (expire)="handleExpire()"
-  (load)="handleLoad($event)"
+  (load)="handleLoad()"
   (success)="handleSuccess($event)">
 </ngx-recaptcha2>`;
 

@@ -27,7 +27,7 @@ export class AppModule { }
   [siteKey]="invisibleCaptchaSiteKey"
   [type]="type"
   [badge]="badge"
-  (load)="handleLoad($event)"
+  (load)="handleLoad()"
   (success)="handleSuccess($event)">
 </ngx-invisible-recaptcha>
 
