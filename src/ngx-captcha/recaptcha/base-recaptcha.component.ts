@@ -120,6 +120,10 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     protected abstract captchaSpecificSetup(): void;
 
     ngOnInit(): void {
+        if (!this.config) {
+            throw Error(`Config was not provided`);
+        }
+
         if (this.recaptchaType === ReCaptchaType.InvisibleReCaptcha) {
             if (!this.config.invisibleCaptchaSiteKey) {
                 throw Error(`SiteKey for invisible reCaptcha is not set!`);
