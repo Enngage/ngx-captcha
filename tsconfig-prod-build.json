@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "./ngx-captcha-dist",
-    "sourceMap": true,
+    "sourceMap": false,
+    "module": "commonjs",
     "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
@@ -15,7 +16,7 @@
       "./node_modules/@types"
     ],
     "lib": [
-      "es2016",
+      "es6",
       "dom"
     ]
   },
