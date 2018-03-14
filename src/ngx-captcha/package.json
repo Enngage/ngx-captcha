@@ -1,12 +1,36 @@
 {
-  "name": "ngx-captcha",
-  "version": "1.1.8",
-  "dependencies": {
-  },
-  "peerDependencies": {
-    "@angular/common": "*",
-    "@angular/core": "*",
-    "@angular/compiler": "*",
-    "@angular/forms": "*"
-  }
+    "name": "ngx-captcha",
+    "version": "1.1.9",
+    "license": "MIT",
+    "scripts": {
+        "ng": "ng",
+        "start": "ng serve",
+        "build": "ng build --prod",
+        "test": "ng test",
+        "lint": "ng lint",
+        "e2e": "ng e2e",
+        "build-prod": "gulp build",
+        "prepublishOnly": "npm run build-prod",
+        "build-gh-pages": "ng build --prod --base-href \"https://enngage.github.io/ngx-captcha/\"",
+        "publish-gh-pages": "ngh"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Enngage/ngx-captcha"
+    },
+    "author": "richard sustek",
+    "description": "Dynamic captcha (Google reCaptcha) implementation for Angular 5+",
+    "keywords": [
+        "Captcha",
+        "reCaptcha",
+        "Google captcha",
+        "Angular Captcha",
+        "Angular reCaptcha"
+    ],
+    "private": false,
+    "peerDependencies": {
+        "@angular/core": "^5.2.0"
+    },
+    "main": "./ngx-captcha-dist/index.js",
+    "types": "./ngx-captcha-dist/index.d.ts"
 }

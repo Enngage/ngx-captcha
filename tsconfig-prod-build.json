@@ -2,6 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "baseUrl": ".",
+    "rootDir": ".",
     "outDir": "./ngx-captcha-dist",
     "sourceMap": true,
     "module": "commonjs",
@@ -12,6 +13,13 @@
     "target": "es5",
     "strictNullChecks": true,
     "noImplicitReturns": true,
+    "stripInternal": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@angular/core": [
+        "node_modules/@angular/core"
+      ]
+    },
     "typeRoots": [
       "./node_modules/@types"
     ],
@@ -20,10 +28,14 @@
       "dom"
     ]
   },
-  "include": [
-    "src/ngx-captcha/**/*"
+  "files": [
+    "src/ngx-captcha/index.ts",
+    "src/ngx-captcha/package.json"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "strictMetadataEmit": true
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "ngx-captcha",
+  "name": "ngx-captcha-base",
   "version": "1.1.8",
   "license": "MIT",
   "scripts": {
@@ -27,7 +27,7 @@
     "Angular Captcha",
     "Angular reCaptcha"
   ],
-  "private": false,
+  "private": true,
   "dependencies": {
     "@angular/animations": "^5.2.0",
     "@angular/common": "^5.2.0",
