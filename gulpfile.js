@@ -4,19 +4,19 @@ const clean = require('gulp-clean');
 
 gulp.task('build', function() {
     const merge = require('merge2');
-    const tsProject = ts.createProject('tsconfig-prod-build.json');
+    const tsProject = ts.createProject('src/ngx-captcha/tsconfig.json');
 
     var tsResult = tsProject.src()
         .pipe(tsProject());
 
     return merge([
-        tsResult.dts.pipe(gulp.dest('./ngx-captcha-dist')),
+        tsResult.dts.pipe(gulp.dest('dist')),
         tsResult.js.pipe(gulp.dest(tsProject.config.compilerOptions.outDir))
     ]);
 });
 
 gulp.task('clean', function () {
-    return gulp.src(['ngx-captcha-dist', 'ngx-captcha-dist'], { read: false })
+    return gulp.src(['dist', 'dist'], { read: false })
         .pipe(clean())
 });
 
