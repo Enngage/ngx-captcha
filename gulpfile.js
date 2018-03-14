@@ -10,13 +10,13 @@ gulp.task('build', function() {
         .pipe(tsProject());
 
     return merge([
-        tsResult.dts.pipe(gulp.dest('dist')),
+        tsResult.dts.pipe(gulp.dest(tsProject.config.compilerOptions.outDir)),
         tsResult.js.pipe(gulp.dest(tsProject.config.compilerOptions.outDir))
     ]);
 });
 
 gulp.task('clean', function () {
-    return gulp.src(['dist', 'dist'], { read: false })
+    return gulp.src([tsProject.config.compilerOptions.outDir, tsProject.config.compilerOptions.outDir], { read: false })
         .pipe(clean())
 });
 
