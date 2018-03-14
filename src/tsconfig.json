@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "../ngx-dist",
+    "outDir": "./ngx-dist",
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -15,21 +15,17 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "lib": ["dom", "es6"],
-    "typeRoots": [
-      "../node_modules/@types"
-    ]
   },
   "exclude": [
     "node_modules"
   ],
   "files": [
-    "index.ts"
+    "./src/index.ts"
   ],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "preserveWhitespaces": false,
     "skipMetadataEmit": false,
-    "genDir": "compiled"
   }
 }
 

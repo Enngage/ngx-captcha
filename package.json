@@ -12,7 +12,7 @@
     "prepublishOnly": "npm run transpile",
     "build-demo-gh-pages": "ng build --prod --base-href \"https://enngage.github.io/ngx-captcha/\"",
     "publish-demo-gh-pages": "ngh",
-    "transpile": "ngc -p ./src/tsconfig.json"
+    "transpile": "ngc -p ./tsconfig.json"
   },
   "repository": {
     "type": "git",
