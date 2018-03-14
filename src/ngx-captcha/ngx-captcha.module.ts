@@ -22,7 +22,7 @@ import { NgxCaptchaConfig } from './recaptcha/recaptcha.config';
 })
 export class NgxCaptchaModule {
 
-  static forRoot(config: NgxCaptchaConfig): ModuleWithProviders {
+  static forRoot(config?: NgxCaptchaConfig): ModuleWithProviders {
     return {
       ngModule: NgxCaptchaModule,
       providers: [

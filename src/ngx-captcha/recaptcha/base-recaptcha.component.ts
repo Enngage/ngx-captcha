@@ -105,7 +105,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     constructor(
         protected renderer: Renderer2,
         protected recaptchaType: ReCaptchaType,
-        @Optional() protected config: NgxCaptchaConfig,
+        protected config?: NgxCaptchaConfig,
     ) {
     }
 
