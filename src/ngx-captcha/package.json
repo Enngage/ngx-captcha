@@ -1,0 +1,12 @@
+{
+  "name": "ngx-captcha",
+  "version": "1.1.7",
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "@angular/common": "*",
+    "@angular/core": "*",
+    "@angular/compiler": "*",
+    "@angular/forms": "*"
+  }
+}
