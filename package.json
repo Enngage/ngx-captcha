@@ -9,10 +9,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-prod": "gulp build",
-    "prepublishOnly": "npm run build-prod",
-    "build-gh-pages": "ng build --prod --base-href \"https://enngage.github.io/ngx-captcha/\"",
-    "publish-gh-pages": "ngh"
+    "prepublishOnly": "npm run transpile",
+    "build-demo-gh-pages": "ng build --prod --base-href \"https://enngage.github.io/ngx-captcha/\"",
+    "publish-demo-gh-pages": "ngh",
+    "transpile": "ngc -p ./src/tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -60,12 +60,8 @@
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3",
-    "gulp": "3.9.1",
-    "gulp-typescript": "4.0.1",
-    "gulp-clean": "0.4.0",
-    "merge2": "1.2.1"
+    "typescript": "~2.5.3"
   },
-  "main": "./ngx-dist/index.js",
-  "types": "./ngx-dist/index.d.ts"
+  "main": "./ngx-dist/src/index.js",
+  "types": "./ngx-dist/src/index.d.ts"
 }

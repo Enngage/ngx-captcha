@@ -1,6 +1,6 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 
-import { InvisibleReCaptchaComponent } from '../ngx-captcha';
+import { InvisibleReCaptchaComponent } from '../../src';
 
 declare var PR: any;
 

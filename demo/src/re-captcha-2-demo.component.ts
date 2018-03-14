@@ -1,6 +1,6 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 
-import { ReCaptcha2Component } from '../ngx-captcha';
+import { ReCaptcha2Component } from '../../src';
 
 declare var PR: any;
 
