@@ -1,6 +1,6 @@
 {
   "name": "ngx-captcha",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -29,11 +29,11 @@
   ],
   "private": false,
   "peerDependencies": {
+    "@angular/core": "^5.2.0",
     "@angular/common": "^5.2.0"
   },
   "devDependencies": {
     "@angular/compiler": "^5.2.0",
-    "@angular/core": "^5.2.0",
     "@angular/forms": "^5.2.0",
     "@angular/http": "^5.2.0",
     "@angular/platform-browser": "^5.2.0",
@@ -66,6 +66,6 @@
     "gulp-clean": "0.4.0",
     "merge2": "1.2.1"
   },
-  "main": "index.js",
-  "types": "index.d.ts"
+  "main": "./index.js",
+  "types": "./index.d.ts"
 }
