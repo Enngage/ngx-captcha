@@ -27,7 +27,7 @@
     "Angular Captcha",
     "Angular reCaptcha"
   ],
-  "private": true,
+  "private": false,
   "peerDependencies": {
     "@angular/common": "^5.2.0"
   },
