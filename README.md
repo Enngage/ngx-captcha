@@ -4,7 +4,7 @@
 
 ## Angular Captcha
 
-Google reCaptcha implementation for Angular 5 and beyond. 
+Google reCaptcha implementation for Angular 6 and beyond. 
 
 ## Installation
 
