@@ -17,10 +17,8 @@
             "tsConfig": "demo/tsconfig.app.json",
             "polyfills": "demo/polyfills.ts",
             "assets": [
-              "demo/assets"
             ],
             "styles": [
-              "demo/styles.css"
             ],
             "scripts": []
           },
@@ -51,10 +49,8 @@
             "polyfills": "demo/polyfills.ts",
             "scripts": [],
             "styles": [
-              "demo/styles.css"
             ],
             "assets": [
-              "demo/assets"
             ]
           }
         },

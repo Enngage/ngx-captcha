@@ -1,113 +1,114 @@
-<h2>Invisible reCAPTCHA</h2>
+<div class="row featurette">
+    <div class="col-md-7">
+        <h2 class="featurette-heading">Invisible reCAPTCHA
+        </h2>
 
-<div>
-    Code
-    <pre class="prettyprint" [innerText]="exampleCode"></pre>
-</div>
+        <p class="mt-4">
+            This is a completely dynamic implementation - try changing properties to immediately see changes in rendered captcha.
+        </p>
 
-<h3>Live example</h3>
-<div>
-    <ngx-invisible-recaptcha #captchaElem (load)="handleLoad()" (success)="handleSuccess($event)"
-        [type]="type" [badge]="badge">
-    </ngx-invisible-recaptcha>
-</div>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Values</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Badge</td>
+                    <td>
+                        <span style="cursor:pointer" class="text-primary" (click)="changeBadge('bottomright')">Bottomright</span> |
+                        <span style="cursor:pointer" class="text-primary" (click)="changeBadge('bottomleft')">Bottomleft</span> |
+                        <span style="cursor:pointer" class="text-primary" (click)="changeBadge('inline')">Inline</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>
+                        <span style="cursor:pointer" class="text-primary" (click)="changeType('image')">Image</span> |
+                        <span style="cursor:pointer" class="text-primary" (click)="changeType('audio')">Audio</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-<h3>Status</h3>
-<ul class="alt">
-    <li>
-        <strong>Loaded:</strong>
-        <i *ngIf="!captchaIsLoaded" class="fas fa-times color-red"></i>
-        <i *ngIf="captchaIsLoaded" class="fas fa-check color-green"></i>
-    </li>
-    <li>
-        <strong>Captcha success:</strong>
-        <i *ngIf="!captchaSuccess" class="fas fa-times color-red"></i>
-        <i *ngIf="captchaSuccess" class="fas fa-check color-green"></i>
-    </li>
-</ul>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>execute</td>
+                    <td>Verifies captcha on the backround and returns captcha response</td>
+                    <td>
+                        <button class="btn btn-info" (click)="execute()">Try</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>getCurrentResponse</td>
+                    <td>Gets the latest submitted response</td>
+                    <td>
+                        <button class="btn btn-info" (click)="getCurrentResponse()">Try</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>getResponse</td>
+                    <td>Gets captcha response</td>
+                    <td>
+                        <button class="btn btn-info" (click)="getResponse()">Try</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>reset</td>
+                    <td>Resets captcha (does not reload script)</td>
+                    <td>
+                        <button class="btn btn-info" (click)="reset()">Try</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>reload</td>
+                    <td>Unsets global script & reloads captcha</td>
+                    <td>
+                        <button class="btn btn-info" (click)="reload()">Try</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>getCaptchaId</td>
+                    <td>Gets Id of captcha</td>
+                    <td>
+                        <button class="btn btn-info" (click)="getCaptchaId()">Try</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-5">
+        <h4>Live example</h4>
+        <ngx-invisible-recaptcha #captchaElem (load)="handleLoad()" (success)="handleSuccess($event)" [type]="type" [badge]="badge">
+        </ngx-invisible-recaptcha>
 
-<div>
-    <h3>Properties</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Property</th>
-                <th>Values</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Badge</td>
-                <td>
-                    <a (click)="changeBadge('bottomright')">Bottomright</a> |
-                    <a (click)="changeBadge('bottomleft')">Bottomleft</a> |
-                    <a (click)="changeBadge('inline')">Inline</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Type</td>
-                <td>
-                    <a (click)="changeType('image')">Image</a> |
-                    <a (click)="changeType('audio')">Audio</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        <h4 class="mt-3">Status</h4>
+        <div>
+            <ul class="alt">
+                <li>
+                    <span>Loaded: </span>
+                    <i *ngIf="!captchaIsLoaded" class="fas fa-times text-danger"></i>
+                    <i *ngIf="captchaIsLoaded" class="fas fa-check text-success"></i>
+                </li>
+                <li>
+                    <span>Captcha success: </span>
+                    <i *ngIf="!captchaSuccess" class="fas fa-times text-danger"></i>
+                    <i *ngIf="captchaSuccess" class="fas fa-check text-success"></i>
+                </li>
+            </ul>
+        </div>
 
-<div>
-    <h4>Methods</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Method</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>execute</td>
-                <td>Verifies captcha on the backround and returns captcha response</td>
-                <td>
-                    <button (click)="execute()">Try</button>
-                </td>
-            </tr>
-            <tr>
-                <td>getCurrentResponse</td>
-                <td>Gets the latest submitted response</td>
-                <td>
-                    <button (click)="getCurrentResponse()">Try</button>
-                </td>
-            </tr>
-            <tr>
-                <td>getResponse</td>
-                <td>Gets captcha response</td>
-                <td>
-                    <button (click)="getResponse()">Try</button>
-                </td>
-            </tr>
-            <tr>
-                <td>reset</td>
-                <td>Resets captcha (does not reload script)</td>
-                <td>
-                    <button (click)="reset()">Try</button>
-                </td>
-            </tr>
-            <tr>
-                <td>reload</td>
-                <td>Unsets global script & reloads captcha</td>
-                <td>
-                    <button (click)="reload()">Try</button>
-                </td>
-            </tr>
-            <tr>
-                <td>getCaptchaId</td>
-                <td>Gets Id of captcha</td>
-                <td>
-                    <button (click)="getCaptchaId()">Try</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <h4 class="mt-3">Code</h4>
+        <pre class="prettyprint" [innerText]="exampleCode"></pre>
+    </div>
 </div>

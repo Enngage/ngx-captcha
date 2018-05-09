@@ -1,68 +1,33 @@
-<!-- Wrapper -->
-<div id="wrapper">
-
-    <!-- Header -->
-    <header id="header">
-        <h1>Captcha for Angular 6+</h1>
-        <p>Fully dynamic - supports changing language and other properties on the fly (try below)</p>
-    </header>
-
-    <nav id="nav">
-        <ul>
-            <li>
-                <a routerLink="/installation">Installation</a>
-            </li>
-            <li>
-                <a routerLink="/recaptcha2">reCAPTCHA2</a>
-            </li>
-            <li>
-                <a routerLink="/invisible">Invisible reCAPTCHA</a>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Main -->
-    <div id="main">
-        <!-- Content -->
-        <section id="content" class="main">
-
-            <div style="text-align: center; width: 100; margin-bottom: 15px">
-                <a href="https://nodei.co/npm/ngx-captcha/">
-                    <img src="https://nodei.co/npm/ngx-captcha.png?downloads=true&downloadRank=true&stars=true">
-                </a>
-            </div>
-
-            <!-- Text -->
-            <section>
-                <router-outlet></router-outlet>
-            </section>
-
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer id="footer">
-        <section>
-            <h2>About</h2>
-            <p>Implementation of reCaptcha for Angular 6 and beyond.
-            </p>
-        </section>
-        <section>
-            <h2>Contact</h2>
-            <ul class="icons">
-                <li>
-                    <a target="_blank" href="https://www.linkedin.com/in/richard-šůstek-8740a9a9/" class="icon fa-linkedin alt">
-                        <span class="label">LinkedIn</span>
-                    </a>
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" routerLink="/installation">Captcha for Angular 6+</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link " routerLink="/installation">Installation</a>
                 </li>
-                <li>
-                    <a target="_blank" href="https://github.com/Enngage/ngx-captcha" class="icon fa-github alt">
-                        <span class="label">GitHub</span>
-                    </a>
+                <li class="nav-item">
+                    <a class="nav-link " routerLink="/recaptcha2">reCAPTCHA2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " routerLink="/invisible">Invisible reCAPTCHA</a>
                 </li>
             </ul>
-        </section>
-        <p class="copyright">&copy; {{ year }} Richard Sustek. All rights reserved. Design:
-            <a href="https://html5up.net">HTML5 UP</a>.</p>
-    </footer>
-</div>
+            <div class="mt-2 mt-md-0">
+                <a href="https://github.com/Enngage/ngx-captcha">
+                    <button class="btn my-2 my-sm-0" type="submit">GitHub</button>
+                </a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main role="main" style="margin-top: 90px">
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+</main>
