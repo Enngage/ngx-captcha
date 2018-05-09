@@ -6,6 +6,8 @@
 
 Google reCaptcha implementation for Angular 6 and beyond. 
 
+Live example: [https://enngage.github.io/ngx-captcha/](https://enngage.github.io/ngx-captcha/)
+
 ## Installation
 
 ```javascript
@@ -55,5 +57,3 @@ export class AppModule { }
   (success)="handleSuccess($event)">
 </ngx-invisible-recaptcha>
 ```
-
-For more details please visit [https://enngage.github.io/ngx-captcha/](https://enngage.github.io/ngx-captcha/)
