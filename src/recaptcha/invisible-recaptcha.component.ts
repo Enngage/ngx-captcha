@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Optional, Renderer2, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, Optional, Renderer2, SimpleChanges, NgZone } from '@angular/core';
 
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
 import { ReCaptchaType } from './recaptcha-type.enum';
@@ -30,9 +30,10 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
 
   constructor(
     protected renderer: Renderer2,
+    protected zone: NgZone,
     @Optional() protected config: NgxCaptchaConfig,
   ) {
-    super(renderer, ReCaptchaType.InvisibleReCaptcha, config);
+    super(renderer, zone, ReCaptchaType.InvisibleReCaptcha, config);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -8,6 +8,7 @@ import {
   Output,
   Renderer2,
   SimpleChanges,
+  NgZone,
 } from '@angular/core';
 
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
@@ -59,9 +60,10 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
 
   constructor(
     protected renderer: Renderer2,
+    protected zone: NgZone,
     @Optional() protected config: NgxCaptchaConfig,
   ) {
-    super(renderer, ReCaptchaType.ReCaptcha2, config);
+    super(renderer, zone, ReCaptchaType.ReCaptcha2, config);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

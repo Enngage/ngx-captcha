@@ -2,10 +2,10 @@ import {
     ElementRef,
     EventEmitter,
     Input,
+    NgZone,
     OnChanges,
     OnDestroy,
     OnInit,
-    Optional,
     Output,
     Renderer2,
     SimpleChanges,
@@ -104,6 +104,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
 
     constructor(
         protected renderer: Renderer2,
+        protected zone: NgZone,
         protected recaptchaType: ReCaptchaType,
         protected config?: NgxCaptchaConfig,
     ) {
@@ -280,7 +281,8 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
         this.createAndSetCaptchaElem();
 
         // we need to patch the callback through global variable, otherwise callback is not accessible
-        window[this.windowOnLoadCallbackProperty] = this.onloadCallback.bind(this);
+        // note: https://github.com/Enngage/ngx-captcha/issues/2
+        window[this.windowOnLoadCallbackProperty] = <any>(() => this.zone.run(this.onloadCallback.bind(this)));
 
         // create and put reCaptcha script to page
         this.ensureReCaptchaScript();
