@@ -17,6 +17,7 @@
             "tsConfig": "demo/tsconfig.app.json",
             "polyfills": "demo/polyfills.ts",
             "assets": [
+              "demo/favicon.ico"
             ],
             "styles": [
             ],
