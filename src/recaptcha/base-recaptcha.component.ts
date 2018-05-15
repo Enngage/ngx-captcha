@@ -66,6 +66,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     */
     @Output() load = new EventEmitter<number>();
 
+    /**
+    * Called when captcha is loaded & ready. I.e. when you need to execute captcha on component load.
+    */
+    @Output() ready = new EventEmitter<void>();
+
     @ViewChild('captchaWrapperElem') captchaWrapperElem: ElementRef;
     @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
 
@@ -210,6 +215,8 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     */
     protected renderReCaptcha(): void {
         this.captchaId = this.reCaptchaApi.render(this.getGlobalCaptchaElem(), this.getCaptchaProperties());
+
+        this.ready.next();
     }
 
     /**

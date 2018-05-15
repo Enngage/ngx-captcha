@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild, AfterContentInit, AfterViewInit } from '@angular/core';
 
 import { InvisibleReCaptchaComponent } from '../../src';
 
@@ -8,7 +8,7 @@ declare var PR: any;
   selector: 'ngx-invisible-recaptcha-demo',
   templateUrl: './invisible-recaptcha-demo.component.html',
 })
-export class InvisibleReCaptchaDemoComponent implements AfterViewChecked {
+export class InvisibleReCaptchaDemoComponent implements AfterViewChecked, AfterViewInit {
 
   public readonly exampleCode = `
 <ngx-invisible-recaptcha #captchaElem
@@ -22,6 +22,7 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked {
   public captchaIsLoaded = false;
   public captchaSuccess = false;
   public captchaResponse?: string;
+  public captchaIsReady = false;
 
   public badge: 'bottomright' | 'bottomleft' | 'inline' = 'inline';
   public type: 'image' | 'audio';
@@ -36,6 +37,11 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked {
   constructor(private cdr: ChangeDetectorRef) {
   }
 
+  ngAfterViewInit(): void {
+      this.captchaIsLoaded = true;
+      this.cdr.detectChanges();
+  }
+
   execute(): void {
     this.captchaElem.execute();
   }
@@ -48,6 +54,11 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked {
 
   handleLoad(): void {
     this.captchaIsLoaded = true;
+    this.cdr.detectChanges();
+  }
+
+  handleReady(): void {
+    this.captchaIsReady = true;
     this.cdr.detectChanges();
   }
 
