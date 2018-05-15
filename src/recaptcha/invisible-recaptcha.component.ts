@@ -60,7 +60,7 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
   protected getCaptchaProperties(): any {
     return {
       'sitekey': this.siteKey,
-      'callback': (response) => this.handleCallback(response),
+      'callback': (response) => this.zone.run(() => this.handleCallback(response)),
       'badge': this.badge,
       'type': this.type,
       'tabindex': this.tabIndex,

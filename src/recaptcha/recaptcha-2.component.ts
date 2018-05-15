@@ -87,9 +87,9 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   protected getCaptchaProperties(): any {
     return {
       'sitekey': this.siteKey,
-      'callback': (response) => this.handleCallback(response),
-      'expired-callback': () => this.handleExpireCallback(),
-      'error-callback': () => this.handleErrorCallback(),
+      'callback': (response) => this.zone.run(() => this.handleCallback(response)),
+      'expired-callback': () => this.zone.run(() => this.handleExpireCallback()),
+      'error-callback': () => this.zone.run(() => this.handleErrorCallback()),
       'theme': this.theme,
       'type': this.type,
       'size': this.size,
