@@ -13,11 +13,13 @@ import {
 } from '@angular/core';
 
 import { ReCaptchaType } from './recaptcha-type.enum';
-import { NgxCaptchaConfig } from './recaptcha.config';
+import { NgxCaptchaConfig, INgxCaptchaConfig } from './recaptcha.config';
 
 declare var grecaptcha: any;
 
 export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDestroy {
+
+    private setupAfterLoad = false;
 
     /**
     * Name of the global callback
@@ -38,7 +40,12 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
       * Google's site key.
       * You can find this under https://www.google.com/recaptcha
       */
-    protected siteKey?: string;
+    protected _siteKey?: string;
+
+    /**
+    * Config to use
+    */
+    @Input() siteKey: string | (() => string);
 
     /**
      * Type
@@ -105,13 +112,16 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     */
     public reCaptchaApi?: any;
 
+    /**
+     * Id of the DOM element wrapping captcha
+     */
     public captchaElemId?: string;
 
     constructor(
         protected renderer: Renderer2,
         protected zone: NgZone,
         protected recaptchaType: ReCaptchaType,
-        protected config?: NgxCaptchaConfig,
+        protected globalConfig?: NgxCaptchaConfig,
     ) {
     }
 
@@ -126,31 +136,48 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     protected abstract captchaSpecificSetup(): void;
 
     ngOnInit(): void {
-        if (!this.config) {
-            throw Error(`Config was not provided`);
-        }
+        if (this.globalConfig && !this._siteKey) {
+            // Invisible captcha
+            if (this.recaptchaType === ReCaptchaType.InvisibleReCaptcha) {
+                if (!this.globalConfig.invisibleCaptchaSiteKey) {
+                    throw Error(`SiteKey for invisible reCaptcha is not set!`);
+                }
 
-        if (this.recaptchaType === ReCaptchaType.InvisibleReCaptcha) {
-            if (!this.config.invisibleCaptchaSiteKey) {
-                throw Error(`SiteKey for invisible reCaptcha is not set!`);
+                if (this.globalConfig.invisibleCaptchaSiteKey instanceof Function) {
+                    this._siteKey = this.globalConfig.invisibleCaptchaSiteKey();
+                } else {
+                    this._siteKey = this.globalConfig.invisibleCaptchaSiteKey;
+                }
+
+                // recaptcha 2
+            } else if (this.recaptchaType === ReCaptchaType.ReCaptcha2) {
+                if (!this.globalConfig.reCaptcha2SiteKey) {
+                    throw Error(`SiteKey for reCaptcha2 is not set!`);
+                }
+
+                if (this.globalConfig.reCaptcha2SiteKey instanceof Function) {
+                    this._siteKey = this.globalConfig.reCaptcha2SiteKey();
+                } else {
+                    this._siteKey = this.globalConfig.reCaptcha2SiteKey;
+                }
+
+            } else {
+                throw Error(`Unsupported captcha type '${this.recaptchaType}'!`);
             }
 
-            this.siteKey = this.config.invisibleCaptchaSiteKey;
-        } else if (this.recaptchaType === ReCaptchaType.ReCaptcha2) {
-            if (!this.config.reCaptcha2SiteKey) {
-                throw Error(`SiteKey for reCaptcha2 is not set!`);
-            }
-
-            this.siteKey = this.config.reCaptcha2SiteKey;
-        } else {
-            throw Error(`Unsupported captcha type '${this.recaptchaType}'!`);
+            this.setupComponent();
         }
-
-        this.setupComponent();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (this.isLoaded) {
+        if (this.siteKey) {
+            // use new sitekey
+            if (this.siteKey instanceof Function) {
+                this._siteKey = this.siteKey();
+            } else {
+                this._siteKey = this.siteKey;
+            }
+
             this.setupComponent();
         }
     }
@@ -314,6 +341,12 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
 
         // render captcha
         this.renderReCaptcha();
+
+        // setup component if it was flagges as such
+        if (this.setupAfterLoad) {
+            this.setupAfterLoad = false;
+            this.setupComponent();
+        }
     }
 
     private generateNewElemId(): string {

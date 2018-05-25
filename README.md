@@ -14,7 +14,7 @@ Live example: [https://enngage.github.io/ngx-captcha/](https://enngage.github.io
 npm install ngx-captcha
 ```
 
-Import `NgxCaptchaModule ` to your module (i.e. `AppModule`) and configure site keys for reCaptcha.
+Import `NgxCaptchaModule ` to your module (i.e. `AppModule`). You can configure global keys with `forRoot` (optionally) or you can use `siteKey` input parameter of captcha components.
 
 ```javascript
 import { NgModule } from '@angular/core';
@@ -23,8 +23,8 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 @NgModule({
   imports: [
     NgxCaptchaModule.forRoot({
-      reCaptcha2SiteKey: 'xxxx',
-      invisibleCaptchaSiteKey: 'yyy'
+      reCaptcha2SiteKey: 'xxxx', // optional, can be overridden with 'siteKey' component property
+      invisibleCaptchaSiteKey: 'yyy' // optional, can be overridden with 'siteKey' component property
     }),
   })
 

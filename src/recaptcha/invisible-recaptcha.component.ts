@@ -31,9 +31,9 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
   constructor(
     protected renderer: Renderer2,
     protected zone: NgZone,
-    @Optional() protected config: NgxCaptchaConfig,
+    @Optional() protected globalConfig: NgxCaptchaConfig,
   ) {
-    super(renderer, zone, ReCaptchaType.InvisibleReCaptcha, config);
+    super(renderer, zone, ReCaptchaType.InvisibleReCaptcha, globalConfig);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -56,7 +56,7 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
   */
   protected getCaptchaProperties(): any {
     return {
-      'sitekey': this.siteKey,
+      'sitekey': this._siteKey,
       'callback': (response) => this.zone.run(() => this.handleCallback(response)),
       'badge': this.badge,
       'type': this.type,

@@ -61,9 +61,9 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   constructor(
     protected renderer: Renderer2,
     protected zone: NgZone,
-    @Optional() protected config: NgxCaptchaConfig,
+    @Optional() protected globalConfig: NgxCaptchaConfig,
   ) {
-    super(renderer, zone, ReCaptchaType.ReCaptcha2, config);
+    super(renderer, zone, ReCaptchaType.ReCaptcha2, globalConfig);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -86,7 +86,7 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   */
   protected getCaptchaProperties(): any {
     return {
-      'sitekey': this.siteKey,
+      'sitekey': this._siteKey,
       'callback': (response) => this.zone.run(() => this.handleCallback(response)),
       'expired-callback': () => this.zone.run(() => this.handleExpireCallback()),
       'error-callback': () => this.zone.run(() => this.handleErrorCallback()),
