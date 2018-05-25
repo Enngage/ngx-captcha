@@ -33,6 +33,8 @@ export class AppModule { }
 
 ## Usage
 
+The configuration properties are a copy of the official ones that google provides. For explanation of what these properties do and how to use them, please refer to [https://developers.google.com/recaptcha/docs/display](https://developers.google.com/recaptcha/docs/display) and [https://developers.google.com/recaptcha/docs/invisible](https://developers.google.com/recaptcha/docs/invisible)
+
 ### reCaptcha2
 
 ```html
