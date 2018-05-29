@@ -2,7 +2,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild }
 
 import { ReCaptcha2Component } from '../../src';
 
-declare var PR: any;
+declare var hljs: any;
 
 @Component({
   selector: 'ngx-recaptcha-2-demo',
@@ -24,8 +24,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
   export class AppModule { }`;
 
-  public readonly exampleCode = `
-<ngx-recaptcha2 #captchaElem
+  public readonly exampleCode = `<ngx-recaptcha2 #captchaElem
   [size]="size"
   [hl]="lang"
   [theme]="theme"
@@ -52,7 +51,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   }
 
   ngAfterViewChecked(): void {
-    this.prettify();
+    this.highlight();
   }
 
   handleSuccess(captchaResponse: string): void {
@@ -115,9 +114,11 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     this.captchaElem.resetCaptcha();
   }
 
-  private prettify(): void {
-    if (window['PR']) {
-      PR.prettyPrint();
+  private highlight(): void {
+    const highlightBlocks = document.getElementsByTagName('code');
+    for (let i = 0; i < highlightBlocks.length; i++) {
+      const block = highlightBlocks[i];
+      hljs.highlightBlock(block);
     }
   }
 }

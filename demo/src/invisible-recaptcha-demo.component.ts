@@ -2,7 +2,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild, 
 
 import { InvisibleReCaptchaComponent } from '../../src';
 
-declare var PR: any;
+declare var hljs: any;
 
 @Component({
   selector: 'ngx-invisible-recaptcha-demo',
@@ -10,8 +10,7 @@ declare var PR: any;
 })
 export class InvisibleReCaptchaDemoComponent implements AfterViewChecked, AfterViewInit {
 
-  public readonly exampleCode = `
-<ngx-invisible-recaptcha #captchaElem
+  public readonly exampleCode = `<ngx-invisible-recaptcha #captchaElem
   [type]="type"
   [badge]="badge"
   (load)="handleLoad()"
@@ -31,7 +30,7 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked, AfterV
   @ViewChild('langInput') langInput: ElementRef;
 
   ngAfterViewChecked(): void {
-    this.prettify();
+    this.highlight();
   }
 
   constructor(private cdr: ChangeDetectorRef) {
@@ -95,9 +94,11 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked, AfterV
     alert(this.captchaElem.getCurrentResponse());
   }
 
-  private prettify(): void {
-    if (window['PR']) {
-      PR.prettyPrint();
+  private highlight(): void {
+    const highlightBlocks = document.getElementsByTagName('code');
+    for (let i = 0; i < highlightBlocks.length; i++) {
+      const block = highlightBlocks[i];
+      hljs.highlightBlock(block);
     }
   }
 }
