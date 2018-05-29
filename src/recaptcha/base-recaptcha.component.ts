@@ -131,7 +131,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     protected abstract captchaSpecificSetup(): void;
 
     ngOnInit(): void {
-        if (this.globalConfig && !this._siteKey) {
+
+    }
+
+    private getGlobalSiteKey(): string {
+        if (this.globalConfig) {
             // Invisible captcha
             if (this.recaptchaType === ReCaptchaType.InvisibleReCaptcha) {
                 if (!this.globalConfig.invisibleCaptchaSiteKey) {
@@ -139,9 +143,9 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
                 }
 
                 if (this.globalConfig.invisibleCaptchaSiteKey instanceof Function) {
-                    this._siteKey = this.globalConfig.invisibleCaptchaSiteKey();
+                    return this.globalConfig.invisibleCaptchaSiteKey();
                 } else {
-                    this._siteKey = this.globalConfig.invisibleCaptchaSiteKey;
+                    return this.globalConfig.invisibleCaptchaSiteKey;
                 }
 
                 // recaptcha 2
@@ -151,30 +155,31 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
                 }
 
                 if (this.globalConfig.reCaptcha2SiteKey instanceof Function) {
-                    this._siteKey = this.globalConfig.reCaptcha2SiteKey();
+                    return this.globalConfig.reCaptcha2SiteKey();
                 } else {
-                    this._siteKey = this.globalConfig.reCaptcha2SiteKey;
+                    return this.globalConfig.reCaptcha2SiteKey;
                 }
 
             } else {
                 throw Error(`Unsupported captcha type '${this.recaptchaType}'!`);
             }
-
-            this.setupComponent();
         }
     }
 
+
     ngOnChanges(changes: SimpleChanges): void {
-        if (this.siteKey) {
-            // use new sitekey
+        if (!this.siteKey) {
+            // use global site key if key is not available
+            this._siteKey = this.getGlobalSiteKey();
+        } else {
+            // use comnponent site key
             if (this.siteKey instanceof Function) {
                 this._siteKey = this.siteKey();
             } else {
                 this._siteKey = this.siteKey;
             }
-
-            this.setupComponent();
         }
+        this.setupComponent();
     }
 
     ngOnDestroy() {
@@ -301,12 +306,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
         // captcha specific setup
         this.captchaSpecificSetup();
 
-        // create captcha wrapper and set it to global namespace
+        // create captcha wrapper
         this.createAndSetCaptchaElem();
 
         // we need to patch the callback through global variable, otherwise callback is not accessible
         // note: https://github.com/Enngage/ngx-captcha/issues/2
-        const captchaId = this.captchaId;
         window[this.windowOnLoadCallbackProperty] = <any>(() => this.zone.run(
             this.onloadCallback.bind(this)
         ));
