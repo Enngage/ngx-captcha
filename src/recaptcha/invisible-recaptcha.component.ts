@@ -45,7 +45,7 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
    */
   execute(): void {
     // execute captcha
-    this.reCaptchaApi.execute(this.captchaId);
+    this.reCaptchaApi.execute(this.captchaElemPrefix);
   }
 
   protected captchaSpecificSetup(): void {

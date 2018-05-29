@@ -5,7 +5,6 @@ import {
     NgZone,
     OnChanges,
     OnDestroy,
-    OnInit,
     Output,
     Renderer2,
     SimpleChanges,
@@ -13,18 +12,18 @@ import {
 } from '@angular/core';
 
 import { ReCaptchaType } from './recaptcha-type.enum';
-import { NgxCaptchaConfig, INgxCaptchaConfig } from './recaptcha.config';
+import { NgxCaptchaConfig } from './recaptcha.config';
 
 declare var grecaptcha: any;
 
-export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDestroy {
+export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy {
 
     private setupAfterLoad = false;
 
     /**
     * Name of the global callback
     */
-    protected readonly windowOnLoadCallbackProperty = 'ngx_onload_callback' + this.getPseudoUniqueNumber();
+    protected readonly windowOnLoadCallbackProperty = 'ngx_onload_callback_' + this.getPseudoUniqueNumber();
 
     /**
      * Name of the global reCaptcha property
@@ -32,9 +31,9 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     protected readonly globalReCaptchaProperty = 'grecaptcha';
 
     /**
-     * Id of the captcha
+     * Prefix of the captcha element
      */
-    protected readonly captchaId = 'ngx_captcha_id' + this.getPseudoUniqueNumber();
+    protected readonly captchaElemPrefix = 'ngx_captcha_id_';
 
     /**
       * Google's site key.
@@ -87,6 +86,11 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     protected captchaElem?: HTMLElement;
 
     /**
+     * Id of the captcha elem
+     */
+    protected captchaId?: number;
+
+    /**
      * Holds last response value
      */
     protected currentResponse?: string;
@@ -129,10 +133,6 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
      * Used for captcha specific setup
     */
     protected abstract captchaSpecificSetup(): void;
-
-    ngOnInit(): void {
-
-    }
 
     private getGlobalSiteKey(): string {
         if (this.globalConfig) {
@@ -197,7 +197,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     /**
      * Gets Id of captcha widget
     */
-    getCaptchaId(): string {
+    getCaptchaId(): number {
         return this.captchaId;
     }
 
@@ -237,7 +237,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
      * Responsible for instantiating captcha element
     */
     protected renderReCaptcha(): void {
-        this.reCaptchaApi.render(this.captchaId, this.getCaptchaProperties());
+        this.captchaId = this.reCaptchaApi.render(this.captchaElemId, this.getCaptchaProperties());
         this.ready.next();
     }
 
@@ -347,11 +347,14 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     }
 
     private generateNewElemId(): string {
-        return `ngx-captcha-id-${this.getPseudoUniqueNumber()}`;
+        return this.captchaElemPrefix + this.getPseudoUniqueNumber();
     }
 
     private createAndSetCaptchaElem(): void {
-        if (!this.captchaId) {
+        // generate new captcha id
+        this.captchaElemId = this.generateNewElemId();
+
+        if (!this.captchaElemId) {
             throw Error(`Captcha elem Id is not set`);
         }
 
@@ -360,12 +363,12 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
 
         // create new wrapper for captcha
         const newElem = this.renderer.createElement('div');
-        newElem.id = this.captchaId;
+        newElem.id = this.captchaElemId;
 
         this.renderer.appendChild(this.captchaWrapperElem.nativeElement, newElem);
 
         // update captcha elem
-        this.ensureCaptchaElem(this.captchaId);
+        this.ensureCaptchaElem(this.captchaElemId);
     }
 
 }
