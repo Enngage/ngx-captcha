@@ -24,7 +24,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     /**
     * Name of the global callback
     */
-    protected readonly windowOnLoadCallbackProperty = 'ngx_onload_callback';
+    protected readonly windowOnLoadCallbackProperty = 'ngx_onload_callback' + this.getPseudoUniqueNumber();
 
     /**
      * Name of the global reCaptcha property
@@ -32,9 +32,9 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     protected readonly globalReCaptchaProperty = 'grecaptcha';
 
     /**
-     * Name of the global property holding captcha element
+     * Id of the captcha
      */
-    protected readonly globalCaptchaElemName = 'ngx_onload_captcha_elem';
+    protected readonly captchaId = 'ngx_captcha_id' + this.getPseudoUniqueNumber();
 
     /**
       * Google's site key.
@@ -90,11 +90,6 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
      * Holds last response value
      */
     protected currentResponse?: string;
-
-    /**
-     * Id of the captcha
-     */
-    protected captchaId: number;
 
     /**
      * If enabled, captcha will reset after receiving success response. This is useful
@@ -184,7 +179,6 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
 
     ngOnDestroy() {
         window[this.windowOnLoadCallbackProperty] = {};
-        window[this.globalCaptchaElemName] = {};
         window[this.globalReCaptchaProperty] = {};
     }
 
@@ -198,7 +192,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     /**
      * Gets Id of captcha widget
     */
-    getCaptchaId(): number {
+    getCaptchaId(): string {
         return this.captchaId;
     }
 
@@ -232,17 +226,13 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
 
         // assign captcha alem
         this.captchaElem = captchaElem;
-
-        // set global captcha elem
-        this.setGlobalCaptchaElem(this.captchaElem);
     }
 
     /**
      * Responsible for instantiating captcha element
     */
     protected renderReCaptcha(): void {
-        this.captchaId = this.reCaptchaApi.render(this.getGlobalCaptchaElem(), this.getCaptchaProperties());
-
+        this.reCaptchaApi.render(this.captchaId, this.getCaptchaProperties());
         this.ready.next();
     }
 
@@ -293,7 +283,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     }
 
     private getPseudoUniqueNumber(): number {
-        return new Date().getUTCMilliseconds();
+        return new Date().getUTCMilliseconds() + Math.floor(Math.random() * 9999);
     }
 
     /**
@@ -316,7 +306,10 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
 
         // we need to patch the callback through global variable, otherwise callback is not accessible
         // note: https://github.com/Enngage/ngx-captcha/issues/2
-        window[this.windowOnLoadCallbackProperty] = <any>(() => this.zone.run(this.onloadCallback.bind(this)));
+        const captchaId = this.captchaId;
+        window[this.windowOnLoadCallbackProperty] = <any>(() => this.zone.run(
+            this.onloadCallback.bind(this)
+        ));
 
         // create and put reCaptcha script to page
         this.ensureReCaptchaScript();
@@ -354,10 +347,7 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
     }
 
     private createAndSetCaptchaElem(): void {
-        // generate new elem id
-        this.captchaElemId = this.generateNewElemId();
-
-        if (!this.captchaElemId) {
+        if (!this.captchaId) {
             throw Error(`Captcha elem Id is not set`);
         }
 
@@ -366,20 +356,13 @@ export abstract class BaseReCaptchaComponent implements OnInit, OnChanges, OnDes
 
         // create new wrapper for captcha
         const newElem = this.renderer.createElement('div');
-        newElem.id = this.captchaElemId;
+        newElem.id = this.captchaId;
 
         this.renderer.appendChild(this.captchaWrapperElem.nativeElement, newElem);
 
         // update captcha elem
-        this.ensureCaptchaElem(this.captchaElemId);
+        this.ensureCaptchaElem(this.captchaId);
     }
 
-    private setGlobalCaptchaElem(elem: HTMLElement): void {
-        window[this.globalCaptchaElemName] = elem;
-    }
-
-    private getGlobalCaptchaElem(): HTMLElement {
-        return window[this.globalCaptchaElemName];
-    }
 }
 
