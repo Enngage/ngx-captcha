@@ -8,7 +8,7 @@ declare var hljs: any;
   selector: 'ngx-invisible-recaptcha-demo',
   templateUrl: './invisible-recaptcha-demo.component.html',
 })
-export class InvisibleReCaptchaDemoComponent implements AfterViewChecked, AfterViewInit {
+export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
 
   public readonly exampleCode = `<ngx-invisible-recaptcha #captchaElem
   [type]="type"
@@ -29,9 +29,6 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked, AfterV
   @ViewChild('captchaElem') captchaElem: InvisibleReCaptchaComponent;
   @ViewChild('langInput') langInput: ElementRef;
 
-  ngAfterViewChecked(): void {
-    this.highlight();
-  }
 
   constructor(private cdr: ChangeDetectorRef) {
   }
@@ -39,6 +36,7 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked, AfterV
   ngAfterViewInit(): void {
       this.captchaIsLoaded = true;
       this.cdr.detectChanges();
+      this.highlight();
   }
 
   execute(): void {
@@ -91,7 +89,12 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewChecked, AfterV
   }
 
   getCurrentResponse(): void {
-    alert(this.captchaElem.getCurrentResponse());
+    const currentResponse = this.captchaElem.getCurrentResponse();
+    if (!currentResponse) {
+      alert('There is no current response - have you submitted captcha?');
+    } else {
+      alert(currentResponse);
+    }
   }
 
   private highlight(): void {

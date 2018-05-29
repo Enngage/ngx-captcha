@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 
 import { ReCaptcha2Component } from '../../src';
 
@@ -8,7 +8,7 @@ declare var hljs: any;
   selector: 'ngx-recaptcha-2-demo',
   templateUrl: './re-captcha-2-demo.component.html',
 })
-export class ReCaptcha2DemoComponent implements AfterViewChecked {
+export class ReCaptcha2DemoComponent implements AfterViewInit {
 
   public readonly installCode = `
   npm install ngx-captcha`;
@@ -50,7 +50,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   constructor(private cdr: ChangeDetectorRef) {
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterViewInit(): void {
     this.highlight();
   }
 
@@ -90,7 +90,12 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   }
 
   getCurrentResponse(): void {
-    alert(this.captchaElem.getCurrentResponse());
+    const currentResponse = this.captchaElem.getCurrentResponse();
+    if (!currentResponse) {
+      alert('There is no current response - have you submitted captcha?');
+    } else {
+      alert(currentResponse);
+    }
   }
 
   getResponse(): void {

@@ -1,11 +1,11 @@
-import { AfterViewChecked, Component } from '@angular/core';
+import { AfterViewChecked, Component, AfterViewInit } from '@angular/core';
 
 declare var hljs: any;
 
 @Component({
   templateUrl: './installation.component.html',
 })
-export class InstallationComponent implements AfterViewChecked {
+export class InstallationComponent implements AfterViewInit {
 
   public readonly installCode = `npm install ngx-captcha`;
 
@@ -33,7 +33,7 @@ export class AppModule { }
 
 `;
 
-  ngAfterViewChecked(): void {
+  ngAfterViewInit(): void {
     this.highlight();
   }
 
