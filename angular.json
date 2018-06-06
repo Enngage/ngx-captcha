@@ -24,7 +24,17 @@
             "scripts": []
           },
           "configurations": {
-            "production": {}
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
           }
         },
         "serve": {
@@ -33,7 +43,12 @@
             "browserTarget": "ngx-captcha-demo:build"
           },
           "configurations": {
-            "production": {}
+            "production": {
+              "optimization": true,
+              "sourceMap": false,
+              "aot": true,
+              "vendorChunk": false
+            }
           }
         },
         "extract-i18n": {
