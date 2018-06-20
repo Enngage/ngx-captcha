@@ -116,10 +116,14 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy {
      */
     public captchaElemId?: string;
 
+    /**
+     * Captcha type
+     */
+    protected abstract recaptchaType: ReCaptchaType;
+
     constructor(
         protected renderer: Renderer2,
         protected zone: NgZone,
-        protected recaptchaType: ReCaptchaType,
         protected globalConfig?: NgxCaptchaConfig,
     ) {
     }

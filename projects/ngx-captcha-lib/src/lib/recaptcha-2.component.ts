@@ -58,12 +58,14 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   */
   @Output() error = new EventEmitter<void>();
 
+  protected recaptchaType: ReCaptchaType = ReCaptchaType.ReCaptcha2;
+
   constructor(
     protected renderer: Renderer2,
     protected zone: NgZone,
     @Optional() protected globalConfig: NgxCaptchaConfig,
   ) {
-    super(renderer, zone, ReCaptchaType.ReCaptcha2, globalConfig);
+    super(renderer, zone, globalConfig);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

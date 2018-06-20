@@ -28,12 +28,14 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
    */
   @Input() hl: string;
 
+  protected recaptchaType: ReCaptchaType = ReCaptchaType.InvisibleReCaptcha;
+
   constructor(
     protected renderer: Renderer2,
     protected zone: NgZone,
     @Optional() protected globalConfig: NgxCaptchaConfig,
   ) {
-    super(renderer, zone, ReCaptchaType.InvisibleReCaptcha, globalConfig);
+    super(renderer, zone, globalConfig);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
