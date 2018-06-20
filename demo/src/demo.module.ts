@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
-import { NgxCaptchaModule } from '../../src';
+import { NgxCaptchaModule } from '../../projects/ngx-captcha-lib/src/public_api';
 import { DemoComponent } from './demo.component';
 import { DemoRoutes } from './demo.routes';
 import { InstallationComponent } from './installation.component';

@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 
 declare var hljs: any;
 

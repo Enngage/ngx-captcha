@@ -1,15 +1,20 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild
+} from '@angular/core';
 
-import { ReCaptcha2Component } from '../../src';
+import { ReCaptcha2Component } from '../../projects/ngx-captcha-lib/src/public_api';
 
 declare var hljs: any;
 
 @Component({
   selector: 'ngx-recaptcha-2-demo',
-  templateUrl: './re-captcha-2-demo.component.html',
+  templateUrl: './re-captcha-2-demo.component.html'
 })
 export class ReCaptcha2DemoComponent implements AfterViewInit {
-
   public readonly installCode = `
   npm install ngx-captcha`;
 
@@ -47,8 +52,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
   @ViewChild('langInput') langInput: ElementRef;
 
-  constructor(private cdr: ChangeDetectorRef) {
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.highlight();

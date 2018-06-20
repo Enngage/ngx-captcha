@@ -1,6 +1,6 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild, AfterContentInit, AfterViewInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 
-import { InvisibleReCaptchaComponent } from '../../src';
+import { InvisibleReCaptchaComponent } from '../../projects/ngx-captcha-lib/src/public_api';
 
 declare var hljs: any;
 
