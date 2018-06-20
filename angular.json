@@ -28,6 +28,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "https://enngage.github.io/ngx-captcha/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
