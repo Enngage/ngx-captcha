@@ -28,6 +28,7 @@
           },
           "configurations": {
             "production": {
+<<<<<<< HEAD
               "fileReplacements": [
                 {
                   "replace": "demo/environments/environment.ts",
@@ -35,6 +36,8 @@
                 }
               ],
               "baseHref": "https://enngage.github.io/ngx-captcha/",
+=======
+>>>>>>> bca65cf1684d2049ea6b3c588aec69a60c8c6aad
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -43,7 +46,11 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
+<<<<<<< HEAD
               "buildOptimizer": false
+=======
+              "buildOptimizer": true
+>>>>>>> bca65cf1684d2049ea6b3c588aec69a60c8c6aad
             }
           }
         },
@@ -54,7 +61,14 @@
           },
           "configurations": {
             "production": {
+<<<<<<< HEAD
               "browserTarget": "ngx-captcha:build:production"
+=======
+              "optimization": true,
+              "sourceMap": false,
+              "aot": true,
+              "vendorChunk": false
+>>>>>>> bca65cf1684d2049ea6b3c588aec69a60c8c6aad
             }
           }
         },
