@@ -1,63 +1,61 @@
-[![npm version](https://badge.fury.io/js/ngx-masonry-gallery.svg)](https://badge.fury.io/js/ngx-masonry-gallery)
-[![Build Status](https://api.travis-ci.org/Enngage/ngx-masonry-gallery.svg?branch=master)](https://travis-ci.org/Enngage/ngx-masonry-gallery)
-[![NPM](https://nodei.co/npm/ngx-masonry-gallery.png?mini=true)](https://nodei.co/npm/ngx-masonry-gallery/)
+[![npm version](https://badge.fury.io/js/ngx-captcha.svg)](https://badge.fury.io/js/ngx-captcha)
+[![Build Status](https://api.travis-ci.org/Enngage/ngx-captcha.svg?branch=master)](https://travis-ci.org/Enngage/ngx-captcha)
+[![NPM](https://nodei.co/npm/ngx-captcha.png?mini=true)](https://nodei.co/npm/ngx-captcha/)
 
-# Masonry gallery for Angular
+## Angular Captcha
 
-For documentation & live demo visit [https://enngage.github.io/ngx-masonry-gallery/](https://enngage.github.io/ngx-masonry-gallery/)
+Google reCaptcha implementation for Angular 6 and beyond. 
 
-Supported version: `Angular 6+`
+Live example: [https://enngage.github.io/ngx-captcha/](https://enngage.github.io/ngx-captcha/)
 
-This gallery is based on the awesome [https://masonry.desandro.com/methods.html#remove](https://masonry.desandro.com/methods.html#remove) which is very well maintained and fully tested. This implementation handles images load event to ensure nice transition and also allows you to easily add/remove images as you can see from demo.
+## Installation
 
-I have limited time to maintain all my libraries so depending on how much traction this will gain, I will keep adding new features. To show support, please do start this repository.
-
-## Quick start
-
-```
-npm install ngx-masonry-gallery --save
+```javascript
+npm install ngx-captcha
 ```
 
-```
+Import `NgxCaptchaModule ` to your module (i.e. `AppModule`). You can configure global keys with `forRoot` (optionally) or you can use `siteKey` input parameter of captcha components.
+
+```javascript
 import { NgModule } from '@angular/core';
-import { MasonryGalleryModule } from 'ngx-masonry-gallery';
-import { AppComponent } from './app.component';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
-    MasonryGalleryModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+    NgxCaptchaModule.forRoot({
+      reCaptcha2SiteKey: 'xxxx', // optional, can be overridden with 'siteKey' component property
+      invisibleCaptchaSiteKey: 'yyy' // optional, can be overridden with 'siteKey' component property
+    }),
+  })
+
 export class AppModule { }
 ```
 
-```
-<ngx-masonry-gallery [width]="250" [images]="images"></ngx-masonry-gallery>
-```
+## Usage
 
-```
-import { IMasonryGalleryImage } from 'ngx-masonry-gallery';
+The configuration properties are a copy of the official ones that google provides. For explanation of what these properties do and how to use them, please refer to [https://developers.google.com/recaptcha/docs/display](https://developers.google.com/recaptcha/docs/display) and [https://developers.google.com/recaptcha/docs/invisible](https://developers.google.com/recaptcha/docs/invisible)
 
-export class AppComponent {
+### reCaptcha2
 
-    private urls: string[] = [
-        'https://www.ogttx.org/wp-content/themes/ogt/media/_frontend/img/bkg.jpg',
-        'http://www.magicalkenya.com/wp-content/uploads/2014/08/homebannerimg4.jpg',
-        'https://media.gadventures.com/media-server/cache/12/59/12591a5497a563245d0255824103842e.jpg',
-        'https://i.pinimg.com/originals/1c/aa/c5/1caac55143e3e11461c6ae5962403deb.jpg',
-        'http://littleguyintheeye.com/wp-content/uploads/2014/08/nature-3.jpg',
-    ];
-
-    public get images(): IMasonryGalleryImage[] {
-        return this.urls.map(m => <IMasonryGalleryImage>{
-            imageUrl: m
-    });
-  }
-}
+```html
+<ngx-recaptcha2
+  [size]="size"
+  [hl]="lang"
+  [theme]="theme"
+  [type]="type"
+  (expire)="handleExpire()"
+  (load)="handleLoad()"
+  (success)="handleSuccess($event)">
+</ngx-recaptcha2>
 ```
 
+### Invisible captcha
+
+```html
+<ngx-invisible-recaptcha
+  [type]="type"
+  [badge]="badge"
+  (load)="handleLoad()"
+  (success)="handleSuccess($event)">
+</ngx-invisible-recaptcha>
+```
