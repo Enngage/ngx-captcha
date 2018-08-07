@@ -343,7 +343,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy {
         // render captcha
         this.renderReCaptcha();
 
-        // setup component if it was flagges as such
+        // setup component if it was flagged as such
         if (this.setupAfterLoad) {
             this.setupAfterLoad = false;
             this.setupComponent();
