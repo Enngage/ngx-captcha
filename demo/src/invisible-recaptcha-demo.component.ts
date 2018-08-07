@@ -26,12 +26,13 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
   public badge: 'bottomright' | 'bottomleft' | 'inline' = 'inline';
   public type: 'image' | 'audio';
 
+  protected recaptcha: any = null;
+
   @ViewChild('captchaElem') captchaElem: InvisibleReCaptchaComponent;
   @ViewChild('langInput') langInput: ElementRef;
 
 
-  constructor(private cdr: ChangeDetectorRef) {
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
       this.captchaIsLoaded = true;
