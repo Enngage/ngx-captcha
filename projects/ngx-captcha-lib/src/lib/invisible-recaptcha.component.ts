@@ -1,15 +1,23 @@
-import { Component, Input, OnChanges, Optional, Renderer2, SimpleChanges, NgZone } from '@angular/core';
+import { Component, Input, OnChanges, Optional, Renderer2, SimpleChanges, NgZone, Injector, forwardRef } from '@angular/core';
 
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
 import { ReCaptchaType } from './recaptcha-type.enum';
 import { NgxCaptchaConfig } from './recaptcha.config';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
 @Component({
   selector: 'ngx-invisible-recaptcha',
   template: `
   <div #captchaScriptElem></div>
-  <div #captchaWrapperElem></div>`
+  <div #captchaWrapperElem></div>`,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InvisibleReCaptchaComponent),
+      multi: true,
+    }
+  ]
 })
 export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implements OnChanges {
 
@@ -33,9 +41,10 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
   constructor(
     protected renderer: Renderer2,
     protected zone: NgZone,
+    protected injector: Injector,
     @Optional() protected globalConfig: NgxCaptchaConfig,
   ) {
-    super(renderer, zone, globalConfig);
+    super(renderer, zone, injector, globalConfig);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -1,22 +1,28 @@
 import {
-    ElementRef,
-    EventEmitter,
-    Input,
-    NgZone,
-    OnChanges,
-    OnDestroy,
-    Output,
-    Renderer2,
-    SimpleChanges,
-    ViewChild,
+  AfterViewInit,
+  ElementRef,
+  EventEmitter, Injector,
+  Input,
+  NgZone,
+  OnChanges,
+  OnDestroy,
+  Output,
+  Renderer2,
+  SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 
 import { ReCaptchaType } from './recaptcha-type.enum';
 import { NgxCaptchaConfig } from './recaptcha.config';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 
 declare var grecaptcha: any;
 
-export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy {
+export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, ControlValueAccessor, AfterViewInit {
+    /**
+     * Form Control to be enable usage in reactive forms
+     */
+    private control: FormControl;
 
     private setupAfterLoad = false;
 
@@ -121,11 +127,21 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy {
      */
     protected abstract recaptchaType: ReCaptchaType;
 
-    constructor(
+  /**
+   * Required by ControlValueAccessor
+   */
+    protected onChange: (value: string ) => void;
+    protected onTouched: (value: string ) => void;
+
+    protected constructor(
         protected renderer: Renderer2,
         protected zone: NgZone,
+        protected injector: Injector,
         protected globalConfig?: NgxCaptchaConfig,
-    ) {
+    ) {}
+
+    ngAfterViewInit() {
+      this.control = this.injector.get(NgControl).control;
     }
 
     /**
@@ -209,7 +225,12 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy {
     * Resets captcha
     */
     resetCaptcha(): void {
-        this.reCaptchaApi.reset(this.captchaId);
+      this.zone.run(() => {
+        this.onChange(null);
+        this.onTouched(null);
+      });
+
+      this.reCaptchaApi.reset(this.captchaId);
     }
 
     /**
@@ -252,6 +273,11 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy {
     protected handleCallback(callback: any): void {
         this.currentResponse = callback;
         this.success.next(callback);
+
+        this.zone.run(() => {
+          this.onChange(callback);
+          this.onTouched(callback);
+        });
 
         if (this.resetCaptchaAfterSuccess) {
             this.resetCaptcha();
@@ -375,5 +401,24 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy {
         this.ensureCaptchaElem(this.captchaElemId);
     }
 
+    /**
+     * To be aligned with the ControlValueAccessor interface we need to implement this method
+     * However as we don't want to update the recaptcha, this doesn't need to be implemented
+     */
+    public writeValue(obj: any): void {}
+
+    /**
+     * This method helps us tie together recaptcha and our formControl values
+     */
+    public registerOnChange(fn: any): void {
+      this.onChange = fn;
+    }
+
+    /**
+    * At some point we might be interested whether the user has touched our component
+    */
+    public registerOnTouched(fn: any): void {
+      this.onTouched = fn;
+    }
 }
 

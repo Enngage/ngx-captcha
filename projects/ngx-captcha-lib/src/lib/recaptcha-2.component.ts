@@ -8,18 +8,26 @@ import {
   Output,
   Renderer2,
   SimpleChanges,
-  NgZone,
+  NgZone, Injector, forwardRef,
 } from '@angular/core';
 
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
 import { ReCaptchaType } from './recaptcha-type.enum';
 import { NgxCaptchaConfig } from './recaptcha.config';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'ngx-recaptcha2',
   template: `
   <div #captchaScriptElem></div>
-  <div #captchaWrapperElem></div>`
+  <div #captchaWrapperElem></div>`,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ReCaptcha2Component),
+      multi: true,
+    }
+  ]
 })
 export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnChanges, OnDestroy {
 
@@ -63,9 +71,10 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   constructor(
     protected renderer: Renderer2,
     protected zone: NgZone,
+    protected injector: Injector,
     @Optional() protected globalConfig: NgxCaptchaConfig,
   ) {
-    super(renderer, zone, globalConfig);
+    super(renderer, zone, injector, globalConfig);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -111,6 +120,11 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
    * Handles error callback
   */
   private handleErrorCallback(): void {
+    this.zone.run(() => {
+      this.onChange(null);
+      this.onTouched(null);
+    });
+
     this.error.next();
   }
 
