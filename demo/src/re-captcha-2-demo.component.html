@@ -1,132 +1,134 @@
-<div class="row featurette">
-    <div class="col-md-7">
-        <h2 class="featurette-heading">Google reCAPTCHA2
-        </h2>
+<form action="" [formGroup]="aFormGroup">
+  <div class="row featurette">
+      <div class="col-md-7">
+          <h2 class="featurette-heading">Google reCAPTCHA2
+          </h2>
 
-        <p class="mt-4">
-            This is a completely dynamic implementation - try changing properties to immediately see changes in rendered captcha.
-        </p>
+          <p class="mt-4">
+              This is a completely dynamic implementation - try changing properties to immediately see changes in rendered captcha.
+          </p>
 
-        <table class="table mt-3">
-            <thead>
-                <tr>
-                    <th>Property</th>
-                    <th>Values</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Theme</td>
-                    <td>
-                        <span style="cursor:pointer" class="text-primary" (click)="changeTheme('light')">Light</span> |
-                        <span style="cursor:pointer" class="text-primary" (click)="changeTheme('dark')">Dark</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Language</td>
-                    <td>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Culture code (i.e. 'en', 'es')" #langInput [value]="lang">
-                            <div class="input-group-append">
-                                <button class="btn btn-info" (click)="setLanguage()">Set</button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Size</td>
-                    <td>
-                        <span style="cursor:pointer" class="text-primary" (click)="changeSize('compact')">Compact</span> |
-                        <span style="cursor:pointer" class="text-primary" (click)="changeSize('normal')">Normal</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Type</td>
-                    <td>
-                        <span style="cursor:pointer" class="text-primary" (click)="changeType('image')">Image</span> |
-                        <span style="cursor:pointer" class="text-primary" (click)="changeType('audio')">Audio</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+          <table class="table mt-3">
+              <thead>
+                  <tr>
+                      <th>Property</th>
+                      <th>Values</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Theme</td>
+                      <td>
+                          <span style="cursor:pointer" class="text-primary" (click)="changeTheme('light')">Light</span> |
+                          <span style="cursor:pointer" class="text-primary" (click)="changeTheme('dark')">Dark</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>Language</td>
+                      <td>
+                          <div class="input-group">
+                              <input type="text" class="form-control" placeholder="Culture code (i.e. 'en', 'es')" #langInput [value]="lang">
+                              <div class="input-group-append">
+                                  <button class="btn btn-info" (click)="setLanguage()">Set</button>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>Size</td>
+                      <td>
+                          <span style="cursor:pointer" class="text-primary" (click)="changeSize('compact')">Compact</span> |
+                          <span style="cursor:pointer" class="text-primary" (click)="changeSize('normal')">Normal</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>Type</td>
+                      <td>
+                          <span style="cursor:pointer" class="text-primary" (click)="changeType('image')">Image</span> |
+                          <span style="cursor:pointer" class="text-primary" (click)="changeType('audio')">Audio</span>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
 
-        <table class="table mt-3">
-            <thead>
-                <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>getCurrentResponse</td>
-                    <td>Gets the latest submitted response</td>
-                    <td>
-                        <button class="btn btn-info" (click)="getCurrentResponse()">Try</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>getResponse</td>
-                    <td>Gets captcha response</td>
-                    <td>
-                        <button class="btn btn-info" (click)="getResponse()">Try</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>reset</td>
-                    <td>Resets captcha (does not reload script)</td>
-                    <td>
-                        <button class="btn btn-info" (click)="reset()">Try</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>reload</td>
-                    <td>Unsets global script & reloads captcha</td>
-                    <td>
-                        <button class="btn btn-info" (click)="reload()">Try</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>getCaptchaId</td>
-                    <td>Gets Id of captcha</td>
-                    <td>
-                        <button class="btn btn-info" (click)="getCaptchaId()">Try</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-5">
-        <h4>Live example</h4>
-        <ngx-recaptcha2 #captchaElem (expire)="handleExpire()" (load)="handleLoad()" (success)="handleSuccess($event)" [size]="size"
-            [hl]="lang" [theme]="theme" [type]="type"></ngx-recaptcha2>
+          <table class="table mt-3">
+              <thead>
+                  <tr>
+                      <th>Method</th>
+                      <th>Description</th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>getCurrentResponse</td>
+                      <td>Gets the latest submitted response</td>
+                      <td>
+                          <button class="btn btn-info" (click)="getCurrentResponse()">Try</button>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>getResponse</td>
+                      <td>Gets captcha response</td>
+                      <td>
+                          <button class="btn btn-info" (click)="getResponse()">Try</button>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>reset</td>
+                      <td>Resets captcha (does not reload script)</td>
+                      <td>
+                          <button class="btn btn-info" (click)="reset()">Try</button>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>reload</td>
+                      <td>Unsets global script & reloads captcha</td>
+                      <td>
+                          <button class="btn btn-info" (click)="reload()">Try</button>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>getCaptchaId</td>
+                      <td>Gets Id of captcha</td>
+                      <td>
+                          <button class="btn btn-info" (click)="getCaptchaId()">Try</button>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <div class="col-md-5">
+          <h4>Live example</h4>
+          <ngx-recaptcha2 #captchaElem (expire)="handleExpire()" (load)="handleLoad()" (success)="handleSuccess($event)" [size]="size"
+              [hl]="lang" [theme]="theme" [type]="type" formControlName="recaptcha"></ngx-recaptcha2>
 
-        <h4 class="mt-3">Status</h4>
-        <div>
-            <ul class="alt">
-                <li>
-                    <span>Loaded: </span>
-                    <i *ngIf="!captchaIsLoaded" class="fas fa-times text-danger"></i>
-                    <i *ngIf="captchaIsLoaded" class="fas fa-check text-success"></i>
-                </li>
-                <li>
-                    <span>Captcha success: </span>
-                    <i *ngIf="!captchaSuccess" class="fas fa-times text-danger"></i>
-                    <i *ngIf="captchaSuccess" class="fas fa-check text-success"></i>
-                </li>
-                <li>
-                    <span>Captcha expired: </span>
-                    <i *ngIf="!captchaIsExpired" class="fas fa-times text-danger"></i>
-                    <i *ngIf="captchaIsExpired" class="fas fa-check text-success"></i>
-                </li>
-            </ul>
-        </div>
+          <h4 class="mt-3">Status</h4>
+          <div>
+              <ul class="alt">
+                  <li>
+                      <span>Loaded: </span>
+                      <i *ngIf="!captchaIsLoaded" class="fas fa-times text-danger"></i>
+                      <i *ngIf="captchaIsLoaded" class="fas fa-check text-success"></i>
+                  </li>
+                  <li>
+                      <span>Captcha success: </span>
+                      <i *ngIf="!captchaSuccess" class="fas fa-times text-danger"></i>
+                      <i *ngIf="captchaSuccess" class="fas fa-check text-success"></i>
+                  </li>
+                  <li>
+                      <span>Captcha expired: </span>
+                      <i *ngIf="!captchaIsExpired" class="fas fa-times text-danger"></i>
+                      <i *ngIf="captchaIsExpired" class="fas fa-check text-success"></i>
+                  </li>
+              </ul>
+          </div>
 
-        <h4 class="mt-3">Code</h4>
+          <h4 class="mt-3">Code</h4>
 
-        <pre class="mt-2">
-            <code [innerText]="exampleCode"></code>
-        </pre>
-    </div>
-</div>
+          <pre class="mt-2">
+              <code [innerText]="exampleCode"></code>
+          </pre>
+      </div>
+  </div>
+</form>

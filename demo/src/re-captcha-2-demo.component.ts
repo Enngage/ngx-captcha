@@ -2,11 +2,12 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, OnInit,
   ViewChild
 } from '@angular/core';
 
 import { ReCaptcha2Component } from '../../projects/ngx-captcha-lib/src/public_api';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 declare var hljs: any;
 
@@ -14,7 +15,7 @@ declare var hljs: any;
   selector: 'ngx-recaptcha-2-demo',
   templateUrl: './re-captcha-2-demo.component.html'
 })
-export class ReCaptcha2DemoComponent implements AfterViewInit {
+export class ReCaptcha2DemoComponent implements OnInit, AfterViewInit {
   public readonly installCode = `
   npm install ngx-captcha`;
 
@@ -51,8 +52,15 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
   @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
   @ViewChild('langInput') langInput: ElementRef;
+  protected aFormGroup: FormGroup;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder) {}
+
+  ngOnInit() {
+    this.aFormGroup = this.formBuilder.group({
+      recaptcha: ['', Validators.required]
+    });
+  }
 
   ngAfterViewInit(): void {
     this.highlight();
