@@ -37,7 +37,8 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   [type]="type"
   (expire)="handleExpire()"
   (load)="handleLoad()"
-  (success)="handleSuccess($event)">
+  (success)="handleSuccess($event)"
+  formControlName="recaptcha">
 </ngx-recaptcha2>`;
 
   public captchaIsLoaded = false;

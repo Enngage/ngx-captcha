@@ -14,7 +14,8 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
   [type]="type"
   [badge]="badge"
   (load)="handleLoad()"
-  (success)="handleSuccess($event)">
+  (success)="handleSuccess($event)"
+  [ngModelOptions]="{ standalone: true }">
 </ngx-invisible-recaptcha>
 `;
 
