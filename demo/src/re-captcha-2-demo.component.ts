@@ -53,7 +53,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
   @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
   @ViewChild('langInput') langInput: ElementRef;
-  protected aFormGroup: FormGroup;
+  public aFormGroup: FormGroup;
 
   constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder) {}
 
