@@ -27,7 +27,7 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
   public badge: 'bottomright' | 'bottomleft' | 'inline' = 'inline';
   public type: 'image' | 'audio';
 
-  protected recaptcha: any = null;
+  public recaptcha: any = null;
 
   @ViewChild('captchaElem') captchaElem: InvisibleReCaptchaComponent;
   @ViewChild('langInput') langInput: ElementRef;
