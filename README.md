@@ -15,10 +15,13 @@ npm install ngx-captcha
 ```
 
 Import `NgxCaptchaModule ` to your module (i.e. `AppModule`). You can configure global keys with `forRoot` (optionally) or you can use `siteKey` input parameter of captcha components.
+
+### Use with Angular forms
+
 Depending on whether you want to use [reactive forms](https://angular.io/guide/reactive-forms) or [template-driven forms](https://angular.io/guide/forms) you need to include the appropriate modules, too.
 Add `ReactiveFormsModule` to your imports in case you want to use reactive forms. If you prefer the the template-driven approach simple add the `FormsModule` to your module. 
-Both can be imported from `@angular/forms`. In the demo project you can check out the *normal* demo to see how to use reactive forms or
-the *invisible* demo to see what the template-driven approach looks like. With the template-driven approach you don't necessarily need to use a from element to wrap the component, you can instead use the `[ngModelOptions]="{ standalone: true }"`.
+
+Both can be imported from `@angular/forms`. In the demo project you can check out the *normal* demo to see how to use reactive forms or the *invisible* demo to see what the template-driven approach looks like. With the template-driven approach you don't necessarily need to use a from element to wrap the component, you can instead use the `[ngModelOptions]="{ standalone: true }"`.
 However, using it with the standalone option is not recommended but can be used if needed. 
 
 ```javascript
