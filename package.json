@@ -5,8 +5,7 @@
     "ng": "ng",
     "build:demo": "ng build",
     "serve:demo": "ng serve",
-    "build-demo-gh-pages": "ng build --prod",
-    "publish-demo-gh-pages": "ngh --dir dist-demo"
+    "build-demo-gh-pages": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -46,6 +45,7 @@
     "karma-jasmine-html-reporter": "^1.2.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
-    "tslint": "~5.11.0"
+    "tslint": "~5.11.0",
+    "angular-cli-ghpages": "0.5.3"
   }
 }
