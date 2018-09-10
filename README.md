@@ -47,7 +47,7 @@ The configuration properties are a copy of the official ones that google provide
 ### reCaptcha2
 
 your.component.ts
-```javascript
+```typescript
 export class YourComponent implements OnInit {
   protected aFormGroup: FormGroup;
 
@@ -59,7 +59,6 @@ export class YourComponent implements OnInit {
     });
   }
 }
-
 ```
 
 your.template.html

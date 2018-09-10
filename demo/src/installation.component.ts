@@ -24,13 +24,32 @@ export class AppModule { }
 
 `;
 
-  public readonly exampleCode = `<ngx-invisible-recaptcha
-  [type]="type"
-  [badge]="badge"
-  (load)="handleLoad()"
-  (success)="handleSuccess($event)">
-</ngx-invisible-recaptcha>
+  public readonly templateCode = `<form [formGroup]="aFormGroup">
+  <ngx-recaptcha2
+    [size]="size"
+    [hl]="lang"
+    [theme]="theme"
+    [type]="type"
+    (expire)="handleExpire()"
+    (load)="handleLoad()"
+    (success)="handleSuccess($event)"
+    formControlName="recaptcha">
+  </ngx-recaptcha2>
+</form>
 
+`;
+
+  public readonly tsCode = `export class YourComponent implements OnInit {
+    protected aFormGroup: FormGroup;
+
+    constructor(private formBuilder: FormBuilder) {}
+
+    ngOnInit() {
+      this.aFormGroup = this.formBuilder.group({
+        recaptcha: ['', Validators.required]
+      });
+    }
+  }
 `;
 
   ngAfterViewInit(): void {
