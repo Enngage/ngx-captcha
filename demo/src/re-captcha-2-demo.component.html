@@ -101,6 +101,7 @@
       <div class="col-md-5">
           <h4>Live example</h4>
           <ngx-recaptcha2 #captchaElem
+                          [siteKey]="siteKey"
                           (expire)="handleExpire()"
                           (load)="handleLoad()"
                           (success)="handleSuccess($event)"

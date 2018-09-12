@@ -16,6 +16,9 @@ declare var hljs: any;
   templateUrl: './re-captcha-2-demo.component.html'
 })
 export class ReCaptcha2DemoComponent implements OnInit, AfterViewInit {
+
+  public readonly siteKey = '6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1';
+
   public readonly installCode = `
   npm install ngx-captcha`;
 

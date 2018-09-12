@@ -38,10 +38,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 @NgModule({
   imports: [
     ReactiveFormsModule,
-    NgxCaptchaModule.forRoot({
-      reCaptcha2SiteKey: 'xxxx', // optional, can be overridden with 'siteKey' component property
-      invisibleCaptchaSiteKey: 'yyy' // optional, can be overridden with 'siteKey' component property
-    }),
+    NgxCaptchaModule
   })
 
 export class AppModule { }
@@ -71,6 +68,7 @@ your.template.html
 ```html
 <form [formGroup]="aFormGroup">
   <ngx-recaptcha2
+    [siteKey]="siteKey"
     [size]="size"
     [hl]="lang"
     [theme]="theme"
@@ -108,6 +106,7 @@ your.template.html
 ```html
 <form [formGroup]="aFormGroup">
   <ngx-invisible-recaptcha
+    [siteKey]="siteKey"
     [type]="type"
     [badge]="badge"
     (load)="handleLoad()"

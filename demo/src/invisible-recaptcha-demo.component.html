@@ -90,6 +90,7 @@
     <div class="col-md-5">
         <h4>Live example</h4>
         <ngx-invisible-recaptcha #captchaElem
+                                 [siteKey]="siteKey"
                                  (ready)="handleReady()"
                                  (load)="handleLoad()"
                                  (success)="handleSuccess($event)"

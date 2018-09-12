@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { InvisibleReCaptchaComponent, ReCaptcha2Component } from './components';
-import { NgxCaptchaConfig } from './models';
-import { ScriptService, ReCaptchaV3Service } from './services';
+import { ReCaptchaV3Service, ScriptService } from './services';
 
 @NgModule({
   imports: [
@@ -23,18 +22,6 @@ import { ScriptService, ReCaptchaV3Service } from './services';
   ]
 })
 export class NgxCaptchaModule {
-
-  static forRoot(config?: NgxCaptchaConfig): ModuleWithProviders {
-    return {
-      ngModule: NgxCaptchaModule,
-      providers: [
-        {
-          provide: NgxCaptchaConfig,
-          useValue: config,
-        }
-      ]
-    };
-  }
 }
 
 

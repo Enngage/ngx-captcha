@@ -12,7 +12,6 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ReCaptchaType } from '../models/recaptcha-type.enum';
-import { NgxCaptchaConfig } from '../models/recaptcha.config';
 import { ScriptService } from '../services/script.service';
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
 
@@ -51,10 +50,9 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
     protected renderer: Renderer2,
     protected zone: NgZone,
     protected injector: Injector,
-    protected scriptService: ScriptService,
-    @Optional() protected globalConfig: NgxCaptchaConfig,
+    protected scriptService: ScriptService
   ) {
-    super(renderer, zone, injector, scriptService, globalConfig);
+    super(renderer, zone, injector, scriptService);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -77,7 +75,7 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
   */
   protected getCaptchaProperties(): any {
     return {
-      'sitekey': this._siteKey,
+      'sitekey': this.siteKey,
       'callback': (response) => this.zone.run(() => this.handleCallback(response)),
       'badge': this.badge,
       'type': this.type,

@@ -10,6 +10,8 @@ declare var hljs: any;
 })
 export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
 
+  public readonly siteKey = '6LckpEgUAAAAACPcjmrg1Es-GnTltKx0MP61FBO8';
+
   public readonly exampleCode = `<ngx-invisible-recaptcha #captchaElem
   [type]="type"
   [badge]="badge"

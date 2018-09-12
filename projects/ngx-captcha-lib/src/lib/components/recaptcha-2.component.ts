@@ -15,7 +15,6 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ReCaptchaType } from '../models/recaptcha-type.enum';
-import { NgxCaptchaConfig } from '../models/recaptcha.config';
 import { ScriptService } from '../services/script.service';
 import { BaseReCaptchaComponent } from './base-recaptcha.component';
 
@@ -75,9 +74,8 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
     protected zone: NgZone,
     protected injector: Injector,
     protected scriptService: ScriptService,
-    @Optional() protected globalConfig: NgxCaptchaConfig,
   ) {
-    super(renderer, zone, injector, scriptService, globalConfig);
+    super(renderer, zone, injector, scriptService);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -98,7 +96,7 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   */
   protected getCaptchaProperties(): any {
     return {
-      'sitekey': this._siteKey,
+      'sitekey': this.siteKey,
       'callback': (response) => this.zone.run(() => this.handleCallback(response)),
       'expired-callback': () => this.zone.run(() => this.handleExpireCallback()),
       'error-callback': () => this.zone.run(() => this.handleErrorCallback()),

@@ -17,10 +17,7 @@ import { ReCaptcha3DemoComponent } from './re-captcha-3-demo.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxCaptchaModule.forRoot({
-      reCaptcha2SiteKey: '6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1',
-      invisibleCaptchaSiteKey: '6LckpEgUAAAAACPcjmrg1Es-GnTltKx0MP61FBO8'
-    }),
+    NgxCaptchaModule,
     DemoRoutes
   ],
   declarations: [

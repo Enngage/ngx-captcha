@@ -7,17 +7,15 @@ declare var hljs: any;
 })
 export class InstallationComponent implements AfterViewInit {
 
-  public readonly installCode = `npm install ngx-captcha`;
+  public readonly installCode = `npm install ngx-captcha --save`;
 
   public readonly importModuleCode = `import { NgModule } from '@angular/core';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   imports: [
-    NgxCaptchaModule.forRoot({
-      reCaptcha2SiteKey: 'xxxx',
-      invisibleCaptchaSiteKey: 'yyy'
-    }),
+    ....,
+    NgxCaptchaModule
   })
 
 export class AppModule { }
@@ -26,6 +24,7 @@ export class AppModule { }
 
   public readonly templateCode = `<form [formGroup]="aFormGroup">
   <ngx-recaptcha2
+    [siteKey]="siteKey"
     [size]="size"
     [hl]="lang"
     [theme]="theme"

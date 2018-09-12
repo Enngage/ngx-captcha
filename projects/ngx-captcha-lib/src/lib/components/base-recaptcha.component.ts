@@ -14,7 +14,6 @@ import {
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 
 import { ReCaptchaType } from '../models/recaptcha-type.enum';
-import { NgxCaptchaConfig } from '../models/recaptcha.config';
 import { ScriptService } from '../services/script.service';
 
 export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueAccessor, AfterViewInit {
@@ -28,12 +27,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     * Google's site key.
     * You can find this under https://www.google.com/recaptcha
     */
-    protected _siteKey?: string;
-
-    /**
-    * Config to use
-    */
-    @Input() siteKey: string | (() => string);
+    @Input() siteKey: string;
 
     /**
     * Type
@@ -131,7 +125,6 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
         protected zone: NgZone,
         protected injector: Injector,
         protected scriptService: ScriptService,
-        protected globalConfig?: NgxCaptchaConfig,
     ) { }
 
     ngAfterViewInit() {
@@ -148,39 +141,6 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     */
     protected abstract captchaSpecificSetup(): void;
 
-    private getGlobalSiteKey(): string {
-        if (this.globalConfig) {
-            // Invisible captcha
-            if (this.recaptchaType === ReCaptchaType.InvisibleReCaptcha) {
-                if (!this.globalConfig.invisibleCaptchaSiteKey) {
-                    throw Error(`SiteKey for invisible reCaptcha is not set!`);
-                }
-
-                if (this.globalConfig.invisibleCaptchaSiteKey instanceof Function) {
-                    return this.globalConfig.invisibleCaptchaSiteKey();
-                } else {
-                    return this.globalConfig.invisibleCaptchaSiteKey;
-                }
-
-                // recaptcha 2
-            } else if (this.recaptchaType === ReCaptchaType.ReCaptcha2) {
-                if (!this.globalConfig.reCaptcha2SiteKey) {
-                    throw Error(`SiteKey for reCaptcha2 is not set!`);
-                }
-
-                if (this.globalConfig.reCaptcha2SiteKey instanceof Function) {
-                    return this.globalConfig.reCaptcha2SiteKey();
-                } else {
-                    return this.globalConfig.reCaptcha2SiteKey;
-                }
-
-            } else {
-                throw Error(`Unsupported captcha type '${this.recaptchaType}'!`);
-            }
-        }
-    }
-
-
     ngOnChanges(changes: SimpleChanges): void {
         // cleanup scripts if language changed because they need to be reloaded
         if (changes && changes.hl) {
@@ -189,17 +149,6 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
             }
         }
 
-        if (!this.siteKey) {
-            // use global site key if key is not available
-            this._siteKey = this.getGlobalSiteKey();
-        } else {
-            // use comnponent site key
-            if (this.siteKey instanceof Function) {
-                this._siteKey = this.siteKey();
-            } else {
-                this._siteKey = this.siteKey;
-            }
-        }
         this.setupComponent();
     }
 
