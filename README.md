@@ -50,7 +50,7 @@ export class AppModule { }
 ## Usage
 The configuration properties are a copy of the official ones that google provides. For explanation of what these properties do and how to use them, please refer to [https://developers.google.com/recaptcha/docs/display](https://developers.google.com/recaptcha/docs/display) and [https://developers.google.com/recaptcha/docs/invisible](https://developers.google.com/recaptcha/docs/invisible).
 
-### reCaptcha2
+### reCaptcha v2
 
 your.component.ts
 ```typescript
@@ -83,7 +83,27 @@ your.template.html
 </form>
 ```
 
-### Invisible captcha
+### reCaptcha v3
+
+ This is the implementation of <em>beta</em> version of google reCaptcha v3 as per following documentation["https://developers.google.com/recaptcha/docs/v3"](https://developers.google.com/recaptcha/docs/v3).
+
+ First you need to inject the <em></em> class in your component / service and then use <em>Execute</em> method with your action. Once you have the token, you need to verify it on your backend to get meaningful results. See official google documentation for more details.
+
+ ```typescript
+ import { ReCaptchaV3Service } from 'ngx-captcha';
+
+  constructor(
+    private reCaptchaV3Service: ReCaptchaV3Service
+  ) { }
+
+  ....
+
+  this.reCaptchaV3Service.execute(this.siteKey, 'homepage', (token) => {
+    console.log('This is your token: ', token);
+  });
+ ```
+
+### Invisible reCaptcha
 
 ```html
 <form [formGroup]="aFormGroup">
