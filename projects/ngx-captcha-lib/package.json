@@ -13,7 +13,11 @@
     "reCaptcha",
     "Google captcha",
     "Angular Captcha",
-    "Angular reCaptcha"
+    "Angular reCaptcha",
+    "reCaptcha v2",
+    "reCaptcha v3",
+    "Invisible reCaptcha",
+    "google reCaptcha"
   ],
   "private": false,
   "scripts": {
