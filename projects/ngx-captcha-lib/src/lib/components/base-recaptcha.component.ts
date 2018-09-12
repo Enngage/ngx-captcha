@@ -1,7 +1,8 @@
 import {
     AfterViewInit,
     ElementRef,
-    EventEmitter, Injector,
+    EventEmitter,
+    Injector,
     Input,
     NgZone,
     OnChanges,
@@ -10,11 +11,11 @@ import {
     SimpleChanges,
     ViewChild,
 } from '@angular/core';
-
-import { ReCaptchaType } from './recaptcha-type.enum';
-import { NgxCaptchaConfig } from './recaptcha.config';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
-import { ScriptService } from './services/script.service';
+
+import { ReCaptchaType } from '../models/recaptcha-type.enum';
+import { NgxCaptchaConfig } from '../models/recaptcha.config';
+import { ScriptService } from '../services/script.service';
 
 export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueAccessor, AfterViewInit {
 
@@ -289,10 +290,9 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
         // create captcha wrapper
         this.createAndSetCaptchaElem();
 
-        this.scriptService.registerCaptchaScript(this.hl, (grecaptcha) => {
+        this.scriptService.registerCaptchaScript('explicit', (grecaptcha) => {
             this.onloadCallback(grecaptcha);
-        });
-
+        }, this.hl);
     }
 
     /**

@@ -1,0 +1,67 @@
+<div class="row featurette">
+    <div class="col-md-7">
+        <h2 class="featurette-heading">reCaptcha v3
+        </h2>
+
+        <p class="mt-4">
+            This is the implementation of <em>beta</em> version of google reCaptcha v3 as per following documentation:
+            <a href="https://developers.google.com/recaptcha/docs/v3">https://developers.google.com/recaptcha/docs/v3</a>
+        </p>
+
+        <p class="mt-3">
+            First you need to inject the <em></em> class in your component / service and then use <em>Execute</em>
+            method with your action. Once you have the token, you need to verify it on your backend to get meaningful
+            results. See official google documentation for more details.
+        </p>
+
+        <pre class="mt-2">
+            <code [innerText]="constructorCode"></code>
+            <code [innerText]="methodCode"></code>
+        </pre>
+
+    </div>
+
+    <div class="col-md-5">
+        <h4>Live example</h4>
+
+        <table class="table mt-3">
+            <tbody>
+                <tr>
+                    <td>Site key</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Your site key" [(ngModel)]="siteKey">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Action</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Action" [(ngModel)]="action">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button class="btn btn-info" (click)="execute()">Execute</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Your token: </h4>
+
+        <div class="mt-2">
+            <div *ngIf="error" class="color-red">
+                {{ error }}
+            </div>
+            <div *ngIf="!token">
+                Fill in your site key and action to see your token
+            </div>
+            <div *ngIf="token" style="word-wrap: break-word">
+                {{ token }}
+            </div>
+        </div>
+    </div>
+</div>

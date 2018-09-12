@@ -6,7 +6,13 @@
 
 Google reCaptcha implementation for Angular 6 and beyond. 
 
-Live example: [https://enngage.github.io/ngx-captcha/](https://enngage.github.io/ngx-captcha/)
+Features: 
+
+1. reCaptcha v2
+2. reCaptcha v3 (beta)
+3. invisible reCaptcha
+
+Live examples: [https://enngage.github.io/ngx-captcha/](https://enngage.github.io/ngx-captcha/)
 
 ## Installation
 

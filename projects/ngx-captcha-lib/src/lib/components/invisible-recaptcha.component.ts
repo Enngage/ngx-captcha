@@ -1,11 +1,20 @@
-import { Component, Input, OnChanges, Optional, Renderer2, SimpleChanges, NgZone, Injector, forwardRef } from '@angular/core';
-
-import { BaseReCaptchaComponent } from './base-recaptcha.component';
-import { ReCaptchaType } from './recaptcha-type.enum';
-import { NgxCaptchaConfig } from './recaptcha.config';
+import {
+  Component,
+  forwardRef,
+  Injector,
+  Input,
+  NgZone,
+  OnChanges,
+  Optional,
+  Renderer2,
+  SimpleChanges,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ScriptService } from './services/script.service';
 
+import { ReCaptchaType } from '../models/recaptcha-type.enum';
+import { NgxCaptchaConfig } from '../models/recaptcha.config';
+import { ScriptService } from '../services/script.service';
+import { BaseReCaptchaComponent } from './base-recaptcha.component';
 
 @Component({
   selector: 'ngx-invisible-recaptcha',

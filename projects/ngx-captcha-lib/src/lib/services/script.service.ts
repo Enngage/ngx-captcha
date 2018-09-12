@@ -20,7 +20,7 @@ export class ScriptService {
     ) {
     }
 
-    registerCaptchaScript(language: string, onLoad: (grecaptcha: any) => void): void {
+    registerCaptchaScript(render: string | 'explicit', onLoad: (grecaptcha: any) => void, language?: string): void {
         if (this.grecaptchaScriptLoaded()) {
             // recaptcha script is already loaded
             // just call the callback
@@ -39,7 +39,7 @@ export class ScriptService {
         // prepare script elem
         const scriptElem = document.createElement('script');
         scriptElem.innerHTML = '';
-        scriptElem.src = this.getCaptchaScriptUrl(language);
+        scriptElem.src = this.getCaptchaScriptUrl(language, render);
         scriptElem.async = true;
         scriptElem.defer = true;
 
@@ -76,9 +76,9 @@ export class ScriptService {
     /**
     * Url to google api script
     */
-    private getCaptchaScriptUrl(language: string): string {
+    private getCaptchaScriptUrl(language: string, render: string): string {
         // tslint:disable-next-line:max-line-length
-        return `https://www.google.com/recaptcha/api.js?onload=${this.windowOnLoadCallbackProperty}&render=explicit${this.getLanguageParam(language)}`;
+        return `https://www.google.com/recaptcha/api.js?onload=${this.windowOnLoadCallbackProperty}&render=${render}${this.getLanguageParam(language)}`;
     }
 
 }
