@@ -5,7 +5,6 @@ import {
     Input,
     NgZone,
     OnChanges,
-    OnDestroy,
     Output,
     Renderer2,
     SimpleChanges,
@@ -15,36 +14,19 @@ import {
 import { ReCaptchaType } from './recaptcha-type.enum';
 import { NgxCaptchaConfig } from './recaptcha.config';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { ScriptService } from './services/script.service';
 
-declare var grecaptcha: any;
-
-export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, ControlValueAccessor, AfterViewInit {
-    /**
-     * Form Control to be enable usage in reactive forms
-     */
-    private control: FormControl;
-
-    private setupAfterLoad = false;
+export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueAccessor, AfterViewInit {
 
     /**
-    * Name of the global callback
+    * Prefix of the captcha element
     */
-    protected readonly windowOnLoadCallbackProperty = 'ngx_onload_callback_' + this.getPseudoUniqueNumber();
-
-    /**
-     * Name of the global reCaptcha property
-     */
-    protected readonly globalReCaptchaProperty = 'grecaptcha';
-
-    /**
-     * Prefix of the captcha element
-     */
     protected readonly captchaElemPrefix = 'ngx_captcha_id_';
 
     /**
-      * Google's site key.
-      * You can find this under https://www.google.com/recaptcha
-      */
+    * Google's site key.
+    * You can find this under https://www.google.com/recaptcha
+    */
     protected _siteKey?: string;
 
     /**
@@ -53,13 +35,13 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
     @Input() siteKey: string | (() => string);
 
     /**
-     * Type
-     */
+    * Type
+    */
     @Input() type: 'audio' | 'image' = 'image';
 
     /**
-     * Language code. Auto-detects the user's language if unspecified.
-     */
+    * Language code. Auto-detects the user's language if unspecified.
+    */
     @Input() hl: string;
 
     /**
@@ -68,9 +50,9 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
     @Input() tabIndex = 0;
 
     /**
-     * Called when captcha receives successful response.
-     * Captcha response token is passed to event.
-     */
+    * Called when captcha receives successful response.
+    * Captcha response token is passed to event.
+    */
     @Output() success = new EventEmitter<string>();
 
     /**
@@ -87,44 +69,34 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
     @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
 
     /**
-     * Captcha element
-     */
+    * Indicates if captcha should be set on load
+    */
+    private setupAfterLoad = false;
+
+    /**
+    * Captcha element
+    */
     protected captchaElem?: HTMLElement;
 
     /**
-     * Id of the captcha elem
-     */
+    * Id of the captcha elem
+    */
     protected captchaId?: number;
 
     /**
-     * Holds last response value
-     */
+    * Holds last response value
+    */
     protected currentResponse?: string;
 
     /**
-     * If enabled, captcha will reset after receiving success response. This is useful
-     * when invisible captcha need to be resolved multiple times on same page
-     */
+    * If enabled, captcha will reset after receiving success response. This is useful
+    * when invisible captcha need to be resolved multiple times on same page
+    */
     protected resetCaptchaAfterSuccess = false;
 
     /**
-     * Indicates if captcha is loaded
-     */
-    public isLoaded = false;
-
-    /**
-    * Reference to global reCaptcha API
+    * Captcha type
     */
-    public reCaptchaApi?: any;
-
-    /**
-     * Id of the DOM element wrapping captcha
-     */
-    public captchaElemId?: string;
-
-    /**
-     * Captcha type
-     */
     protected abstract recaptchaType: ReCaptchaType;
 
     /**
@@ -133,10 +105,31 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
     protected onChange: (value: string) => void;
     protected onTouched: (value: string) => void;
 
+    /**
+    * Indicates if captcha is loaded
+    */
+    public isLoaded = false;
+
+    /**
+    * Reference to global reCaptcha API
+    */
+    public reCaptchaApi?: any;
+
+    /**
+    * Id of the DOM element wrapping captcha
+    */
+    public captchaElemId?: string;
+
+    /**
+    * Form Control to be enable usage in reactive forms
+    */
+    public control?: FormControl;
+
     protected constructor(
         protected renderer: Renderer2,
         protected zone: NgZone,
         protected injector: Injector,
+        protected scriptService: ScriptService,
         protected globalConfig?: NgxCaptchaConfig,
     ) { }
 
@@ -150,7 +143,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
     protected abstract getCaptchaProperties(): any;
 
     /**
-     * Used for captcha specific setup
+    * Used for captcha specific setup
     */
     protected abstract captchaSpecificSetup(): void;
 
@@ -188,6 +181,13 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
 
 
     ngOnChanges(changes: SimpleChanges): void {
+        // cleanup scripts if language changed because they need to be reloaded
+        if (changes && changes.hl) {
+            if (!changes.hl.firstChange && (changes.hl.currentValue !== changes.hl.previousValue)) {
+                this.scriptService.cleanup();
+            }
+        }
+
         if (!this.siteKey) {
             // use global site key if key is not available
             this._siteKey = this.getGlobalSiteKey();
@@ -202,20 +202,15 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
         this.setupComponent();
     }
 
-    ngOnDestroy() {
-        window[this.windowOnLoadCallbackProperty] = {};
-        window[this.globalReCaptchaProperty] = {};
-    }
-
     /**
-     * Gets captcha response as per reCaptcha docs
+    * Gets captcha response as per reCaptcha docs
     */
     getResponse(): string {
         return this.reCaptchaApi.getResponse(this.captchaId);
     }
 
     /**
-     * Gets Id of captcha widget
+    * Gets Id of captcha widget
     */
     getCaptchaId(): number {
         return this.captchaId;
@@ -232,14 +227,14 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
     }
 
     /**
-     * Gets last submitted captcha response
+    * Gets last submitted captcha response
     */
     getCurrentResponse(): string | undefined {
         return this.currentResponse;
     }
 
     /**
-     * Reload captcha. Useful when properties (i.e. theme) changed and captcha need to reflect them
+    * Reload captcha. Useful when properties (i.e. theme) changed and captcha need to reflect them
     */
     reloadCaptcha(): void {
         this.setupComponent();
@@ -257,7 +252,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
     }
 
     /**
-     * Responsible for instantiating captcha element
+    * Responsible for instantiating captcha element
     */
     protected renderReCaptcha(): void {
         this.captchaId = this.reCaptchaApi.render(this.captchaElemId, this.getCaptchaProperties());
@@ -265,9 +260,9 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
     }
 
     /**
-     * Called when captcha receives response
-     * @param callback Callback
-     */
+    * Called when captcha receives response
+    * @param callback Callback
+    */
     protected handleCallback(callback: any): void {
         this.currentResponse = callback;
         this.success.next(callback);
@@ -282,52 +277,9 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
         }
     }
 
-    /**
-     * Registers reCaptcha script if its not available
-    */
-    protected ensureReCaptchaScript(): void {
-        window[this.globalReCaptchaProperty] = {};
-        this.reCaptchaApi = {};
-
-        this.registerReCaptchaScript();
-    }
-
-    /**
-     * Add script to page with reference to captcha API. This has to be done manually
-     * as we want to avoid adding script to main index.html
-    */
-    protected registerReCaptchaScript(): void {
-        const script = document.createElement('script');
-        script.innerHTML = '';
-        script.src =
-            `https://www.google.com/recaptcha/api.js?onload=${this.windowOnLoadCallbackProperty}&render=explicit${this.getLanguageParam()}`;
-        script.async = true;
-        script.defer = true;
-
-        this.captchaScriptElem.nativeElement.appendChild(script);
-    }
-
-    protected getLanguageParam(): string {
-        if (!this.hl) {
-            return '';
-        }
-
-        return `&hl=${this.hl}`;
-    }
 
     private getPseudoUniqueNumber(): number {
         return new Date().getUTCMilliseconds() + Math.floor(Math.random() * 9999);
-    }
-
-    /**
-     * Checks if reCaptcha Api is defined. It may happen that when navigating from angular component to another
-     * via router, the Api was already loaded previously. In such cases, do not render script again.
-    */
-    private isReCaptchaApiDefined(): boolean {
-        if (!window[this.globalReCaptchaProperty]) {
-            return false;
-        }
-        return true;
     }
 
     private setupComponent(): void {
@@ -337,22 +289,18 @@ export abstract class BaseReCaptchaComponent implements OnChanges, OnDestroy, Co
         // create captcha wrapper
         this.createAndSetCaptchaElem();
 
-        // we need to patch the callback through global variable, otherwise callback is not accessible
-        // note: https://github.com/Enngage/ngx-captcha/issues/2
-        window[this.windowOnLoadCallbackProperty] = <any>(() => this.zone.run(
-            this.onloadCallback.bind(this)
-        ));
+        this.scriptService.registerCaptchaScript(this.hl, (grecaptcha) => {
+            this.onloadCallback(grecaptcha);
+        });
 
-        // create and put reCaptcha script to page
-        this.ensureReCaptchaScript();
     }
 
     /**
     * Called when google's recaptcha script is ready
     */
-    private onloadCallback(): void {
+    private onloadCallback(grecapcha: any): void {
         // assign reference to reCaptcha Api once its loaded
-        this.reCaptchaApi = grecaptcha;
+        this.reCaptchaApi = grecapcha;
 
         if (!this.reCaptchaApi) {
             throw Error(`ReCaptcha Api was not initialized correctly`);

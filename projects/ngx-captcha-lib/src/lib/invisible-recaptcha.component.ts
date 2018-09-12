@@ -4,12 +4,12 @@ import { BaseReCaptchaComponent } from './base-recaptcha.component';
 import { ReCaptchaType } from './recaptcha-type.enum';
 import { NgxCaptchaConfig } from './recaptcha.config';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ScriptService } from './services/script.service';
 
 
 @Component({
   selector: 'ngx-invisible-recaptcha',
   template: `
-  <div #captchaScriptElem></div>
   <div #captchaWrapperElem></div>`,
   providers: [
     {
@@ -42,9 +42,10 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
     protected renderer: Renderer2,
     protected zone: NgZone,
     protected injector: Injector,
+    protected scriptService: ScriptService,
     @Optional() protected globalConfig: NgxCaptchaConfig,
   ) {
-    super(renderer, zone, injector, globalConfig);
+    super(renderer, zone, injector, scriptService, globalConfig);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
