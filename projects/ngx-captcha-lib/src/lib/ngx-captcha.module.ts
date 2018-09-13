@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { InvisibleReCaptchaComponent, ReCaptcha2Component } from './components';
-import { ReCaptchaV3Service, ScriptService } from './services';
+import { InvisibleReCaptchaComponent } from './components/invisible-recaptcha.component';
+import { ReCaptcha2Component } from './components/recaptcha-2.component';
+import { ReCaptchaV3Service } from './services/recaptcha_v3.service';
+import { ScriptService } from './services/script.service';
 
 @NgModule({
   imports: [
