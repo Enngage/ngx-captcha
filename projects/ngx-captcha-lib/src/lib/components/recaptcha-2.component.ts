@@ -120,8 +120,8 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
   */
   private handleErrorCallback(): void {
     this.zone.run(() => {
-      this.onChange(null);
-      this.onTouched(null);
+      this.onChange(undefined);
+      this.onTouched(undefined);
     });
 
     this.error.next();

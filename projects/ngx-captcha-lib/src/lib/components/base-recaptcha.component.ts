@@ -97,8 +97,8 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     /**
     * Required by ControlValueAccessor
     */
-    protected onChange: (value: string) => void;
-    protected onTouched: (value: string) => void;
+    protected onChange: (value: string | undefined) => void;
+    protected onTouched: (value: string | undefined) => void;
 
     /**
     * Indicates if captcha is loaded
@@ -162,7 +162,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     /**
     * Gets Id of captcha widget
     */
-    getCaptchaId(): number {
+    getCaptchaId(): number | undefined {
         return this.captchaId;
     }
 
@@ -171,8 +171,8 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     */
     resetCaptcha(): void {
         this.zone.run(() => {
-            this.onChange(null);
-            this.onTouched(null);
+            this.onChange(undefined);
+            this.onTouched(undefined);
         });
     }
 
@@ -226,7 +226,6 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
             this.resetCaptcha();
         }
     }
-
 
     private getPseudoUniqueNumber(): number {
         return new Date().getUTCMilliseconds() + Math.floor(Math.random() * 9999);
