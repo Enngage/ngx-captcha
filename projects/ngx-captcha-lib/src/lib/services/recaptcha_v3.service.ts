@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 import { ScriptService } from './script.service';
 
@@ -6,7 +6,8 @@ import { ScriptService } from './script.service';
 export class ReCaptchaV3Service {
 
     constructor(
-        protected scriptService: ScriptService
+        protected scriptService: ScriptService,
+        protected zone: NgZone
     ) {
     }
 
@@ -21,10 +22,12 @@ export class ReCaptchaV3Service {
      */
     execute(siteKey: string, action: string, callback: (token: string) => void): void {
         this.scriptService.registerCaptchaScript(siteKey, (grecaptcha) => {
-            grecaptcha.execute(siteKey, {
-                action: action
-            }).then((token) => {
-                callback(token);
+            this.zone.runOutsideAngular(() => {
+                grecaptcha.execute(siteKey, {
+                    action: action
+                }).then((token) => {
+                    this.zone.run(() => callback(token));
+                });
             });
         });
     }
