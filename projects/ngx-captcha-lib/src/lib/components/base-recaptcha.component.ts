@@ -205,8 +205,13 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     * Responsible for instantiating captcha element
     */
     protected renderReCaptcha(): void {
-        this.captchaId = this.reCaptchaApi.render(this.captchaElemId, this.getCaptchaProperties());
-        this.ready.next();
+
+        // run outside angular zone due to timeout issues when testing
+        // details: https://github.com/Enngage/ngx-captcha/issues/26
+        this.zone.runOutsideAngular(() => {
+            this.captchaId = this.reCaptchaApi.render(this.captchaElemId, this.getCaptchaProperties());
+            this.ready.next();
+        });
     }
 
     /**
