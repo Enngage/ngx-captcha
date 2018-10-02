@@ -64,7 +64,7 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
    */
   execute(): void {
     // execute captcha
-    this.reCaptchaApi.execute(this.captchaId);
+    this.zone.runOutsideAngular(() => this.reCaptchaApi.execute(this.captchaId));
   }
 
   protected captchaSpecificSetup(): void {
