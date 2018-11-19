@@ -15,12 +15,16 @@ export class ScriptService {
     */
     protected readonly windowOnLoadCallbackProperty = 'ngx_captcha_onload_callback';
 
+    protected readonly globalDomain: string = 'recaptcha.net';
+
+    protected readonly defaultDomain: string = 'google.com';
+
     constructor(
         protected zone: NgZone,
     ) {
     }
 
-    registerCaptchaScript(render: string, onLoad: (grecaptcha: any) => void, language?: string): void {
+    registerCaptchaScript(useGlobalDomain: boolean, render: string, onLoad: (grecaptcha: any) => void, language?: string): void {
         if (this.grecaptchaScriptLoaded()) {
             // recaptcha script is already loaded
             // just call the callback
@@ -39,7 +43,7 @@ export class ScriptService {
         // prepare script elem
         const scriptElem = document.createElement('script');
         scriptElem.innerHTML = '';
-        scriptElem.src = this.getCaptchaScriptUrl(render, language);
+        scriptElem.src = this.getCaptchaScriptUrl(useGlobalDomain, render, language);
         scriptElem.async = true;
         scriptElem.defer = true;
 
@@ -76,9 +80,10 @@ export class ScriptService {
     /**
     * Url to google api script
     */
-    private getCaptchaScriptUrl(render: string, language?: string): string {
+    private getCaptchaScriptUrl(useGlobalDomain: boolean, render: string, language?: string): string {
+        const domain = useGlobalDomain ? this.globalDomain : this.defaultDomain;
         // tslint:disable-next-line:max-line-length
-        return `https://www.google.com/recaptcha/api.js?onload=${this.windowOnLoadCallbackProperty}&render=${render}${this.getLanguageParam(language)}`;
+        return `https://www.${domain}/recaptcha/api.js?onload=${this.windowOnLoadCallbackProperty}&render=${render}${this.getLanguageParam(language)}`;
     }
 
 }

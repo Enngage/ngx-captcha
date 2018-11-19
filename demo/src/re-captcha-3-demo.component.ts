@@ -26,6 +26,8 @@ export class ReCaptcha3DemoComponent implements OnInit, AfterViewInit {
   public readonly methodCode = `
   this.reCaptchaV3Service.execute(this.siteKey, 'homepage', (token) => {
     console.log('This is your token: ', token);
+  }, {
+    useGlobalDomain: false // optional
   });
   `;
 
@@ -62,6 +64,8 @@ export class ReCaptcha3DemoComponent implements OnInit, AfterViewInit {
     this.reCaptchaV3Service.execute(this.siteKey, 'reCaptcha3DemoPage', (token) => {
       this.token = token;
       console.log('Your token is: ', token);
+    }, {
+      useGlobalDomain: false
     });
   }
 

@@ -20,8 +20,13 @@ export class ReCaptchaV3Service {
      * @param siteKey Site key found in your google admin panel
      * @param action Action to log
      */
-    execute(siteKey: string, action: string, callback: (token: string) => void): void {
-        this.scriptService.registerCaptchaScript(siteKey, (grecaptcha) => {
+    execute(siteKey: string, action: string, callback: (token: string) => void, config?: {
+        useGlobalDomain: boolean
+    }): void {
+
+        const useGlobalDomain = config && config.useGlobalDomain ? true : false;
+
+        this.scriptService.registerCaptchaScript(useGlobalDomain, siteKey, (grecaptcha) => {
             this.zone.runOutsideAngular(() => {
                 grecaptcha.execute(siteKey, {
                     action: action

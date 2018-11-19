@@ -18,6 +18,7 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
   (ready)="handleReady()"
   (load)="handleLoad()"
   (success)="handleSuccess($event)"
+  [useGlobalDomain]="false"
   [type]="type"
   [badge]="badge"
   [ngModel]="recaptcha"

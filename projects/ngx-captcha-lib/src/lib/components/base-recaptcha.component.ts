@@ -30,6 +30,11 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     @Input() siteKey: string;
 
     /**
+     * Indicates if global domain 'recaptcha.net' should be used instead of default domain ('google.com')
+     */
+    @Input() useGlobalDomain: boolean = false;
+
+    /**
     * Type
     */
     @Input() type: 'audio' | 'image' = 'image';
@@ -256,7 +261,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
         // create captcha wrapper
         this.createAndSetCaptchaElem();
 
-        this.scriptService.registerCaptchaScript('explicit', (grecaptcha) => {
+        this.scriptService.registerCaptchaScript(this.useGlobalDomain, 'explicit', (grecaptcha) => {
             this.onloadCallback(grecaptcha);
         }, this.hl);
     }

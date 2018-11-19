@@ -78,6 +78,7 @@ your.template.html
     (expire)="handleExpire()"
     (load)="handleLoad()"
     (success)="handleSuccess($event)"
+    [useGlobalDomain]="false"
     [size]="size"
     [hl]="lang"
     [theme]="theme"
@@ -104,6 +105,8 @@ your.template.html
 
   this.reCaptchaV3Service.execute(this.siteKey, 'homepage', (token) => {
     console.log('This is your token: ', token);
+  }, {
+      useGlobalDomain: false
   });
  ```
 
@@ -117,6 +120,7 @@ your.template.html
     (ready)="handleReady()"
     (load)="handleLoad()"
     (success)="handleSuccess($event)"
+    [useGlobalDomain]="false"
     [type]="type"
     [badge]="badge"
     [ngModel]="recaptcha"

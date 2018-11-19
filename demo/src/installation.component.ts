@@ -29,6 +29,8 @@ export class AppModule { }
     [hl]="lang"
     [theme]="theme"
     [type]="type"
+    [useGlobalDomain]="false"
+    (reset)="handleReset()"
     (expire)="handleExpire()"
     (load)="handleLoad()"
     (success)="handleSuccess($event)"

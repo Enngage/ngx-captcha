@@ -40,6 +40,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     (expire)="handleExpire()"
     (load)="handleLoad()"
     (success)="handleSuccess($event)"
+    [useGlobalDomain]="false"
     [size]="size"
     [hl]="lang"
     [theme]="theme"
