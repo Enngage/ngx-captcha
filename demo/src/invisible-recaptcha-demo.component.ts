@@ -13,10 +13,14 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
   public readonly siteKey = '6LckpEgUAAAAACPcjmrg1Es-GnTltKx0MP61FBO8';
 
   public readonly exampleCode = `<ngx-invisible-recaptcha #captchaElem
-  [type]="type"
-  [badge]="badge"
+  [siteKey]="siteKey"
+  (reset)="handleReset()"
+  (ready)="handleReady()"
   (load)="handleLoad()"
   (success)="handleSuccess($event)"
+  [type]="type"
+  [badge]="badge"
+  [ngModel]="recaptcha"
   [ngModelOptions]="{ standalone: true }">
 </ngx-invisible-recaptcha>
 `;
@@ -35,32 +39,34 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
   @ViewChild('langInput') langInput: ElementRef;
 
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngAfterViewInit(): void {
-      this.captchaIsLoaded = true;
-      this.cdr.detectChanges();
-      this.highlight();
+    this.captchaIsLoaded = true;
+    this.cdr.detectChanges();
+    this.highlight();
   }
 
   execute(): void {
     this.captchaElem.execute();
   }
 
+  handleReset(): void {
+    this.captchaSuccess = false;
+    this.captchaResponse = undefined;
+  }
+
   handleSuccess(captchaResponse: string): void {
     this.captchaSuccess = true;
     this.captchaResponse = captchaResponse;
-    this.cdr.detectChanges();
   }
 
   handleLoad(): void {
     this.captchaIsLoaded = true;
-    this.cdr.detectChanges();
   }
 
   handleReady(): void {
     this.captchaIsReady = true;
-    this.cdr.detectChanges();
   }
 
   changeBadge(badge: 'bottomright' | 'bottomleft' | 'inline' = 'bottomright'): void {

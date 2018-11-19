@@ -91,6 +91,7 @@
         <h4>Live example</h4>
         <ngx-invisible-recaptcha #captchaElem
                                  [siteKey]="siteKey"
+                                 (reset)="handleReset()"
                                  (ready)="handleReady()"
                                  (load)="handleLoad()"
                                  (success)="handleSuccess($event)"

@@ -102,6 +102,7 @@
           <h4>Live example</h4>
           <ngx-recaptcha2 #captchaElem
                           [siteKey]="siteKey"
+                          (reset)="handleReset()"
                           (expire)="handleExpire()"
                           (load)="handleLoad()"
                           (success)="handleSuccess($event)"
@@ -137,7 +138,9 @@
 
           <pre class="mt-2">
               <code [innerText]="exampleCode"></code>
+              <code [innerText]="exampleTsCode"></code>
           </pre>
+           
       </div>
   </div>
 </form>

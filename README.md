@@ -72,15 +72,16 @@ export class YourComponent implements OnInit {
 your.template.html
 ```html
 <form [formGroup]="aFormGroup">
-  <ngx-recaptcha2
+  <ngx-recaptcha2 #captchaElem
     [siteKey]="siteKey"
+    (reset)="handleReset()"
+    (expire)="handleExpire()"
+    (load)="handleLoad()"
+    (success)="handleSuccess($event)"
     [size]="size"
     [hl]="lang"
     [theme]="theme"
     [type]="type"
-    (expire)="handleExpire()"
-    (load)="handleLoad()"
-    (success)="handleSuccess($event)"
     formControlName="recaptcha">
   </ngx-recaptcha2>
 </form>
@@ -110,13 +111,16 @@ your.template.html
 
 ```html
 <form [formGroup]="aFormGroup">
-  <ngx-invisible-recaptcha
+  <ngx-invisible-recaptcha #captchaElem
     [siteKey]="siteKey"
-    [type]="type"
-    [badge]="badge"
+    (reset)="handleReset()"
+    (ready)="handleReady()"
     (load)="handleLoad()"
     (success)="handleSuccess($event)"
-    formControlName="recaptcha">
+    [type]="type"
+    [badge]="badge"
+    [ngModel]="recaptcha"
+    [ngModelOptions]="{ standalone: true }">
   </ngx-invisible-recaptcha>
 </form>
 ```

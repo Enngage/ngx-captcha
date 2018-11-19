@@ -33,16 +33,35 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
   export class AppModule { }`;
 
-  public readonly exampleCode = `<ngx-recaptcha2 #captchaElem
-  [size]="size"
-  [hl]="lang"
-  [theme]="theme"
-  [type]="type"
-  (expire)="handleExpire()"
-  (load)="handleLoad()"
-  (success)="handleSuccess($event)"
-  formControlName="recaptcha">
-</ngx-recaptcha2>`;
+  public readonly exampleCode = `<form [formGroup]="aFormGroup">
+  <ngx-recaptcha2 #captchaElem
+    [siteKey]="siteKey"
+    (reset)="handleReset()"
+    (expire)="handleExpire()"
+    (load)="handleLoad()"
+    (success)="handleSuccess($event)"
+    [size]="size"
+    [hl]="lang"
+    [theme]="theme"
+    [type]="type"
+    formControlName="recaptcha">
+  </ngx-recaptcha2>
+</form>
+`;
+
+  public readonly exampleTsCode = `class YourComponent implements OnInit {
+    public aFormGroup: FormGroup;
+
+    constructor(
+      private formBuilder: FormBuilder) {}
+
+    ngOnInit() {
+      this.aFormGroup = this.formBuilder.group({
+        recaptcha: ['', Validators.required]
+      });
+    }
+  }
+  `;
 
   public captchaIsLoaded = false;
   public captchaSuccess = false;
@@ -58,7 +77,8 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   @ViewChild('langInput') langInput: ElementRef;
   public aFormGroup: FormGroup;
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.aFormGroup = this.formBuilder.group({
@@ -70,23 +90,26 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     this.highlight();
   }
 
+  handleReset(): void {
+    this.captchaSuccess = false;
+    this.captchaResponse = undefined;
+    this.captchaIsExpired = false;
+  }
+
   handleSuccess(captchaResponse: string): void {
     this.captchaSuccess = true;
     this.captchaResponse = captchaResponse;
     this.captchaIsExpired = false;
-    this.cdr.detectChanges();
   }
 
   handleLoad(): void {
     this.captchaIsLoaded = true;
     this.captchaIsExpired = false;
-    this.cdr.detectChanges();
   }
 
   handleExpire(): void {
     this.captchaSuccess = false;
     this.captchaIsExpired = true;
-    this.cdr.detectChanges();
   }
 
   changeTheme(theme: 'light' | 'dark'): void {

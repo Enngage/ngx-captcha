@@ -56,6 +56,11 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     @Output() load = new EventEmitter<number>();
 
     /**
+    * Called when captcha is reset.
+    */
+    @Output() reset = new EventEmitter<void>();
+
+    /**
     * Called when captcha is loaded & ready. I.e. when you need to execute captcha on component load.
     */
     @Output() ready = new EventEmitter<void>();
@@ -171,8 +176,16 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     */
     resetCaptcha(): void {
         this.zone.run(() => {
+            // reset captcha using Google js api
+            this.reCaptchaApi.reset();
+
+            // required due to forms
             this.onChange(undefined);
             this.onTouched(undefined);
+
+
+            // trigger reset event
+            this.reset.next();
         });
     }
 
