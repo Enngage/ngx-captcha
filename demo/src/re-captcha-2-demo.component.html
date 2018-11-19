@@ -48,6 +48,13 @@
                           <span style="cursor:pointer" class="text-primary" (click)="changeType('audio')">Audio</span>
                       </td>
                   </tr>
+                  <tr>
+                    <td>Use global domain</td>
+                    <td>
+                        <span style="cursor:pointer" class="text-primary" (click)="setUseGlobalDomain(true)">Yes</span> |
+                        <span style="cursor:pointer" class="text-primary" (click)="setUseGlobalDomain(false)">No</span>
+                    </td>
+                </tr>
               </tbody>
           </table>
 
@@ -106,7 +113,7 @@
                           (expire)="handleExpire()"
                           (load)="handleLoad()"
                           (success)="handleSuccess($event)"
-                          [useGlobalDomain]="false"
+                          [useGlobalDomain]="useGlobalDomain"
                           [size]="size"
                           [hl]="lang"
                           [theme]="theme"

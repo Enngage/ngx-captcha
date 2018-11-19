@@ -154,7 +154,15 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     ngOnChanges(changes: SimpleChanges): void {
         // cleanup scripts if language changed because they need to be reloaded
         if (changes && changes.hl) {
+            // cleanup scripts when language changes
             if (!changes.hl.firstChange && (changes.hl.currentValue !== changes.hl.previousValue)) {
+                this.scriptService.cleanup();
+            }
+        }
+
+        if (changes && changes.useGlobalDomain) {
+            // cleanup scripts when domain changes
+            if (!changes.useGlobalDomain.firstChange && (changes.useGlobalDomain.currentValue !== changes.useGlobalDomain.previousValue)) {
                 this.scriptService.cleanup();
             }
         }
@@ -223,7 +231,6 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     * Responsible for instantiating captcha element
     */
     protected renderReCaptcha(): void {
-
         // run outside angular zone due to timeout issues when testing
         // details: https://github.com/Enngage/ngx-captcha/issues/26
         this.zone.runOutsideAngular(() => {

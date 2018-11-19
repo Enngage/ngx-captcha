@@ -73,6 +73,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   public size: 'compact' | 'normal' = 'normal';
   public lang = 'en';
   public type: 'image' | 'audio';
+  public useGlobalDomain: boolean = false;
 
   @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
   @ViewChild('langInput') langInput: ElementRef;
@@ -127,6 +128,10 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
   setLanguage(): void {
     this.lang = this.langInput.nativeElement.value;
+  }
+
+  setUseGlobalDomain(use: boolean): void {
+    this.useGlobalDomain = use;
   }
 
   getCurrentResponse(): void {

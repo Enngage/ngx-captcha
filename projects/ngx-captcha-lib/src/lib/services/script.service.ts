@@ -82,6 +82,8 @@ export class ScriptService {
     */
     private getCaptchaScriptUrl(useGlobalDomain: boolean, render: string, language?: string): string {
         const domain = useGlobalDomain ? this.globalDomain : this.defaultDomain;
+        console.log(useGlobalDomain, domain);
+
         // tslint:disable-next-line:max-line-length
         return `https://www.${domain}/recaptcha/api.js?onload=${this.windowOnLoadCallbackProperty}&render=${render}${this.getLanguageParam(language)}`;
     }
