@@ -2,10 +2,10 @@
   "name": "ngx-captcha-source",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "build:demo": "ng build",
-    "serve:demo": "ng serve",
-    "build-demo-gh-pages": "ng build --prod"
+    "ng": "node_modules/.bin/ng",
+    "build:demo": "npm run ng build",
+    "serve:demo": "npm run ng serve",
+    "build-demo-gh-pages": "npm run ng build --prod"
   },
   "private": true,
   "dependencies": {
