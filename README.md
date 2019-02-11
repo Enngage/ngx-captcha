@@ -137,7 +137,7 @@ A simple fix for this is wait certain amount of time so that everything has a ch
 
 ```typescript
 beforeEach(() => {
-        fixture = TestBed.createComponent(YourComnponent);
+        fixture = TestBed.createComponent(YourComponent);
         component = fixture.componentInstance;
         setTimeout(function () {
             fixture.detectChanges();
