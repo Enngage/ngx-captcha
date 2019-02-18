@@ -30,6 +30,13 @@
                         <span style="cursor:pointer" class="text-primary" (click)="changeType('audio')">Audio</span>
                     </td>
                 </tr>
+                <tr>
+                    <td>Theme</td>
+                    <td>
+                        <span style="cursor:pointer" class="text-primary" (click)="changeTheme('light')">Light</span> |
+                        <span style="cursor:pointer" class="text-primary" (click)="changeTheme('dark')">Dark</span>
+                    </td>
+                </tr>
             </tbody>
         </table>
 
@@ -97,6 +104,7 @@
                                  (success)="handleSuccess($event)"
                                  [useGlobalDomain]="false"
                                  [type]="type"
+                                 [theme]="theme"
                                  [badge]="badge"
                                  [ngModel]="recaptcha"
                                  [ngModelOptions]="{ standalone: true }">

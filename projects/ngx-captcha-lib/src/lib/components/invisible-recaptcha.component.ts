@@ -1,14 +1,4 @@
-import {
-  Component,
-  forwardRef,
-  Injector,
-  Input,
-  NgZone,
-  OnChanges,
-  Optional,
-  Renderer2,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, forwardRef, Injector, Input, NgZone, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ReCaptchaType } from '../models/recaptcha-type.enum';
@@ -33,6 +23,11 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
    * This size representing invisible captcha
    */
   protected readonly size = 'invisible';
+
+  /**
+   * Theme
+   */
+  @Input() theme: 'dark' | 'light' = 'light';
 
   /**
    * Badge
@@ -80,7 +75,8 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
       'badge': this.badge,
       'type': this.type,
       'tabindex': this.tabIndex,
-      'size': this.size
+      'size': this.size,
+      'theme': this.theme
     };
   }
 }

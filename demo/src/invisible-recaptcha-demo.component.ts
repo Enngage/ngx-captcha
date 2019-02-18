@@ -19,6 +19,7 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
   (load)="handleLoad()"
   (success)="handleSuccess($event)"
   [useGlobalDomain]="false"
+  [theme]="theme"
   [type]="type"
   [badge]="badge"
   [ngModel]="recaptcha"
@@ -33,11 +34,13 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
 
   public badge: 'bottomright' | 'bottomleft' | 'inline' = 'inline';
   public type: 'image' | 'audio';
+  public theme: 'light' | 'dark' = 'light';
 
   public recaptcha: any = null;
 
   @ViewChild('captchaElem') captchaElem: InvisibleReCaptchaComponent;
   @ViewChild('langInput') langInput: ElementRef;
+
 
 
   constructor(private cdr: ChangeDetectorRef) { }
@@ -106,6 +109,10 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
     } else {
       alert(currentResponse);
     }
+  }
+
+  changeTheme(theme: 'light' | 'dark'): void {
+    this.theme = theme;
   }
 
   private highlight(): void {
