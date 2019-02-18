@@ -1,13 +1,13 @@
 {
   "name": "ngx-captcha",
-  "version": "6.2.1",
+  "version": "6.3.0",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/ngx-captcha"
   },
   "author": "richard sustek",
-  "description": "Dynamic captcha (Google reCaptcha) implementation for Angular 6+",
+  "description": "Dynamic captcha (Google reCaptcha) implementation for Angular",
   "keywords": [
     "Captcha",
     "reCaptcha",
