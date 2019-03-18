@@ -70,6 +70,16 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     */
     @Output() ready = new EventEmitter<void>();
 
+    /**
+    * Error callback
+    */
+    @Output() error = new EventEmitter<void>();
+
+    /**
+    * Expired callback
+    */
+    @Output() expire = new EventEmitter<void>();
+
     @ViewChild('captchaWrapperElem') captchaWrapperElem: ElementRef;
     @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
 
@@ -343,6 +353,28 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     */
     public registerOnTouched(fn: any): void {
         this.onTouched = fn;
+    }
+
+    /**
+    * Handles error callback
+    */
+    protected handleErrorCallback(): void {
+        this.zone.run(() => {
+            this.onChange(undefined);
+            this.onTouched(undefined);
+        });
+
+        this.error.next();
+    }
+
+    /**
+    * Handles expired callback
+    */
+    protected handleExpireCallback(): void {
+        this.expire.next();
+
+        // reset captcha on expire callback
+        this.resetCaptcha();
     }
 }
 

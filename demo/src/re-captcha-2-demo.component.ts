@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ElementRef, OnInit,
   ViewChild
@@ -38,6 +37,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     [siteKey]="siteKey"
     (reset)="handleReset()"
     (expire)="handleExpire()"
+    (error)="handleError()"
     (load)="handleLoad()"
     (success)="handleSuccess($event)"
     [useGlobalDomain]="false"

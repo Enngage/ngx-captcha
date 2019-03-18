@@ -57,16 +57,6 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
    */
   @Input() hl: string;
 
-  /**
-  * Expired callback
-  */
-  @Output() expire = new EventEmitter<void>();
-
-  /**
-  * Error callback
-  */
-  @Output() error = new EventEmitter<void>();
-
   protected recaptchaType: ReCaptchaType = ReCaptchaType.ReCaptcha2;
 
   constructor(
@@ -111,30 +101,8 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
    * Registers global callbacks
   */
   private registerCallbacks(): void {
-    window[this.windowOnErrorCallbackProperty] = this.handleErrorCallback.bind(this);
-    window[this.windowOnExpireCallbackProperty] = this.handleExpireCallback.bind(this);
-  }
-
-  /**
-   * Handles error callback
-  */
-  private handleErrorCallback(): void {
-    this.zone.run(() => {
-      this.onChange(undefined);
-      this.onTouched(undefined);
-    });
-
-    this.error.next();
-  }
-
-  /**
-   * Handles expired callback
-   */
-  private handleExpireCallback(): void {
-    this.expire.next();
-
-    // reset captcha on expire callback
-    this.resetCaptcha();
+    window[this.windowOnErrorCallbackProperty] = super.handleErrorCallback.bind(this);
+    window[this.windowOnExpireCallbackProperty] = super.handleExpireCallback.bind(this);
   }
 }
 

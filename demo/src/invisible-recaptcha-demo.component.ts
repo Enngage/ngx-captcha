@@ -18,6 +18,8 @@ export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
   (ready)="handleReady()"
   (load)="handleLoad()"
   (success)="handleSuccess($event)"
+  (expire)="handleExpire()"
+  (error)="handleError()"
   [useGlobalDomain]="false"
   [theme]="theme"
   [type]="type"

@@ -72,6 +72,8 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
     return {
       'sitekey': this.siteKey,
       'callback': (response) => this.zone.run(() => this.handleCallback(response)),
+      'expired-callback': () => this.zone.run(() => this.handleExpireCallback()),
+      'error-callback': () => this.zone.run(() => this.handleErrorCallback()),
       'badge': this.badge,
       'type': this.type,
       'tabindex': this.tabIndex,
@@ -79,5 +81,7 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implemen
       'theme': this.theme
     };
   }
+
+
 }
 
