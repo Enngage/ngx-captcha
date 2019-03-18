@@ -5,7 +5,8 @@
     "ng": "node_modules/.bin/ng",
     "build:demo": "npm run ng build",
     "serve:demo": "npm run ng serve",
-    "build-demo-gh-pages": "npm run ng build -- --prod"
+    "build-demo-gh-pages": "npm run ng build -- --prod",
+    "publish:lib": "cd ./projects/ngx-captcha-lib && npm run publish:lib"
   },
   "private": true,
   "dependencies": {
