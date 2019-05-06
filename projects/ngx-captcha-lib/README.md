@@ -25,7 +25,7 @@ Live examples: [https://enngage.github.io/ngx-captcha/](https://enngage.github.i
 npm install ngx-captcha
 ```
 
-Import `NgxCaptchaModule ` to your module (i.e. `AppModule`). You can configure global keys with `forRoot` (optionally) or you can use `siteKey` input parameter of captcha components.
+Import `NgxCaptchaModule ` to your module (i.e. `AppModule`). 
 
 ### Use with Angular forms
 
