@@ -1,4 +1,5 @@
 import {
+    AfterViewChecked,
     AfterViewInit,
     ElementRef,
     EventEmitter,
@@ -9,19 +10,20 @@ import {
     Output,
     Renderer2,
     SimpleChanges,
-    ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 
 import { ReCaptchaType } from '../models/recaptcha-type.enum';
 import { ScriptService } from '../services/script.service';
 
-export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueAccessor, AfterViewInit {
+export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueAccessor, AfterViewInit, AfterViewChecked {
 
     /**
     * Prefix of the captcha element
     */
     protected readonly captchaElemPrefix = 'ngx_captcha_id_';
+
+    private setupCaptcha: boolean = true;
 
     /**
     * Google's site key.
@@ -80,8 +82,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     */
     @Output() expire = new EventEmitter<void>();
 
-    @ViewChild('captchaWrapperElem') captchaWrapperElem: ElementRef;
-    @ViewChild('captchaScriptElem') captchaScriptElem: ElementRef;
+    abstract captchaWrapperElem?: ElementRef;
 
     /**
     * Indicates if captcha should be set on load
@@ -151,6 +152,13 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
         this.control = this.injector.get(NgControl).control;
     }
 
+    ngAfterViewChecked(): void {
+        if (this.setupCaptcha) {
+            this.setupCaptcha = false;
+            this.setupComponent();
+        }
+    }
+
     /**
     * Gets reCaptcha properties
     */
@@ -177,7 +185,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
             }
         }
 
-        this.setupComponent();
+        this.setupCaptcha = true;
     }
 
     /**
@@ -320,6 +328,10 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
 
         if (!this.captchaElemId) {
             throw Error(`Captcha elem Id is not set`);
+        }
+
+        if (!this.captchaWrapperElem) {
+            throw Error(`Captcha DOM element is not initialized`);
         }
 
         // remove old html

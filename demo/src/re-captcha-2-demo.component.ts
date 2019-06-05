@@ -2,7 +2,9 @@ import {
   AfterViewInit,
   Component,
   ElementRef, OnInit,
-  ViewChild
+  ViewChild,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import { ReCaptcha2Component } from '../../projects/ngx-captcha-lib/src/public_api';
@@ -11,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 declare var hljs: any;
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngx-recaptcha-2-demo',
   templateUrl: './re-captcha-2-demo.component.html'
 })
@@ -75,12 +78,13 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   public type: 'image' | 'audio';
   public useGlobalDomain: boolean = false;
 
-  @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
-  @ViewChild('langInput') langInput: ElementRef;
+  @ViewChild('captchaElem', { static: false }) captchaElem: ReCaptcha2Component;
+  @ViewChild('langInput', { static: false }) langInput: ElementRef;
   public aFormGroup: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder) {}
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.aFormGroup = this.formBuilder.group({
@@ -96,22 +100,26 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     this.captchaSuccess = false;
     this.captchaResponse = undefined;
     this.captchaIsExpired = false;
+    this.cdr.detectChanges();
   }
 
   handleSuccess(captchaResponse: string): void {
     this.captchaSuccess = true;
     this.captchaResponse = captchaResponse;
     this.captchaIsExpired = false;
+    this.cdr.detectChanges();
   }
 
   handleLoad(): void {
     this.captchaIsLoaded = true;
     this.captchaIsExpired = false;
+    this.cdr.detectChanges();
   }
 
   handleExpire(): void {
     this.captchaSuccess = false;
     this.captchaIsExpired = true;
+    this.cdr.detectChanges();
   }
 
   changeTheme(theme: 'light' | 'dark'): void {

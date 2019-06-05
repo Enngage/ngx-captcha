@@ -1,16 +1,15 @@
 import {
   Component,
-  EventEmitter,
+  ElementRef,
   forwardRef,
   Injector,
   Input,
   NgZone,
   OnChanges,
   OnDestroy,
-  Optional,
-  Output,
   Renderer2,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -56,6 +55,8 @@ export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnCha
    * Language code. Auto-detects the user's language if unspecified.
    */
   @Input() hl: string;
+
+  @ViewChild('captchaWrapperElem', { static: false}) captchaWrapperElem: ElementRef;
 
   protected recaptchaType: ReCaptchaType = ReCaptchaType.ReCaptcha2;
 

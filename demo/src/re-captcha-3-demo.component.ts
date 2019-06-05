@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { ReCaptchaV3Service, ScriptService } from '../../projects/ngx-captcha-lib/src/public_api';
 
 declare var hljs: any;
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngx-recaptcha-3-demo',
   templateUrl: './re-captcha-3-demo.component.html',
 })
@@ -33,7 +34,8 @@ export class ReCaptcha3DemoComponent implements OnInit, AfterViewInit {
 
   constructor(
     private reCaptchaV3Service: ReCaptchaV3Service,
-    private scriptService: ScriptService
+    private scriptService: ScriptService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +66,7 @@ export class ReCaptcha3DemoComponent implements OnInit, AfterViewInit {
     this.reCaptchaV3Service.execute(this.siteKey, 'reCaptcha3DemoPage', (token) => {
       this.token = token;
       console.log('Your token is: ', token);
+      this.cdr.detectChanges();
     }, {
       useGlobalDomain: false
     });
