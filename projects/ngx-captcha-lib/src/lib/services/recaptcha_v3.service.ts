@@ -23,23 +23,7 @@ export class ReCaptchaV3Service {
       useGlobalDomain: boolean;
     }
   ): void {
-    const useGlobalDomain = config && config.useGlobalDomain ? true : false;
-
-    this.scriptService.registerCaptchaScript(
-      useGlobalDomain,
-      siteKey,
-      grecaptcha => {
-        this.zone.runOutsideAngular(() => {
-          grecaptcha
-            .execute(siteKey, {
-              action: action,
-            })
-            .then(token => {
-              this.zone.run(() => callback(token));
-            });
-        });
-      }
-    );
+    this.executeAsPromise(siteKey, action, config).then(callback);
   }
 
   /**
@@ -67,7 +51,11 @@ export class ReCaptchaV3Service {
             .execute(siteKey, {
               action: action,
             })
-            .then(resolve)
+            .then(token => {
+              this.zone.run(() => {
+                resolve(token);
+              });
+            })
             .catch(reject);
         });
       };
