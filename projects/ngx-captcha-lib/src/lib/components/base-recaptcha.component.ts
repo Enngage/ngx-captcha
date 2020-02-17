@@ -140,7 +140,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     /**
     * Form Control to be enable usage in reactive forms
     */
-    public control?: AbstractControl;
+    public control?: AbstractControl | null;
 
     protected constructor(
         protected renderer: Renderer2,
