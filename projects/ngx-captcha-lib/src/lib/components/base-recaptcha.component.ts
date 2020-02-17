@@ -11,7 +11,8 @@ import {
     Renderer2,
     SimpleChanges,
 } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NgControl, AbstractControl } from '@angular/forms';
+import { Type } from '@angular/core';
 
 import { ReCaptchaType } from '../models/recaptcha-type.enum';
 import { ScriptService } from '../services/script.service';
@@ -139,7 +140,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     /**
     * Form Control to be enable usage in reactive forms
     */
-    public control?: FormControl;
+    public control?: AbstractControl;
 
     protected constructor(
         protected renderer: Renderer2,
@@ -149,7 +150,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     ) { }
 
     ngAfterViewInit() {
-        this.control = this.injector.get(NgControl).control;
+        this.control = this.injector.get<NgControl>(NgControl).control;
     }
 
     ngAfterViewChecked(): void {
