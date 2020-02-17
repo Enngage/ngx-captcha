@@ -6,7 +6,8 @@
     "build:demo": "npm run ng build",
     "serve:demo": "npm run ng serve",
     "build-demo-gh-pages": "npm run ng build -- --prod",
-    "publish:lib": "cd ./projects/ngx-captcha-lib && npm run publish:lib"
+    "publish:lib": "cd ./projects/ngx-captcha-lib && npm run publish:lib",
+    "release": "standard-version"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +25,7 @@
     "zone.js": "0.9.1"
   },
   "devDependencies": {
+    "standard-version": "7.0.1",
     "@angular/compiler-cli": "8.0.0",
     "@angular-devkit/build-ng-packagr": "0.800.1",
     "@angular-devkit/build-angular": "0.800.1",
