@@ -1,6 +1,6 @@
 {
   "name": "ngx-captcha-source",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "node_modules/.bin/ng",
     "build:demo": "npm run ng build",
