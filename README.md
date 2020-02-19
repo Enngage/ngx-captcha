@@ -14,11 +14,6 @@ Features:
 
 Live examples: [https://enngage.github.io/ngx-captcha/](https://enngage.github.io/ngx-captcha/)
 
-## Supported versions
-
-1. For Angular 6 use ngx-captcha on version `5.0.4`
-2. For Angular 7 use ngx-captcha on version `>= 6.0.0`
-
 ## Installation
 
 ```javascript
