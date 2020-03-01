@@ -47,16 +47,13 @@ export class ReCaptchaV3Service {
 
       const onRegister = grecaptcha => {
         this.zone.runOutsideAngular(() => {
-          grecaptcha
-            .execute(siteKey, {
-              action: action,
-            })
-            .then(token => {
-              this.zone.run(() => {
-                resolve(token);
-              });
-            })
-            .catch(reject);
+          try {
+            grecaptcha
+              .execute(siteKey, { action })
+              .then(token => this.zone.run(() => resolve(token)));
+          } catch (error) {
+            reject(error);
+          }
         });
       };
 
