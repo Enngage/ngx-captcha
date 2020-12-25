@@ -14,6 +14,9 @@ export class ReCaptchaV3Service {
    *
    * @param siteKey Site key found in your google admin panel
    * @param action Action to log
+   * @param callback Callback function to to handle token
+   * @param config Optional configuration like useGlobalDomain to be provided
+   * @param errorCallback Optional Callback function to handle errors
    */
   execute(
     siteKey: string,
@@ -21,9 +24,12 @@ export class ReCaptchaV3Service {
     callback: (token: string) => void,
     config?: {
       useGlobalDomain: boolean;
-    }
+    },
+    errorCallback?: (error: any) => void
   ): void {
-    this.executeAsPromise(siteKey, action, config).then(callback);
+    this.executeAsPromise(siteKey, action, config)
+      .then(callback)
+      .catch((error) => errorCallback ? errorCallback(error) : console.error(error));
   }
 
   /**
