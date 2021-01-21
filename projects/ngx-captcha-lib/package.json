@@ -28,7 +28,8 @@
     "prevent-publish": "node prevent-publish"
   },
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0"
+    "tslib": "^2.0.0",
+    "@angular/common": "^11.0.0",
+    "@angular/core": "^11.0.0"
   }
 }

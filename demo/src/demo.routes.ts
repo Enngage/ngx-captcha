@@ -11,22 +11,22 @@ import { ReCaptcha3DemoComponent } from './re-captcha-3-demo.component';
     ],
     imports: [
         RouterModule.forRoot([
-            {
-                path: '', component: ReCaptcha2DemoComponent
-            },
-            {
-                path: 'installation', component: InstallationComponent
-            },
-            {
-                path: 'invisible', component: InvisibleReCaptchaDemoComponent
-            },
-            {
-                path: 'recaptcha2', component: ReCaptcha2DemoComponent
-            },
-            {
-                path: 'recaptcha3', component: ReCaptcha3DemoComponent
-            },
-        ])
+    {
+        path: '', component: ReCaptcha2DemoComponent
+    },
+    {
+        path: 'installation', component: InstallationComponent
+    },
+    {
+        path: 'invisible', component: InvisibleReCaptchaDemoComponent
+    },
+    {
+        path: 'recaptcha2', component: ReCaptcha2DemoComponent
+    },
+    {
+        path: 'recaptcha3', component: ReCaptcha3DemoComponent
+    },
+], { relativeLinkResolution: 'legacy' })
     ],
     exports: [
         RouterModule
