@@ -1,22 +1,11 @@
-import {
-    AfterViewChecked,
-    AfterViewInit,
-    ElementRef,
-    EventEmitter,
-    Injector,
-    Input,
-    NgZone,
-    OnChanges,
-    Output,
-    Renderer2,
-    SimpleChanges,
-} from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ElementRef, EventEmitter, Injector, Input, NgZone, OnChanges, Output, Renderer2, SimpleChanges, Directive } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, AbstractControl } from '@angular/forms';
 import { Type } from '@angular/core';
 
 import { ReCaptchaType } from '../models/recaptcha-type.enum';
 import { ScriptService } from '../services/script.service';
 
+@Directive()
 export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueAccessor, AfterViewInit, AfterViewChecked {
 
     /**
