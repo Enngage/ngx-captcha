@@ -333,8 +333,12 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
 
         this.renderer.appendChild(this.captchaWrapperElem.nativeElement, newElem);
 
-        // update captcha elem
-        this.ensureCaptchaElem(this.captchaElemId);
+        // when use captcha in cdk stepper then throwing error Captcha element with id 'ngx_captcha_id_XXXX' not found
+        // TO fix it checking ensureCaptchaElem in timeout so that its check in next call and its able to find element
+        setTimeout(() => {
+            // update captcha elem
+            this.ensureCaptchaElem(this.captchaElemId);
+        }, 0);
     }
 
     /**
