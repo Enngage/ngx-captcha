@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
+import { RecaptchaConfiguration } from '../models/recaptcha-configuration';
 
 declare var document: any;
 
@@ -11,39 +12,65 @@ export class ScriptService {
     protected readonly windowGrecaptcha = 'grecaptcha';
 
     /**
+     * Name of enterpise property in the global google recaptcha script
+     */
+    protected readonly windowGrecaptchaEnterprise = 'enterprise';
+
+    /**
     * Name of the global callback
     */
     protected readonly windowOnLoadCallbackProperty = 'ngx_captcha_onload_callback';
 
+    /**
+     * Name of the global callback for enterprise
+     */
+    protected readonly windowOnLoadEnterpriseCallbackProperty = 'ngx_captcha_onload_enterprise_callback';
+
     protected readonly globalDomain: string = 'recaptcha.net';
 
     protected readonly defaultDomain: string = 'google.com';
+
+    protected readonly enterpriseApi: string = 'enterprise.js';
+
+    protected readonly defaultApi: string = 'api.js';
 
     constructor(
         protected zone: NgZone,
     ) {
     }
 
-    registerCaptchaScript(useGlobalDomain: boolean, render: string, onLoad: (grecaptcha: any) => void, language?: string): void {
-        if (this.grecaptchaScriptLoaded()) {
+    registerCaptchaScript(config: RecaptchaConfiguration, render: string, onLoad: (grecaptcha: any) => void, language?: string): void {
+        if (this.grecaptchaScriptLoaded(config.useEnterprise)) {
             // recaptcha script is already loaded
             // just call the callback
-            this.zone.run(() => {
-                onLoad(window[this.windowGrecaptcha]);
-            });
+            if (config.useEnterprise) {
+                this.zone.run(() => {
+                  onLoad(window[this.windowGrecaptcha][this.windowGrecaptchaEnterprise]);
+                });
+            } else {
+                this.zone.run(() => {
+                  onLoad(window[this.windowGrecaptcha]);
+                });
+            }
             return;
         }
 
         // we need to patch the callback through global variable, otherwise callback is not accessible
         // note: https://github.com/Enngage/ngx-captcha/issues/2
-        window[this.windowOnLoadCallbackProperty] = <any>(() => this.zone.run(
-            onLoad.bind(this, window[this.windowGrecaptcha])
-        ));
+        if (config.useEnterprise) {
+            window[this.getCallbackName(true)] = <any>(() => this.zone.run(
+              onLoad.bind(this, window[this.windowGrecaptcha][this.windowGrecaptchaEnterprise])
+            ));
+        } else {
+            window[this.getCallbackName(false)] = <any>(() => this.zone.run(
+              onLoad.bind(this, window[this.windowGrecaptcha])
+            ));
+        }
 
         // prepare script elem
         const scriptElem = document.createElement('script');
         scriptElem.innerHTML = '';
-        scriptElem.src = this.getCaptchaScriptUrl(useGlobalDomain, render, language);
+        scriptElem.src = this.getCaptchaScriptUrl(config, render, language);
         scriptElem.async = true;
         scriptElem.defer = true;
 
@@ -52,18 +79,34 @@ export class ScriptService {
     }
 
     cleanup(): void {
-        window[this.windowOnLoadCallbackProperty] = undefined;
+        window[this.getCallbackName()] = undefined;
         window[this.windowGrecaptcha] = undefined;
     }
 
     /**
      * Indicates if google recaptcha script is available and ready to be used
      */
-    private grecaptchaScriptLoaded(): boolean {
-        if (window[this.windowOnLoadCallbackProperty] && window[this.windowGrecaptcha]) {
+    private grecaptchaScriptLoaded(useEnterprise?: boolean): boolean {
+        if (!window[this.getCallbackName(useEnterprise)] || !window[this.windowGrecaptcha]) {
+            return false;
+        } else if (useEnterprise && window[this.windowGrecaptcha][this.windowGrecaptchaEnterprise]) {
+            return true;
+        // if only enterprise script is loaded we need to check some v3's method
+        } else if (window[this.windowGrecaptcha].execute) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Gets global callback name
+     * @param useEnterprise Optional flag for enterprise script
+     * @private
+     */
+    private getCallbackName(useEnterprise?: boolean): string {
+        return useEnterprise
+          ? this.windowOnLoadEnterpriseCallbackProperty
+          : this.windowOnLoadCallbackProperty;
     }
 
     /**
@@ -80,11 +123,12 @@ export class ScriptService {
     /**
     * Url to google api script
     */
-    private getCaptchaScriptUrl(useGlobalDomain: boolean, render: string, language?: string): string {
-        const domain = useGlobalDomain ? this.globalDomain : this.defaultDomain;
+    private getCaptchaScriptUrl(config: RecaptchaConfiguration, render: string, language?: string): string {
+        const domain = config.useGlobalDomain ? this.globalDomain : this.defaultDomain;
+        const api = config.useEnterprise ? this.enterpriseApi : this.defaultApi;
+        const callback = this.getCallbackName(config.useEnterprise);
 
-        // tslint:disable-next-line:max-line-length
-        return `https://www.${domain}/recaptcha/api.js?onload=${this.windowOnLoadCallbackProperty}&render=${render}${this.getLanguageParam(language)}`;
+        return `https://www.${domain}/recaptcha/${api}?onload=${callback}&render=${render}${this.getLanguageParam(language)}`;
     }
 
 }
