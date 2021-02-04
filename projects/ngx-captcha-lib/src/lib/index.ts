@@ -4,5 +4,7 @@ export * from './components/recaptcha-2.component';
 export * from './models/recaptcha-type.enum';
 export * from './services/script.service';
 export * from './services/recaptcha_v3.service';
+export * from './services/enterprise-script.service';
+export * from './services/recaptcha-enterprise.service';
 export * from './ngx-captcha.module';
 

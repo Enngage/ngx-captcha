@@ -5,6 +5,8 @@ import { InvisibleReCaptchaComponent } from './components/invisible-recaptcha.co
 import { ReCaptcha2Component } from './components/recaptcha-2.component';
 import { ReCaptchaV3Service } from './services/recaptcha_v3.service';
 import { ScriptService } from './services/script.service';
+import { EnterpriseScriptService } from './services/enterprise-script.service';
+import { RecaptchaEnterpriseService } from './services/recaptcha-enterprise.service';
 
 @NgModule({
   imports: [
@@ -16,7 +18,9 @@ import { ScriptService } from './services/script.service';
   ],
   providers: [
     ScriptService,
-    ReCaptchaV3Service
+    ReCaptchaV3Service,
+    EnterpriseScriptService,
+    RecaptchaEnterpriseService
   ],
   exports: [
     ReCaptcha2Component,
