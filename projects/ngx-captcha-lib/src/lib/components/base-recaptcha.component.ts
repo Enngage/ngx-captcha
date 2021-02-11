@@ -242,8 +242,13 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
         // run outside angular zone due to timeout issues when testing
         // details: https://github.com/Enngage/ngx-captcha/issues/26
         this.zone.runOutsideAngular(() => {
-            this.captchaId = this.reCaptchaApi.render(this.captchaElemId, this.getCaptchaProperties());
-            this.ready.next();
+            // to fix reCAPTCHA placeholder element must be an element or id
+            // https://github.com/Enngage/ngx-captcha/issues/96
+            setTimeout(() => {
+                this.captchaId = this.reCaptchaApi.render(this.captchaElemId, this.getCaptchaProperties());
+                this.ready.next();
+            }, 0);
+          
         });
     }
 
