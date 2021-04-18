@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ElementRef, EventEmitter, Injector, Input, NgZone, OnChanges, Output, Renderer2, SimpleChanges, Directive } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ElementRef, EventEmitter, Injector, InjectFlags, Input, NgZone, OnChanges, Output, Renderer2, SimpleChanges, Directive } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, AbstractControl } from '@angular/forms';
 import { Type } from '@angular/core';
 
@@ -139,7 +139,7 @@ export abstract class BaseReCaptchaComponent implements OnChanges, ControlValueA
     ) { }
 
     ngAfterViewInit() {
-        this.control = this.injector.get<NgControl>(NgControl).control;
+        this.control = this.injector.get<NgControl | undefined>(NgControl, undefined, InjectFlags.Optional)?.control;
     }
 
     ngAfterViewChecked(): void {
