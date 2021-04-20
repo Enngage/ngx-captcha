@@ -68,7 +68,8 @@ export class ReCaptcha3DemoComponent implements OnInit, AfterViewInit {
       console.log('Your token is: ', token);
       this.cdr.detectChanges();
     }, {
-      useGlobalDomain: false
+      useGlobalDomain: false,
+      useEnterprise: false
     });
   }
 
