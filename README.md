@@ -150,11 +150,3 @@ Under `projects\ngx-captcha-lib` run
 npm run publish-lib
 ```
 
-### Publishing demo app
-
-Under root, generate demo app with
-
-```
-npm run build-demo-gh-pages
-npx ngh --dir=dist-demo
-```
