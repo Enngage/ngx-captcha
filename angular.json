@@ -36,8 +36,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
-              "showCircularDependencies": true
+              "buildOptimizer": true
             }
           }
         },
