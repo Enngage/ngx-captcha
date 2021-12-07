@@ -4,7 +4,7 @@
 
 ## Angular Captcha
 
-Google reCaptcha implementation for Angular 6 and beyond. 
+Google reCaptcha implementation for Angular 13.
 
 Features: 
 
@@ -14,18 +14,13 @@ Features:
 
 Live examples: [https://enngage.github.io/ngx-captcha/](https://enngage.github.io/ngx-captcha/)
 
-## Supported versions
-
-1. For Angular 6 use ngx-captcha on version `5.0.4`
-2. For Angular 7 use ngx-captcha on version `>= 6.0.0`
-
 ## Installation
 
 ```javascript
 npm install ngx-captcha
 ```
 
-Import `NgxCaptchaModule ` to your module (i.e. `AppModule`). 
+Import `NgxCaptchaModule ` to your module (i.e. `AppModule`)
 
 ### Use with Angular forms
 
@@ -129,6 +124,24 @@ your.template.html
 </form>
 ```
 
+### Unit testing
+
+Unit testing in Angular is possible, but a bit clunky because this component tries to dynamically include google's script if its not already loaded. You are not required to include in globally or manually which has a benefit of not loading until you actually use this component. This has a caveat though, since the `load` callback is executed outside of Angular's zone, performing unit tests might fail due to racing condition where Angular might fail the test before the script has a chance to load and initialize captcha. 
+
+A simple fix for this is wait certain amount of time so that everything has a chance to initialize. See example below:
+
+```typescript
+beforeEach(() => {
+        fixture = TestBed.createComponent(YourComponent);
+        component = fixture.componentInstance;
+        setTimeout(function () {
+            fixture.detectChanges();
+        }, 2000);
+});
+```
+
+Other possible scenario might be including google's script globally. If someone has a better solution, please do let me know or submit a PR for a change in readme.
+
 ### Publishing lib
 
 Under `projects\ngx-captcha-lib` run 
@@ -137,11 +150,3 @@ Under `projects\ngx-captcha-lib` run
 npm run publish-lib
 ```
 
-### Publishing demo app
-
-Under root, generate demo app with
-
-```
-npm run build-demo-gh-pages
-npx ngh --dir=dist-demo
-```
