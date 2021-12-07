@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "13.0.4",
+    "standard-version": "9.3.2",
     "@angular/compiler-cli": "13.0.3",
     "ng-packagr": "13.0.8",
     "tsickle": "0.43.0",
