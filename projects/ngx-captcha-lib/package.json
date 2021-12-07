@@ -26,8 +26,10 @@
     "prepublishOnly": "npm run prevent-publish",
     "prevent-publish": "node prevent-publish"
   },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
   "peerDependencies": {
-    "tslib": "^2.3.0",
     "@angular/common": "^13.0.0",
     "@angular/core": "^13.0.0"
   }
