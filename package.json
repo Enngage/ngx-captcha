@@ -1,14 +1,12 @@
 {
   "name": "ngx-captcha-source",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "start": "npm run serve:demo",
     "build:demo": "ng build",
     "serve:demo": "ng serve",
     "build-demo-gh-pages": "ng build --configuration production",
-    "publish:lib": "cd ./projects/ngx-captcha-lib && npm run publish:lib",
-    "release": "standard-version",
-    "release:major": "standard-version --release-as major"
+    "publish:lib": "cd ./projects/ngx-captcha-lib && npm run publish:lib"
   },
   "private": true,
   "dependencies": {
@@ -26,7 +24,6 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "13.0.4",
-    "standard-version": "9.3.2",
     "@angular/compiler-cli": "13.0.3",
     "ng-packagr": "13.0.8",
     "tsickle": "0.43.0",
