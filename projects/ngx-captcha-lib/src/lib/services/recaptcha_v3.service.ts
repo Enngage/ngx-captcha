@@ -1,16 +1,18 @@
 import { Injectable, NgZone } from '@angular/core';
 
 import { ScriptService } from './script.service';
+import { RecaptchaConfiguration } from '../models/recaptcha-configuration';
 
 @Injectable()
 export class ReCaptchaV3Service {
   constructor(protected scriptService: ScriptService, protected zone: NgZone) {}
 
   /**
-   * Executes reCaptcha v3 with given action and passes token via callback. You need to verify
+   * Executes reCaptcha v3/Enterprise with given action and passes token via callback. You need to verify
    * this callback in your backend to get meaningful results.
    *
    * For more information see https://developers.google.com/recaptcha/docs/v3
+   * For enterprise see https://cloud.google.com/recaptcha-enterprise/docs
    *
    * @param siteKey Site key found in your google admin panel
    * @param action Action to log
@@ -22,9 +24,7 @@ export class ReCaptchaV3Service {
     siteKey: string,
     action: string,
     callback: (token: string) => void,
-    config?: {
-      useGlobalDomain: boolean;
-    },
+    config?: RecaptchaConfiguration,
     errorCallback?: (error: any) => void
   ): void {
     this.executeAsPromise(siteKey, action, config)
@@ -33,23 +33,23 @@ export class ReCaptchaV3Service {
   }
 
   /**
-   * Executes reCaptcha v3 with given action and returns token via Promise. You need to verify
+   * Executes reCaptcha v3/Enterprise with given action and returns token via Promise. You need to verify
    * this token in your backend to get meaningful results.
    *
    * For more information see https://developers.google.com/recaptcha/docs/v3
+   * For enterprise see https://cloud.google.com/recaptcha-enterprise/docs
    *
    * @param siteKey Site key found in your google admin panel
    * @param action Action to log
+   * @param config Optional configuration like useGlobalDomain to be provided
    */
   executeAsPromise(
     siteKey: string,
     action: string,
-    config?: {
-      useGlobalDomain: boolean;
-    }
+    config?: RecaptchaConfiguration
   ): Promise<string> {
     return new Promise((resolve, reject) => {
-      const useGlobalDomain = config && config.useGlobalDomain ? true : false;
+      const configuration = config || {};
 
       const onRegister = grecaptcha => {
         this.zone.runOutsideAngular(() => {
@@ -64,7 +64,7 @@ export class ReCaptchaV3Service {
       };
 
       this.scriptService.registerCaptchaScript(
-        useGlobalDomain,
+        configuration,
         siteKey,
         onRegister
       );
