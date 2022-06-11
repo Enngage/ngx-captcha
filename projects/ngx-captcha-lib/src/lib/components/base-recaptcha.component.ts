@@ -314,8 +314,8 @@ export abstract class BaseReCaptchaComponent
     this.createAndSetCaptchaElem();
 
     this.scriptService.registerCaptchaScript(
-      this.useGlobalDomain,
-      "explicit",
+      {useGlobalDomain: this.useGlobalDomain, useEnterprise: false},
+      'explicit',
       (grecaptcha) => {
         this.onloadCallback(grecaptcha);
       },
