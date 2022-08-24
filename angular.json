@@ -65,7 +65,7 @@
             "tsConfig": "demo/tsconfig.spec.json",
             "karmaConfig": "demo/karma.conf.js",
             "styles": [
-              "styles.css"
+              "demo/styles.css"
             ],
             "scripts": [],
             "assets": [
@@ -149,5 +149,7 @@
       }
     }
   },
-  "defaultProject": "ngx-captcha"
+  "cli": {
+    "analytics": "81fa60f5-0e15-41fa-b925-d67e94bcf75b"
+  }
 }

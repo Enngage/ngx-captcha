@@ -1,37 +1,30 @@
 import {
   AfterViewChecked,
   AfterViewInit,
+  Directive,
   ElementRef,
   EventEmitter,
-  Injector,
   InjectFlags,
+  Injector,
   Input,
   NgZone,
   OnChanges,
   Output,
   Renderer2,
   SimpleChanges,
-  Directive,
-} from "@angular/core";
-import {
-  ControlValueAccessor,
-  FormControl,
-  NgControl,
-  AbstractControl,
-} from "@angular/forms";
-import { Type } from "@angular/core";
+} from '@angular/core';
+import {AbstractControl, ControlValueAccessor, NgControl, } from '@angular/forms';
 
-import { ReCaptchaType } from "../models/recaptcha-type.enum";
-import { ScriptService } from "../services/script.service";
+import {ReCaptchaType} from '../models/recaptcha-type.enum';
+import {ScriptService} from '../services/script.service';
 
 @Directive()
-export abstract class BaseReCaptchaComponent
-  implements OnChanges, ControlValueAccessor, AfterViewInit, AfterViewChecked
-{
+export abstract class BaseReCaptchaComponentDirective
+  implements OnChanges, ControlValueAccessor, AfterViewInit, AfterViewChecked {
   /**
    * Prefix of the captcha element
    */
-  protected readonly captchaElemPrefix = "ngx_captcha_id_";
+  protected readonly captchaElemPrefix = 'ngx_captcha_id_';
 
   private setupCaptcha: boolean = true;
 
@@ -49,7 +42,7 @@ export abstract class BaseReCaptchaComponent
   /**
    * Type
    */
-  @Input() type: "audio" | "image" = "image";
+  @Input() type: 'audio' | 'image' = 'image';
 
   /**
    * Language code. Auto-detects the user's language if unspecified.
@@ -156,7 +149,8 @@ export abstract class BaseReCaptchaComponent
     protected zone: NgZone,
     protected injector: Injector,
     protected scriptService: ScriptService
-  ) {}
+  ) {
+  }
 
   ngAfterViewInit() {
     this.control = this.injector.get<NgControl | undefined>(
@@ -200,7 +194,7 @@ export abstract class BaseReCaptchaComponent
       if (
         !changes.useGlobalDomain.firstChange &&
         changes.useGlobalDomain.currentValue !==
-          changes.useGlobalDomain.previousValue
+        changes.useGlobalDomain.previousValue
       ) {
         this.scriptService.cleanup();
       }
@@ -314,8 +308,8 @@ export abstract class BaseReCaptchaComponent
     this.createAndSetCaptchaElem();
 
     this.scriptService.registerCaptchaScript(
-      this.useGlobalDomain,
-      "explicit",
+      {useGlobalDomain: this.useGlobalDomain},
+      'explicit',
       (grecaptcha) => {
         this.onloadCallback(grecaptcha);
       },
@@ -367,10 +361,10 @@ export abstract class BaseReCaptchaComponent
     }
 
     // remove old html
-    this.captchaWrapperElem.nativeElement.innerHTML = "";
+    this.captchaWrapperElem.nativeElement.innerHTML = '';
 
     // create new wrapper for captcha
-    const newElem = this.renderer.createElement("div");
+    const newElem = this.renderer.createElement('div');
     newElem.id = this.captchaElemId;
 
     this.renderer.appendChild(this.captchaWrapperElem.nativeElement, newElem);
@@ -389,7 +383,8 @@ export abstract class BaseReCaptchaComponent
    * To be aligned with the ControlValueAccessor interface we need to implement this method
    * However as we don't want to update the recaptcha, this doesn't need to be implemented
    */
-  public writeValue(obj: any): void {}
+  public writeValue(obj: any): void {
+  }
 
   /**
    * This method helps us tie together recaptcha and our formControl values

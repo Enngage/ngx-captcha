@@ -15,7 +15,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ReCaptchaType } from '../models/recaptcha-type.enum';
 import { ScriptService } from '../services/script.service';
-import { BaseReCaptchaComponent } from './base-recaptcha.component';
+import { BaseReCaptchaComponentDirective } from './base-re-captcha-component.directive';
 
 @Component({
   selector: 'ngx-recaptcha2',
@@ -29,7 +29,7 @@ import { BaseReCaptchaComponent } from './base-recaptcha.component';
     }
   ]
 })
-export class ReCaptcha2Component extends BaseReCaptchaComponent implements OnChanges, OnDestroy {
+export class ReCaptcha2Component extends BaseReCaptchaComponentDirective implements OnChanges, OnDestroy {
 
   /**
   * Name of the global expire callback

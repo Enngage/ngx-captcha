@@ -14,7 +14,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ReCaptchaType } from '../models/recaptcha-type.enum';
 import { ScriptService } from '../services/script.service';
-import { BaseReCaptchaComponent } from './base-recaptcha.component';
+import { BaseReCaptchaComponentDirective } from './base-re-captcha-component.directive';
 
 @Component({
   selector: 'ngx-invisible-recaptcha',
@@ -28,7 +28,7 @@ import { BaseReCaptchaComponent } from './base-recaptcha.component';
     }
   ]
 })
-export class InvisibleReCaptchaComponent extends BaseReCaptchaComponent implements OnChanges {
+export class InvisibleReCaptchaComponent extends BaseReCaptchaComponentDirective implements OnChanges {
 
   /**
    * This size representing invisible captcha

@@ -4,7 +4,7 @@
 
 ## Angular Captcha
 
-Google reCaptcha implementation for Angular 13.
+Google reCaptcha implementation for Angular 14.
 
 Features: 
 
