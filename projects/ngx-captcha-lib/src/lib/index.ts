@@ -1,4 +1,4 @@
-export * from './components/base-recaptcha.component';
+export * from './components/base-re-captcha-component.directive';
 export * from './components/invisible-recaptcha.component';
 export * from './components/recaptcha-2.component';
 export * from './models/recaptcha-type.enum';
