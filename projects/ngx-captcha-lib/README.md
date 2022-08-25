@@ -4,7 +4,7 @@
 
 ## Angular Captcha
 
-Google reCaptcha implementation for Angular 13.
+Google reCaptcha implementation for Angular 14.
 
 Features: 
 
@@ -74,10 +74,6 @@ your.template.html
     (load)="handleLoad()"
     (success)="handleSuccess($event)"
     [useGlobalDomain]="false"
-    [size]="size"
-    [hl]="lang"
-    [theme]="theme"
-    [type]="type"
     formControlName="recaptcha">
   </ngx-recaptcha2>
 </form>
@@ -115,9 +111,6 @@ your.template.html
     (ready)="handleReady()"
     (load)="handleLoad()"
     (success)="handleSuccess($event)"
-    [useGlobalDomain]="false"
-    [type]="type"
-    [badge]="badge"
     [ngModel]="recaptcha"
     [ngModelOptions]="{ standalone: true }">
   </ngx-invisible-recaptcha>
