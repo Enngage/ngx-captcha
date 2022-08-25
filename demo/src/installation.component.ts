@@ -26,11 +26,6 @@ export class AppModule { }
   public readonly templateCode = `<form [formGroup]="aFormGroup">
   <ngx-recaptcha2
     [siteKey]="siteKey"
-    [size]="size"
-    [hl]="lang"
-    [theme]="theme"
-    [type]="type"
-    [useGlobalDomain]="false"
     (reset)="handleReset()"
     (expire)="handleExpire()"
     (load)="handleLoad()"

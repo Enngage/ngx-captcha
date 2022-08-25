@@ -134,10 +134,6 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     this.type = type;
   }
 
-  setLanguage(): void {
-    this.lang = this.langInput.nativeElement.value;
-  }
-
   setUseGlobalDomain(use: boolean): void {
     this.useGlobalDomain = use;
   }
