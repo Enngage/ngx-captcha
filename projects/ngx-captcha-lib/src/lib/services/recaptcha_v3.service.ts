@@ -3,7 +3,9 @@ import { Injectable, NgZone } from '@angular/core';
 import { ScriptService } from './script.service';
 import { RecaptchaConfiguration } from '../models/recaptcha-configuration';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ReCaptchaV3Service {
   constructor(protected scriptService: ScriptService, protected zone: NgZone) {}
 
