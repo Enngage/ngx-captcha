@@ -1,12 +1,15 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   Component,
   ElementRef,
   forwardRef,
+  Inject,
   Injector,
   Input,
   NgZone,
   OnChanges,
   OnDestroy,
+  PLATFORM_ID,
   Renderer2,
   SimpleChanges,
   ViewChild,
@@ -65,6 +68,7 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
     protected zone: NgZone,
     protected injector: Injector,
     protected scriptService: ScriptService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     super(renderer, zone, injector, scriptService);
   }
@@ -74,8 +78,10 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
   }
 
   ngOnDestroy(): void {
-    window[this.windowOnErrorCallbackProperty] = {};
-    window[this.windowOnExpireCallbackProperty] = {};
+    if (isPlatformBrowser(this.platformId)) {
+      window[this.windowOnErrorCallbackProperty] = {};
+      window[this.windowOnExpireCallbackProperty] = {};
+    }
   }
 
   protected captchaSpecificSetup(): void {
@@ -102,8 +108,10 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
    * Registers global callbacks
   */
   private registerCallbacks(): void {
-    window[this.windowOnErrorCallbackProperty] = super.handleErrorCallback.bind(this);
-    window[this.windowOnExpireCallbackProperty] = super.handleExpireCallback.bind(this);
+    if (isPlatformBrowser(this.platformId)) {
+      window[this.windowOnErrorCallbackProperty] = super.handleErrorCallback.bind(this);
+      window[this.windowOnExpireCallbackProperty] = super.handleExpireCallback.bind(this);
+    }
   }
 }
 
