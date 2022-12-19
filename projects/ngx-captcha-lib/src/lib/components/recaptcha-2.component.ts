@@ -51,12 +51,7 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
   */
   @Input() size: 'compact' | 'normal' = 'normal';
 
-  /**
-   * Language code. Auto-detects the user's language if unspecified.
-   */
-  @Input() hl: string;
-
-  @ViewChild('captchaWrapperElem', { static: false}) captchaWrapperElem: ElementRef;
+  @ViewChild('captchaWrapperElem', { static: false}) captchaWrapperElem?: ElementRef;
 
   protected recaptchaType: ReCaptchaType = ReCaptchaType.ReCaptcha2;
 
@@ -74,8 +69,8 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
   }
 
   ngOnDestroy(): void {
-    window[this.windowOnErrorCallbackProperty] = {};
-    window[this.windowOnExpireCallbackProperty] = {};
+    (window as any)[this.windowOnErrorCallbackProperty] = {};
+    (window as any)[this.windowOnExpireCallbackProperty] = {};
   }
 
   protected captchaSpecificSetup(): void {
@@ -88,7 +83,7 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
   protected getCaptchaProperties(): any {
     return {
       'sitekey': this.siteKey,
-      'callback': (response) => this.zone.run(() => this.handleCallback(response)),
+      'callback': (response: any) => this.zone.run(() => this.handleCallback(response)),
       'expired-callback': () => this.zone.run(() => this.handleExpireCallback()),
       'error-callback': () => this.zone.run(() => this.handleErrorCallback()),
       'theme': this.theme,
@@ -102,8 +97,8 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
    * Registers global callbacks
   */
   private registerCallbacks(): void {
-    window[this.windowOnErrorCallbackProperty] = super.handleErrorCallback.bind(this);
-    window[this.windowOnExpireCallbackProperty] = super.handleExpireCallback.bind(this);
+    (window as any)[this.windowOnErrorCallbackProperty] = super.handleErrorCallback.bind(this);
+    (window as any)[this.windowOnExpireCallbackProperty] = super.handleExpireCallback.bind(this);
   }
 }
 

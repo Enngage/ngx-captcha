@@ -37,7 +37,7 @@ export abstract class BaseReCaptchaComponentDirective
    * Google's site key.
    * You can find this under https://www.google.com/recaptcha
    */
-  @Input() siteKey: string;
+  @Input() siteKey?: string;
 
   /**
    * Indicates if global domain 'recaptcha.net' should be used instead of default domain ('google.com')
@@ -54,7 +54,7 @@ export abstract class BaseReCaptchaComponentDirective
   /**
    * Language code. Auto-detects the user's language if unspecified.
    */
-  @Input() hl: string;
+  @Input() hl?: string;
 
   /**
    * Tab index
@@ -128,8 +128,8 @@ export abstract class BaseReCaptchaComponentDirective
   /**
    * Required by ControlValueAccessor
    */
-  protected onChange: (value: string | undefined) => void;
-  protected onTouched: (value: string | undefined) => void;
+  protected onChange: (value: string | undefined) => void = (val) => {};
+  protected onTouched: (value: string | undefined) => void = (val) => {};
 
   /**
    * Indicates if captcha is loaded
