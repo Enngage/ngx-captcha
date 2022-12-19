@@ -1,10 +1,10 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone } from "@angular/core";
 
-import { ScriptService } from './script.service';
-import { RecaptchaConfiguration } from '../models/recaptcha-configuration';
+import { ScriptService } from "./script.service";
+import { RecaptchaConfiguration } from "../models/recaptcha-configuration";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ReCaptchaV3Service {
   constructor(protected scriptService: ScriptService, protected zone: NgZone) {}
@@ -31,7 +31,9 @@ export class ReCaptchaV3Service {
   ): void {
     this.executeAsPromise(siteKey, action, config)
       .then(callback)
-      .catch((error) => errorCallback ? errorCallback(error) : console.error(error));
+      .catch((error) =>
+        errorCallback ? errorCallback(error) : console.error(error)
+      );
   }
 
   /**
@@ -53,12 +55,12 @@ export class ReCaptchaV3Service {
     return new Promise((resolve, reject) => {
       const configuration = config || {};
 
-      const onRegister = grecaptcha => {
+      const onRegister = (grecaptcha: any) => {
         this.zone.runOutsideAngular(() => {
           try {
             grecaptcha
               .execute(siteKey, { action })
-              .then(token => this.zone.run(() => resolve(token)));
+              .then((token: any) => this.zone.run(() => resolve(token)));
           } catch (error) {
             reject(error);
           }
