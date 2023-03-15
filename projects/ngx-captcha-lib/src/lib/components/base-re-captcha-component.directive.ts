@@ -159,7 +159,7 @@ export abstract class BaseReCaptchaComponentDirective
     protected zone: NgZone,
     protected injector: Injector,
     protected scriptService: ScriptService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
   ngAfterViewInit() {

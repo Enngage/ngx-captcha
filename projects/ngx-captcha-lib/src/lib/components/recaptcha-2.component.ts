@@ -68,9 +68,9 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
     protected zone: NgZone,
     protected injector: Injector,
     protected scriptService: ScriptService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {
-    super(renderer, zone, injector, scriptService);
+    super(renderer, zone, injector, scriptService, platformId);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

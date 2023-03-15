@@ -1,6 +1,6 @@
 {
-  "name": "ngx-captcha",
-  "version": "12.0.2",
+  "name": "ngx-captcha-ssr",
+  "version": "12.0.4",
   "license": "MIT",
   "repository": {
     "type": "git",

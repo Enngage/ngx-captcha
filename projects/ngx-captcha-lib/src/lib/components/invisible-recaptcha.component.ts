@@ -2,10 +2,12 @@ import {
   Component,
   ElementRef,
   forwardRef,
+  Inject,
   Injector,
   Input,
   NgZone,
   OnChanges,
+  PLATFORM_ID,
   Renderer2,
   SimpleChanges,
   ViewChild,
@@ -58,9 +60,10 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponentDirective
     protected renderer: Renderer2,
     protected zone: NgZone,
     protected injector: Injector,
-    protected scriptService: ScriptService
+    protected scriptService: ScriptService,
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {
-    super(renderer, zone, injector, scriptService);
+    super(renderer, zone, injector, scriptService, platformId);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
