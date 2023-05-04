@@ -1,15 +1,18 @@
+import { isPlatformBrowser } from "@angular/common";
 import {
   AfterViewChecked,
   AfterViewInit,
   Directive,
   ElementRef,
   EventEmitter,
+  Inject,
   InjectFlags,
   Injector,
   Input,
   NgZone,
   OnChanges,
   Output,
+  PLATFORM_ID,
   Renderer2,
   SimpleChanges,
 } from "@angular/core";
@@ -155,7 +158,8 @@ export abstract class BaseReCaptchaComponentDirective
     protected renderer: Renderer2,
     protected zone: NgZone,
     protected injector: Injector,
-    protected scriptService: ScriptService
+    protected scriptService: ScriptService,
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
   ngAfterViewInit() {
@@ -255,14 +259,16 @@ export abstract class BaseReCaptchaComponentDirective
   }
 
   protected ensureCaptchaElem(captchaElemId: string): void {
-    const captchaElem = document.getElementById(captchaElemId);
+    if(isPlatformBrowser(this.platformId)) {
+      const captchaElem = document.getElementById(captchaElemId);
 
-    if (!captchaElem) {
-      throw Error(`Captcha element with id '${captchaElemId}' was not found`);
+      if (!captchaElem) {
+        throw Error(`Captcha element with id '${captchaElemId}' was not found`);
+      }
+
+      // assign captcha alem
+      this.captchaElem = captchaElem;
     }
-
-    // assign captcha alem
-    this.captchaElem = captchaElem;
   }
 
   /**

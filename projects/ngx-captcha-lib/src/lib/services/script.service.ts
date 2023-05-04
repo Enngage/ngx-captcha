@@ -1,4 +1,5 @@
-import { Injectable, NgZone } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
+import { Inject, Injectable, NgZone, PLATFORM_ID } from "@angular/core";
 import { RecaptchaConfiguration } from "../models/recaptcha-configuration";
 
 @Injectable({
@@ -37,7 +38,7 @@ export class ScriptService {
 
   protected readonly defaultApi: string = "api.js";
 
-  constructor(protected zone: NgZone) {}
+  constructor(protected zone: NgZone, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   registerCaptchaScript(
     config: RecaptchaConfiguration,
@@ -45,58 +46,60 @@ export class ScriptService {
     onLoad: (grecaptcha: any) => void,
     language?: string
   ): void {
-    if (this.grecaptchaScriptLoaded(config.useEnterprise)) {
-      // recaptcha script is already loaded
-      // just call the callback
-      if (config.useEnterprise) {
-        this.zone.run(() => {
-          onLoad(
-            (window as any)[this.windowGrecaptcha][
-              this.windowGrecaptchaEnterprise
-            ]
-          );
-        });
-      } else {
-        this.zone.run(() => {
-          onLoad((window as any)[this.windowGrecaptcha]);
-        });
-      }
-      return;
-    }
-
-    // we need to patch the callback through global variable, otherwise callback is not accessible
-    // note: https://github.com/Enngage/ngx-captcha/issues/2
-    if (config.useEnterprise) {
-      (window as any)[this.getCallbackName(true)] = <any>(
-        (() =>
-          this.zone.run(
-            onLoad.bind(
-              this,
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.grecaptchaScriptLoaded(config.useEnterprise)) {
+        // recaptcha script is already loaded
+        // just call the callback
+        if (config.useEnterprise) {
+          this.zone.run(() => {
+            onLoad(
               (window as any)[this.windowGrecaptcha][
-                this.windowGrecaptchaEnterprise
+              this.windowGrecaptchaEnterprise
               ]
-            )
-          ))
-      );
-    } else {
-      (window as any)[this.getCallbackName(false)] = <any>(
-        (() =>
-          this.zone.run(
-            onLoad.bind(this, (window as any)[this.windowGrecaptcha])
-          ))
-      );
+            );
+          });
+        } else {
+          this.zone.run(() => {
+            onLoad((window as any)[this.windowGrecaptcha]);
+          });
+        }
+        return;
+      }
+
+      // we need to patch the callback through global variable, otherwise callback is not accessible
+      // note: https://github.com/Enngage/ngx-captcha/issues/2
+      if (config.useEnterprise) {
+        (window as any)[this.getCallbackName(true)] = <any>(
+          (() =>
+            this.zone.run(
+              onLoad.bind(
+                this,
+                (window as any)[this.windowGrecaptcha][
+                this.windowGrecaptchaEnterprise
+                ]
+              )
+            ))
+        );
+      } else {
+        (window as any)[this.getCallbackName(false)] = <any>(
+          (() =>
+            this.zone.run(
+              onLoad.bind(this, (window as any)[this.windowGrecaptcha])
+            ))
+        );
+      }
+
+      // prepare script elem
+      const scriptElem = document.createElement("script");
+      scriptElem.id = this.scriptElemId;
+      scriptElem.innerHTML = "";
+      scriptElem.src = this.getCaptchaScriptUrl(config, render, language);
+      scriptElem.async = true;
+      scriptElem.defer = true;
+
+      // add script to header
+      document.getElementsByTagName("head")[0].appendChild(scriptElem);
     }
-
-    // prepare script elem
-    const scriptElem = document.createElement("script");
-    scriptElem.id = this.scriptElemId;
-    scriptElem.innerHTML = "";
-    scriptElem.src = this.getCaptchaScriptUrl(config, render, language);
-    scriptElem.async = true;
-    scriptElem.defer = true;
-
-    // add script to header
-    document.getElementsByTagName("head")[0].appendChild(scriptElem);
   }
 
   cleanup(): void {

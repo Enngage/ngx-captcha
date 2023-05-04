@@ -1,12 +1,15 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   Component,
   ElementRef,
   forwardRef,
+  Inject,
   Injector,
   Input,
   NgZone,
   OnChanges,
   OnDestroy,
+  PLATFORM_ID,
   Renderer2,
   SimpleChanges,
   ViewChild,
@@ -60,8 +63,9 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
     protected zone: NgZone,
     protected injector: Injector,
     protected scriptService: ScriptService,
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {
-    super(renderer, zone, injector, scriptService);
+    super(renderer, zone, injector, scriptService, platformId);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
