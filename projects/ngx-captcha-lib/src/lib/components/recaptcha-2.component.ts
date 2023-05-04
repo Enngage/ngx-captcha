@@ -73,8 +73,8 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
   }
 
   ngOnDestroy(): void {
-    window[this.windowOnErrorCallbackProperty] = {};
-    window[this.windowOnExpireCallbackProperty] = {};
+    (window as any)[this.windowOnErrorCallbackProperty] = {};
+    (window as any)[this.windowOnExpireCallbackProperty] = {};
   }
 
   protected captchaSpecificSetup(): void {
