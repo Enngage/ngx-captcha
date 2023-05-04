@@ -38,7 +38,7 @@ export class ScriptService {
 
   protected readonly defaultApi: string = "api.js";
 
-  constructor(protected zone: NgZone, @Inject(PLATFORM_ID) private platformId:Object) {}
+  constructor(protected zone: NgZone, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   registerCaptchaScript(
     config: RecaptchaConfiguration,
@@ -54,7 +54,7 @@ export class ScriptService {
           this.zone.run(() => {
             onLoad(
               (window as any)[this.windowGrecaptcha][
-                this.windowGrecaptchaEnterprise
+              this.windowGrecaptchaEnterprise
               ]
             );
           });
@@ -75,7 +75,7 @@ export class ScriptService {
               onLoad.bind(
                 this,
                 (window as any)[this.windowGrecaptcha][
-                  this.windowGrecaptchaEnterprise
+                this.windowGrecaptchaEnterprise
                 ]
               )
             ))
@@ -88,6 +88,17 @@ export class ScriptService {
             ))
         );
       }
+
+      // prepare script elem
+      const scriptElem = document.createElement("script");
+      scriptElem.id = this.scriptElemId;
+      scriptElem.innerHTML = "";
+      scriptElem.src = this.getCaptchaScriptUrl(config, render, language);
+      scriptElem.async = true;
+      scriptElem.defer = true;
+
+      // add script to header
+      document.getElementsByTagName("head")[0].appendChild(scriptElem);
     }
   }
 
