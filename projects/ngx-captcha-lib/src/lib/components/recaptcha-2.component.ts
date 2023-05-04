@@ -101,8 +101,8 @@ export class ReCaptcha2Component extends BaseReCaptchaComponentDirective impleme
    * Registers global callbacks
   */
   private registerCallbacks(): void {
-    window[this.windowOnErrorCallbackProperty] = super.handleErrorCallback.bind(this);
-    window[this.windowOnExpireCallbackProperty] = super.handleExpireCallback.bind(this);
+    (window as any)[this.windowOnErrorCallbackProperty] = super.handleErrorCallback.bind(this);
+    (window as any)[this.windowOnExpireCallbackProperty] = super.handleExpireCallback.bind(this);
   }
 }
 
