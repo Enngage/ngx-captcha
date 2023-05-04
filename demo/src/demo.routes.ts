@@ -26,7 +26,7 @@ import { ReCaptcha3DemoComponent } from './re-captcha-3-demo.component';
     {
         path: 'recaptcha3', component: ReCaptcha3DemoComponent
     },
-], { relativeLinkResolution: 'legacy' })
+], {})
     ],
     exports: [
         RouterModule

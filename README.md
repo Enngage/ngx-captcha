@@ -147,6 +147,6 @@ Other possible scenario might be including google's script globally. If someone 
 Under `projects\ngx-captcha-lib` run 
 
 ```
-npm run publish-lib
+npm run publish:lib
 ```
 

@@ -47,12 +47,7 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponentDirective
    */
   @Input() badge: 'bottomright' | 'bottomleft' | 'inline' = 'bottomright';
 
-  /**
-   * Language code. Auto-detects the user's language if unspecified.
-   */
-  @Input() hl: string;
-
-  @ViewChild('captchaWrapperElem', { static: false }) captchaWrapperElem: ElementRef;
+  @ViewChild('captchaWrapperElem', { static: false }) captchaWrapperElem?: ElementRef;
 
   protected recaptchaType: ReCaptchaType = ReCaptchaType.InvisibleReCaptcha;
 
@@ -87,7 +82,7 @@ export class InvisibleReCaptchaComponent extends BaseReCaptchaComponentDirective
   protected getCaptchaProperties(): any {
     return {
       'sitekey': this.siteKey,
-      'callback': (response) => this.zone.run(() => this.handleCallback(response)),
+      'callback': (response: any) => this.zone.run(() => this.handleCallback(response)),
       'expired-callback': () => this.zone.run(() => this.handleExpireCallback()),
       'error-callback': () => this.zone.run(() => this.handleErrorCallback()),
       'badge': this.badge,

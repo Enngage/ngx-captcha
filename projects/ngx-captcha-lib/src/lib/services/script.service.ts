@@ -53,45 +53,41 @@ export class ScriptService {
         if (config.useEnterprise) {
           this.zone.run(() => {
             onLoad(
-              window[this.windowGrecaptcha][this.windowGrecaptchaEnterprise]
+              (window as any)[this.windowGrecaptcha][
+                this.windowGrecaptchaEnterprise
+              ]
             );
           });
         } else {
           this.zone.run(() => {
-            onLoad(window[this.windowGrecaptcha]);
+            onLoad((window as any)[this.windowGrecaptcha]);
           });
         }
         return;
       }
-  
+
       // we need to patch the callback through global variable, otherwise callback is not accessible
       // note: https://github.com/Enngage/ngx-captcha/issues/2
       if (config.useEnterprise) {
-        window[this.getCallbackName(true)] = <any>(
+        (window as any)[this.getCallbackName(true)] = <any>(
           (() =>
             this.zone.run(
               onLoad.bind(
                 this,
-                window[this.windowGrecaptcha][this.windowGrecaptchaEnterprise]
+                (window as any)[this.windowGrecaptcha][
+                  this.windowGrecaptchaEnterprise
+                ]
               )
             ))
         );
       } else {
-        window[this.getCallbackName(false)] = <any>(
-          (() => this.zone.run(onLoad.bind(this, window[this.windowGrecaptcha])))
+        (window as any)[this.getCallbackName(false)] = <any>(
+          (() =>
+            this.zone.run(
+              onLoad.bind(this, (window as any)[this.windowGrecaptcha])
+            ))
         );
       }
-  
-      // prepare script elem
-      const scriptElem = document.createElement("script");
-      scriptElem.id = this.scriptElemId;
-      scriptElem.innerHTML = "";
-      scriptElem.src = this.getCaptchaScriptUrl(config, render, language);
-      scriptElem.async = true;
-      scriptElem.defer = true;
-  
-      // add script to header
-      document.getElementsByTagName("head")[0].appendChild(scriptElem);
     }
   }
 
@@ -101,8 +97,8 @@ export class ScriptService {
     if (elem) {
       elem.remove();
     }
-    window[this.getCallbackName()] = undefined;
-    window[this.windowGrecaptcha] = undefined;
+    (window as any)[this.getCallbackName()] = undefined;
+    (window as any)[this.windowGrecaptcha] = undefined;
   }
 
   /**
@@ -110,17 +106,17 @@ export class ScriptService {
    */
   private grecaptchaScriptLoaded(useEnterprise?: boolean): boolean {
     if (
-      !window[this.getCallbackName(useEnterprise)] ||
-      !window[this.windowGrecaptcha]
+      !(window as any)[this.getCallbackName(useEnterprise)] ||
+      !(window as any)[this.windowGrecaptcha]
     ) {
       return false;
     } else if (
       useEnterprise &&
-      window[this.windowGrecaptcha][this.windowGrecaptchaEnterprise]
+      (window as any)[this.windowGrecaptcha][this.windowGrecaptchaEnterprise]
     ) {
       return true;
       // if only enterprise script is loaded we need to check some v3's method
-    } else if (window[this.windowGrecaptcha].execute) {
+    } else if ((window as any)[this.windowGrecaptcha].execute) {
       return true;
     }
     return false;
