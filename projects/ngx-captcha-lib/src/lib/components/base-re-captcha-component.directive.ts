@@ -162,7 +162,7 @@ export abstract class BaseReCaptchaComponentDirective
     this.control = this.injector.get<NgControl | undefined>(
       NgControl,
       undefined,
-      InjectFlags.Optional
+      { optional: true }
     )?.control;
   }
 
