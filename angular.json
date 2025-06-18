@@ -11,12 +11,15 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "docs",
+            "outputPath": {
+              "base": "docs"
+            },
             "index": "demo/index.html",
-            "main": "demo/main.ts",
-            "polyfills": "demo/polyfills.ts",
+            "polyfills": [
+              "demo/polyfills.ts"
+            ],
             "tsConfig": "demo/tsconfig.app.json",
             "assets": [
               "demo/assets/images-compressed"
@@ -24,7 +27,8 @@
             "styles": [
               "demo/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "browser": "demo/main.ts"
           },
           "configurations": {
             "production": {
@@ -34,9 +38,7 @@
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "extractLicenses": true
             }
           }
         },
