@@ -3,8 +3,9 @@ import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core
 declare var hljs: any;
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './installation.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './installation.component.html',
+    standalone: false
 })
 export class InstallationComponent implements AfterViewInit {
 

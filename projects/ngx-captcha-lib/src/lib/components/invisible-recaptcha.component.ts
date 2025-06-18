@@ -17,16 +17,17 @@ import { ScriptService } from '../services/script.service';
 import { BaseReCaptchaComponentDirective } from './base-re-captcha-component.directive';
 
 @Component({
-  selector: 'ngx-invisible-recaptcha',
-  template: `
+    selector: 'ngx-invisible-recaptcha',
+    template: `
   <div #captchaWrapperElem></div>`,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InvisibleReCaptchaComponent),
-      multi: true,
-    }
-  ]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => InvisibleReCaptchaComponent),
+            multi: true,
+        }
+    ],
+    standalone: false
 })
 export class InvisibleReCaptchaComponent extends BaseReCaptchaComponentDirective implements OnChanges {
 
