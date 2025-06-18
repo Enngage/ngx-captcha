@@ -9,7 +9,6 @@
     "experimentalDecorators": true,
     "strictNullChecks": true,
     "noImplicitReturns": true,
-    "noStrictGenericChecks": true,
     "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
