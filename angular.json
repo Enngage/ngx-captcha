@@ -11,12 +11,15 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "docs",
+            "outputPath": {
+              "base": "docs"
+            },
             "index": "demo/index.html",
-            "main": "demo/main.ts",
-            "polyfills": "demo/polyfills.ts",
+            "polyfills": [
+              "demo/polyfills.ts"
+            ],
             "tsConfig": "demo/tsconfig.app.json",
             "assets": [
               "demo/assets/images-compressed"
@@ -24,7 +27,8 @@
             "styles": [
               "demo/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "browser": "demo/main.ts"
           },
           "configurations": {
             "production": {
@@ -34,27 +38,25 @@
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "extractLicenses": true
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-captcha:build"
+            "buildTarget": "ngx-captcha:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-captcha:build:production"
+              "buildTarget": "ngx-captcha:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-captcha:build"
+            "buildTarget": "ngx-captcha:build"
           }
         },
         "test": {
@@ -151,5 +153,31 @@
   },
   "cli": {
     "analytics": "81fa60f5-0e15-41fa-b925-d67e94bcf75b"
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
   }
 }

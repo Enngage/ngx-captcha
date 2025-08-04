@@ -18,16 +18,17 @@ import { ScriptService } from '../services/script.service';
 import { BaseReCaptchaComponentDirective } from './base-re-captcha-component.directive';
 
 @Component({
-  selector: 'ngx-recaptcha2',
-  template: `
+    selector: 'ngx-recaptcha2',
+    template: `
   <div #captchaWrapperElem></div>`,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ReCaptcha2Component),
-      multi: true,
-    }
-  ]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ReCaptcha2Component),
+            multi: true,
+        }
+    ],
+    standalone: false
 })
 export class ReCaptcha2Component extends BaseReCaptchaComponentDirective implements OnChanges, OnDestroy {
 

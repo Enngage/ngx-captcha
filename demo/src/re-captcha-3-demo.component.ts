@@ -5,9 +5,10 @@ import { ReCaptchaV3Service, ScriptService } from '../../projects/ngx-captcha-li
 declare var hljs: any;
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ngx-recaptcha-3-demo',
-  templateUrl: './re-captcha-3-demo.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ngx-recaptcha-3-demo',
+    templateUrl: './re-captcha-3-demo.component.html',
+    standalone: false
 })
 export class ReCaptcha3DemoComponent implements OnInit, AfterViewInit {
 

@@ -13,9 +13,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 declare var hljs: any;
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ngx-recaptcha-2-demo',
-  templateUrl: './re-captcha-2-demo.component.html'
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ngx-recaptcha-2-demo',
+    templateUrl: './re-captcha-2-demo.component.html',
+    standalone: false
 })
 export class ReCaptcha2DemoComponent implements OnInit, AfterViewInit {
 

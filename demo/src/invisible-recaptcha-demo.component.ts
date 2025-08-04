@@ -5,9 +5,10 @@ import { InvisibleReCaptchaComponent } from '../../projects/ngx-captcha-lib/src/
 declare var hljs: any;
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ngx-invisible-recaptcha-demo',
-  templateUrl: './invisible-recaptcha-demo.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ngx-invisible-recaptcha-demo',
+    templateUrl: './invisible-recaptcha-demo.component.html',
+    standalone: false
 })
 export class InvisibleReCaptchaDemoComponent implements AfterViewInit {
 

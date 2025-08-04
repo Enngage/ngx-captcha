@@ -4,14 +4,13 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
-  InjectFlags,
   Injector,
   Input,
   NgZone,
   OnChanges,
   Output,
   Renderer2,
-  SimpleChanges,
+  SimpleChanges
 } from "@angular/core";
 import {
   AbstractControl,
@@ -162,7 +161,7 @@ export abstract class BaseReCaptchaComponentDirective
     this.control = this.injector.get<NgControl | undefined>(
       NgControl,
       undefined,
-      InjectFlags.Optional
+      { optional: true }
     )?.control;
   }
 
